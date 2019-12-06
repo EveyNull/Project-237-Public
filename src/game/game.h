@@ -2,6 +2,8 @@
 #include <Engine/OGLGame.h>
 #include <string>
 
+#include "Mapping/Block.h"
+
 /**
  *  An OpenGL Game based on ASGE.
  */
@@ -11,6 +13,8 @@ class MyASGEGame : public ASGE::OGLGame
   MyASGEGame();
   ~MyASGEGame() final;
   bool init() override;
+
+  void setUpTiles();
 
  private:
   void keyHandler(ASGE::SharedEventData data);
@@ -23,4 +27,6 @@ class MyASGEGame : public ASGE::OGLGame
   int key_callback_id = -1;   /**< Key Input Callback ID. */
   int mouse_callback_id = -1; /**< Mouse Input Callback ID. */
   bool in_menu = true;
+
+  Block* map;
 };

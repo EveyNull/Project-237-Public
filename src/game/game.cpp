@@ -6,6 +6,9 @@
 #include <Engine/Keys.h>
 #include <Engine/Sprite.h>
 
+#include <cmath>
+#include <iostream>
+
 #include "game.h"
 /**
  *   @brief   Default Constructor.
@@ -27,6 +30,9 @@ MyASGEGame::~MyASGEGame()
 
   this->inputs->unregisterCallback(
     static_cast<unsigned int>(mouse_callback_id));
+
+  delete map;
+  map = nullptr;
 }
 
 /**
@@ -54,6 +60,8 @@ bool MyASGEGame::init()
 
   mouse_callback_id = inputs->addCallbackFnc(
     ASGE::E_MOUSE_CLICK, &MyASGEGame::clickHandler, this);
+
+  setUpTiles();
 
   return true;
 }
@@ -117,6 +125,13 @@ void MyASGEGame::clickHandler(ASGE::SharedEventData data)
 
   ASGE::DebugPrinter{} << "x_pos: " << x_pos << std::endl;
   ASGE::DebugPrinter{} << "y_pos: " << y_pos << std::endl;
+
+  ASGE::DebugPrinter{} << "Block walkable: "
+                       << map
+                            ->getTile((int)std::floor(x_pos / 4),
+                                      (int)std::floor(y_pos / 4))
+                            ->getIsWalkable()
+                       << std::endl;
 }
 
 /**
@@ -149,5 +164,34 @@ void MyASGEGame::render(const ASGE::GameTime&)
 
   if (in_menu)
   {
+    int i = map->getNumTiles();
+    while (--i > 0)
+    {
+      renderer->renderSprite(*map->getTile(i)->getSprite());
+    }
+  }
+}
+
+void MyASGEGame::setUpTiles()
+{
+  map = new Block((int)std::floor(500 / 5), (int)std::floor(500 / 5));
+  int i = map->getNumTiles();
+  while (--i > 0)
+  {
+    int row = (int)std::floor(i / map->getCols());
+    int col = i % map->getRows();
+    ASGE::Sprite* new_sprite;
+    new_sprite = renderer->createRawSprite();
+    map->getTile(i)->setSprite(new_sprite);
+
+    map->getTile(i)->getSprite()->loadTexture("/data/1px.png");
+    map->getTile(i)->getSprite()->width(5);
+    map->getTile(i)->getSprite()->height(5);
+    map->getTile(i)->getSprite()->xPos(row * 5);
+    map->getTile(i)->getSprite()->yPos(col * 5);
+    if (map->getTile(i)->getIsWalkable())
+    {
+      map->getTile(i)->getSprite()->colour(ASGE::COLOURS::GREEN);
+    }
   }
 }

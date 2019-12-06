@@ -19,7 +19,7 @@ set(SOURCE_FILES
         "game/game.cpp")
 
 set(HEADER_FILES
-        "game/game.h" game/Mapping/Tile.cpp game/Mapping/Tile.h)
+        "game/game.h" game/Mapping/Tile.cpp game/Mapping/Tile.h game/Mapping/Block.cpp game/Mapping/Block.h game/Utility/Vector2.cpp game/Utility/Vector2.h)
 
 ## the executable
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})

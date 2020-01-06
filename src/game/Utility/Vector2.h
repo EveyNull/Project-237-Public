@@ -10,6 +10,7 @@ class Vector2
  public:
   Vector2() = default;
   Vector2(int x, int y);
+  Vector2(float x, float y);
   float getX();
   float getY();
 

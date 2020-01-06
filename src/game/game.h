@@ -1,5 +1,6 @@
 #pragma once
 #include <Engine/OGLGame.h>
+#include <map>
 #include <string>
 
 #include "Mapping/Block.h"
@@ -14,7 +15,10 @@ class MyASGEGame : public ASGE::OGLGame
   ~MyASGEGame() final;
   bool init() override;
 
+  void renderSpriteWithOffset(ASGE::Sprite* sprite);
+
   void setUpTiles();
+  void placeHolderPlayer();
 
  private:
   void keyHandler(ASGE::SharedEventData data);
@@ -28,5 +32,22 @@ class MyASGEGame : public ASGE::OGLGame
   int mouse_callback_id = -1; /**< Mouse Input Callback ID. */
   bool in_menu = true;
 
-  Block* map;
+  std::map<std::pair<int, int>, Block> map;
+
+  int map_width = 10;
+  int map_height = 5;
+
+  int tiles_per_block = 10;
+  int tile_size = 10;
+
+  Vector2 render_offset = Vector2(0, 0);
+
+  ASGE::Sprite* player;
+
+  bool W_PRESSED = false;
+  bool S_PRESSED = false;
+  bool A_PRESSED = false;
+  bool D_PRESSED = false;
+
+  bool follow_player = true;
 };

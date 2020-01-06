@@ -10,37 +10,58 @@
 
 Block::Block(int n_rows, int n_cols)
 {
-  size = n_rows * n_cols;
   rows = n_rows;
   cols = n_cols;
-  tiles = new Tile[size];
-
-  int i = size;
-  while (i-- > 0)
+  for (int i = 0; i < n_rows; i++)
   {
-    tiles[i].setIsWalkable(rand() % 2 == 1);
+    for (int j = 0; j < n_cols; j++)
+    {
+      tiles.emplace(std::pair<int, int>(i, j), Tile());
+      tiles.at(std::pair<int, int>(i, j))
+        .setIsWalkable(i == 0 || i == n_rows - 1 || j == 0 || j == n_cols - 1);
+    }
   }
-}
-
-int Block::getNumTiles()
-{
-  return size;
 }
 
 Tile* Block::getTile(int row, int col)
 {
-  return &tiles[row * col];
+  return &tiles.at(std::pair<int, int>(row, col));
 }
 
-Tile* Block::getTile(Vector2 vector2)
+Tile* Block::getTile(std::pair<int, int> coords)
 {
-  return &tiles[(int)std::floor(vector2.getX()) *
-                (int)std::floor(vector2.getY())];
+  return &tiles.at(coords);
 }
 
-Tile* Block::getTile(int tileNum)
+float Block::getXPos()
 {
-  return &tiles[tileNum];
+  return xPos;
+}
+
+float Block::getYPos()
+{
+  return yPos;
+}
+
+std::pair<float, float> Block::getPos()
+{
+  return std::pair<float, float>(xPos, yPos);
+}
+
+void Block::setXPos(float new_pos)
+{
+  xPos = new_pos;
+}
+
+void Block::setYPos(float new_pos)
+{
+  yPos = new_pos;
+}
+
+void Block::setPos(std::pair<float, float> new_pos)
+{
+  xPos = new_pos.first;
+  yPos = new_pos.second;
 }
 
 int Block::getRows()

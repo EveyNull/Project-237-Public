@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_TILE_H
 #define THE_SHINING_GAME_PROJECT_237_TILE_H
 
-#include <engine/Sprite.h>
+#include <Engine/Sprite.h>
 
 class Tile
 {

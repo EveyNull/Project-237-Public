@@ -42,7 +42,7 @@ class MyASGEGame : public ASGE::OGLGame
 
   Vector2 render_offset = Vector2(0, 0);
 
-  ASGE::Sprite* player;
+  ASGE::Sprite* player = nullptr;
 
   bool W_PRESSED = false;
   bool S_PRESSED = false;

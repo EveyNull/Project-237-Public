@@ -269,7 +269,7 @@ void MyASGEGame::setUpTiles()
           tile_sprite->height(tile_size);
           tile_sprite->xPos(block.getXPos() + a * tile_size);
           tile_sprite->yPos(block.getYPos() + b * tile_size);
-          if (block.getTile(a, b)->getIsWalkable())
+          if (!block.getTile(a, b)->getIsWalkable())
           {
             tile_sprite->colour(ASGE::COLOURS::GREEN);
           }

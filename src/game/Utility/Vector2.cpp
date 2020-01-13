@@ -25,3 +25,13 @@ float Vector2::getY()
 {
   return y;
 }
+
+void Vector2::setX(float n_x)
+{
+  x = n_x;
+}
+
+void Vector2::setY(float n_y)
+{
+  y = n_y;
+}

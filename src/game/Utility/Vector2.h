@@ -11,8 +11,12 @@ class Vector2
   Vector2() = default;
   Vector2(int x, int y);
   Vector2(float x, float y);
+
   float getX();
   float getY();
+
+  void setX(float n_x);
+  void setY(float n_y);
 
  private:
   float x, y;

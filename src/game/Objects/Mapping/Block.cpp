@@ -6,11 +6,10 @@
 #include <Engine/Sprite.h>
 
 #include "Block.h"
-#include <cmath>
-#include <random>
-#include <list>
 #include <Engine/DebugPrinter.h>
-
+#include <cmath>
+#include <list>
+#include <random>
 
 Block::Block(int n_rows, int n_cols)
 {
@@ -24,28 +23,30 @@ Block::Block(int n_rows, int n_cols)
   fileName.insert(17, std::to_string(n_rows) + "x" + std::to_string(n_cols));
   fileName.insert(fileName.length(), std::to_string(rand() % 2 + 1));
 
-  if(blockTemplate.open(fileName))
+  if (blockTemplate.open(fileName))
   {
     using Buffer = ASGE::FILEIO::IOBuffer;
     Buffer buffer = blockTemplate.read();
 
-    if(buffer.length)
+    if (buffer.length)
     {
       std::list<std::list<int>> tile_types = std::list<std::list<int>>();
       std::string buffer_string = static_cast<std::string>(buffer.as_char());
 
       std::size_t current_line, previous_line = 0;
       current_line = buffer_string.find('\n');
-      while(current_line != std::string::npos)
+      while (current_line != std::string::npos)
       {
         std::size_t current_char, previous_char = 0;
-        std::string line = buffer_string.substr(previous_line, current_line - previous_line);
+        std::string line =
+          buffer_string.substr(previous_line, current_line - previous_line);
         current_char = line.find(',');
 
         std::list<int> line_data = std::list<int>();
-        while(current_char != std::string::npos)
+        while (current_char != std::string::npos)
         {
-          line_data.emplace_back(std::stoi(line.substr(previous_char, current_char - previous_char)));
+          line_data.emplace_back(std::stoi(
+            line.substr(previous_char, current_char - previous_char)));
           previous_char = current_char + 1;
           current_char = line.find(',', previous_char);
         }
@@ -62,8 +63,7 @@ Block::Block(int n_rows, int n_cols)
         {
           tiles.emplace(std::pair<int, int>(j, i), Tile());
           int tile_type = row.front();
-          tiles.at(std::pair<int, int>(j, i))
-            .setIsWalkable(tile_type != 1);
+          tiles.at(std::pair<int, int>(j, i)).setIsWalkable(tile_type != 1);
           row.pop_front();
         }
         tile_types.pop_front();
@@ -73,7 +73,6 @@ Block::Block(int n_rows, int n_cols)
   }
   else
   {
-
     ASGE::DebugPrinter{} << "Failed to open file: " << fileName << std::endl;
   }
 }

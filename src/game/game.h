@@ -3,7 +3,9 @@
 #include <map>
 #include <string>
 
-#include "Mapping/Block.h"
+#include "Objects/GameObject.h"
+#include "Objects/Mapping/Block.h"
+#include "Utility/Vector2.h"
 
 /**
  *  An OpenGL Game based on ASGE.

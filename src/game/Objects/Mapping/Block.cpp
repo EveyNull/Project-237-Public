@@ -14,11 +14,10 @@
 #include <random>
 
 Block::Block(ASGE::Renderer* renderer,
-             std::pair<int, int> n_size,
-             Vector2 position)
+             const std::pair<int, int>& n_size,
+             Vector2 position) :
+  size(n_size)
 {
-  size = n_size;
-
   using File = ASGE::FILEIO::File;
   File blockTemplate = File();
 
@@ -77,14 +76,19 @@ Block::Block(ASGE::Renderer* renderer,
   }
 }
 
-Tile* Block::getTile(int row, int col)
+Tile& Block::getTile(int row, int col)
 {
-  return &tiles.at(std::pair<int, int>(row, col));
+  return tiles.at(std::pair<int, int>(row, col));
 }
 
-Tile* Block::getTile(std::pair<int, int> coords)
+Tile& Block::getTile(std::pair<int, int> coords)
 {
-  return &tiles.at(coords);
+  return tiles.at(coords);
+}
+
+std::map<std::pair<int, int>, Tile>& Block::get_all_tiles()
+{
+  return tiles;
 }
 
 int Block::getRows()

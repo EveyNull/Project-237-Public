@@ -107,37 +107,35 @@ void MyASGEGame::keyHandler(ASGE::SharedEventData data)
     pressed = false;
   }
 
+  int key_pressed = -1;
+
   switch (key->key)
   {
     case ASGE::KEYS::KEY_W:
     {
-      W_PRESSED = pressed;
+      key_pressed = 0;
       break;
     }
     case ASGE::KEYS::KEY_S:
     {
-      S_PRESSED = pressed;
+      key_pressed = 1;
       break;
     }
     case ASGE::KEYS::KEY_A:
     {
-      A_PRESSED = pressed;
+      key_pressed = 2;
       break;
     }
     case ASGE::KEYS::KEY_D:
     {
-      D_PRESSED = pressed;
+      key_pressed = 3;
       break;
     }
     default:
       break;
   }
 
-  if (key->key == ASGE::KEYS::KEY_ENTER &&
-      key->action == ASGE::KEYS::KEY_PRESSED)
-  {
-    follow_player = !follow_player;
-  }
+  sceneManager->setKeyPressed(key_pressed, pressed);
 }
 
 /**
@@ -173,7 +171,7 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // auto dt_sec = game_time.delta.count() / 1000.0;;
   // make sure you use delta time in any movement calculations!
 
-  sceneManager->update(D_PRESSED);
+  sceneManager->update(game_time.delta.count());
 
   /*
   player->xPos(player->xPos() +
@@ -202,6 +200,6 @@ void MyASGEGame::render(const ASGE::GameTime&)
 
   if (in_menu)
   {
-    sceneManager->render(renderer.get());
+    sceneManager->render(renderer.get(), Vector2(game_width, game_height));
   }
 }

@@ -12,9 +12,12 @@
 class Block
 {
  public:
-  Block(ASGE::Renderer* renderer, std::pair<int, int> n_size, Vector2 position);
-  Tile* getTile(int row, int col);
-  Tile* getTile(std::pair<int, int> coords);
+  Block(ASGE::Renderer* renderer,
+        const std::pair<int, int>& n_size,
+        Vector2 position);
+  Tile& getTile(int row, int col);
+  Tile& getTile(std::pair<int, int> coords);
+  std::map<std::pair<int, int>, Tile>& get_all_tiles();
 
   int getRows();
   int getCols();

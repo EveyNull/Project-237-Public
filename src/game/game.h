@@ -18,11 +18,6 @@ class MyASGEGame : public ASGE::OGLGame
   ~MyASGEGame() final;
   bool init() override;
 
-  void renderSpriteWithOffset(ASGE::Sprite* sprite);
-
-  void setUpTiles();
-  void placeHolderPlayer();
-
  private:
   void keyHandler(ASGE::SharedEventData data);
   void clickHandler(ASGE::SharedEventData data);
@@ -36,11 +31,4 @@ class MyASGEGame : public ASGE::OGLGame
   bool in_menu = true;
 
   SceneManager* sceneManager = nullptr;
-
-  bool W_PRESSED = false;
-  bool S_PRESSED = false;
-  bool A_PRESSED = false;
-  bool D_PRESSED = false;
-
-  bool follow_player = true;
 };

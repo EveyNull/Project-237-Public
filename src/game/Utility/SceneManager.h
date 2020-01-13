@@ -17,15 +17,13 @@ class SceneManager
   SceneManager(ASGE::Renderer* renderer, LevelDifficulty difficulty);
   void setUpBlocks(ASGE::Renderer* renderer);
 
-  void update(bool D_PRESSED);
+  void update();
   void render(ASGE::Renderer* renderer);
 
  private:
   std::map<std::pair<int, int>, Block> map;
   GameObject* player = nullptr;
   int map_width = 0, map_height = 0;
-
-  float x_offset = 0.f;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H

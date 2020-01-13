@@ -40,7 +40,7 @@ void SceneManager::setUpBlocks(ASGE::Renderer* renderer)
   }
 }
 
-void SceneManager::update(bool D_PRESSED) {}
+void SceneManager::update() {}
 
 void SceneManager::render(ASGE::Renderer* renderer)
 {
@@ -56,7 +56,7 @@ void SceneManager::render(ASGE::Renderer* renderer)
         {
           Tile* tile = block.getTile(a, b);
           ASGE::Sprite* tile_sprite = tile->getSpriteComponent()->getSprite();
-          tile_sprite->xPos(tile->getXPos() + x_offset);
+          tile_sprite->xPos(tile->getXPos());
           tile_sprite->yPos(tile->getYPos());
           renderer->renderSprite(
             *block.getTile(a, b)->getSpriteComponent()->getSprite());

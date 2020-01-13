@@ -58,9 +58,7 @@ bool MyASGEGame::init()
   mouse_callback_id = inputs->addCallbackFnc(
     ASGE::E_MOUSE_CLICK, &MyASGEGame::clickHandler, this);
 
-  setUpTiles();
-
-  placeHolderPlayer();
+  sceneManager = new SceneManager(renderer.get(), LevelDifficulty::EASY);
 
   return true;
 }
@@ -161,16 +159,6 @@ void MyASGEGame::clickHandler(ASGE::SharedEventData data)
 
   ASGE::DebugPrinter{} << "x_pos: " << x_pos << std::endl;
   ASGE::DebugPrinter{} << "y_pos: " << y_pos << std::endl;
-  /*
-    if(click->action == ASGE::MOUSE::BUTTON_PRESSED)
-    {
-      float x_offset = (game_width/2) - x_pos;
-      float y_offset = (game_height/2) - y_pos;
-      render_offset = Vector2(x_offset, y_offset);
-      ASGE::DebugPrinter{} << "New offset: " << x_offset << "," << y_offset <<
-    std::endl;
-    }
-    */
 }
 
 /**
@@ -185,6 +173,9 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // auto dt_sec = game_time.delta.count() / 1000.0;;
   // make sure you use delta time in any movement calculations!
 
+  sceneManager->update(D_PRESSED);
+
+  /*
   player->xPos(player->xPos() +
                (D_PRESSED - A_PRESSED) * game_time.delta.count() * 0.25f);
   player->yPos(player->yPos() +
@@ -195,7 +186,7 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
 
   if (!in_menu)
   {
-  }
+  }*/
 }
 
 /**
@@ -211,81 +202,6 @@ void MyASGEGame::render(const ASGE::GameTime&)
 
   if (in_menu)
   {
-    for (int i = 0; i < map_width; i++)
-    {
-      for (int j = 0; j < map_height; j++)
-      {
-        Block& block = map.at(std::pair<int, int>(i, j));
-        for (int a = 0; a < block.getRows(); a++)
-        {
-          for (int b = 0; b < block.getCols(); b++)
-          {
-            renderSpriteWithOffset(block.getTile(a, b)->getSprite());
-          }
-        }
-      }
-    }
-    renderSpriteWithOffset(player);
+    sceneManager->render(renderer.get());
   }
-}
-
-void MyASGEGame::renderSpriteWithOffset(ASGE::Sprite* sprite)
-{
-  float old_xPos = sprite->xPos();
-  float old_yPos = sprite->yPos();
-  if (follow_player)
-  {
-    sprite->xPos(sprite->xPos() + render_offset.getX());
-    sprite->yPos(sprite->yPos() + render_offset.getY());
-  }
-  renderer->renderSprite(*sprite);
-  sprite->xPos(old_xPos);
-  sprite->yPos(old_yPos);
-}
-
-void MyASGEGame::setUpTiles()
-{
-  for (int i = 0; i < map_width; i++)
-  {
-    for (int j = 0; j < map_height; j++)
-    {
-      map.emplace(std::pair<int, int>(i, j),
-                  Block(tiles_per_block, tiles_per_block));
-      Block& block = map.at(std::pair<int, int>(i, j));
-
-      block.setPos(std::pair<float, float>(i * tiles_per_block * tile_size,
-                                           j * tiles_per_block * tile_size));
-
-      for (int a = 0; a < block.getRows(); a++)
-      {
-        for (int b = 0; b < block.getCols(); b++)
-        {
-          ASGE::Sprite* new_sprite;
-          new_sprite = renderer->createRawSprite();
-          block.getTile(a, b)->setSprite(new_sprite);
-          ASGE::Sprite* tile_sprite = block.getTile(a, b)->getSprite();
-          tile_sprite->loadTexture("/data/1px.png");
-          tile_sprite->width(tile_size);
-          tile_sprite->height(tile_size);
-          tile_sprite->xPos(block.getXPos() + a * tile_size);
-          tile_sprite->yPos(block.getYPos() + b * tile_size);
-          if (!block.getTile(a, b)->getIsWalkable())
-          {
-            tile_sprite->colour(ASGE::COLOURS::GREEN);
-          }
-        }
-      }
-    }
-  }
-}
-
-void MyASGEGame::placeHolderPlayer()
-{
-  player = renderer->createRawSprite();
-  player->xPos(5.f);
-  player->yPos(5.f);
-  player->loadTexture("/data/1px.png");
-  player->colour(ASGE::COLOURS::RED);
-  player->width(5);
-  player->height(5);
 }

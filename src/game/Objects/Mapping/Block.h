@@ -12,27 +12,16 @@
 class Block
 {
  public:
-  Block(int rows, int cols);
+  Block(ASGE::Renderer* renderer, std::pair<int, int> n_size, Vector2 position);
   Tile* getTile(int row, int col);
   Tile* getTile(std::pair<int, int> coords);
 
   int getRows();
   int getCols();
-  float getXPos();
-  float getYPos();
-  std::pair<float, float> getPos();
-
-  void setXPos(float new_pos);
-  void setYPos(float new_pos);
-  void setPos(std::pair<float, float> new_pos);
 
  private:
-  int cols = 0;
-  int rows = 0;
+  std::pair<int, int> size;
   std::map<std::pair<int, int>, Tile> tiles;
-
-  float xPos = 0.f;
-  float yPos = 0.f;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_BLOCK_H

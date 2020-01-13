@@ -1,0 +1,15 @@
+//
+// Created by e22-watson on 13/01/2020.
+//
+
+#ifndef THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H
+#  define THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H
+
+#endif // THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H
+
+enum LevelDifficulty
+{
+  EASY = 0,
+  MEDIUM = 1,
+  HARD = 2
+};

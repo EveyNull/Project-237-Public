@@ -13,12 +13,20 @@ class GameObject
  public:
   GameObject() = default;
   ~GameObject() = default;
-  bool addSpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
-                          const std::string& sprite_file);
+  bool
+  addSpriteComponent(ASGE::Renderer* renderer, const std::string& sprite_file);
 
-  ASGE::Sprite* getSprite();
+  SpriteComponent* getSpriteComponent();
 
- private:
+  float getXPos();
+  float getYPos();
+  Vector2 getPos();
+
+  void setXPos(float new_xpos);
+  void setYPos(float new_ypos);
+  void setPos(Vector2 new_pos);
+
+ protected:
   Vector2 position = Vector2(0.f, 0.f);
   Vector2 rotation = Vector2(0.f, 0.f);
   SpriteComponent* spriteComponent = nullptr;

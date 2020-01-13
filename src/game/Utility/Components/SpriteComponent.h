@@ -12,8 +12,7 @@ class SpriteComponent
 {
  public:
   SpriteComponent() = default;
-  SpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
-                  const std::string& sprite_file);
+  SpriteComponent(ASGE::Renderer* renderer, const std::string& sprite_file);
   ASGE::Sprite* getSprite();
 
  private:

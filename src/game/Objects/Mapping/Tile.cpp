@@ -3,10 +3,15 @@
 //
 
 #include "Tile.h"
-
-Tile::Tile()
+Tile::Tile(ASGE::Renderer* renderer, bool isWalkable, Vector2 n_position)
 {
-  sprite = nullptr;
+  addSpriteComponent(renderer, "/data/1px.png");
+  walkable = isWalkable;
+  position = n_position;
+  if (!isWalkable)
+  {
+    spriteComponent->getSprite()->colour(ASGE::COLOURS::GREEN);
+  }
 }
 
 bool Tile::getIsWalkable()
@@ -17,14 +22,4 @@ bool Tile::getIsWalkable()
 void Tile::setIsWalkable(bool isWalkable)
 {
   walkable = isWalkable;
-}
-
-void Tile::setSprite(ASGE::Sprite* n_sprite)
-{
-  sprite = n_sprite;
-}
-
-ASGE::Sprite* Tile::getSprite()
-{
-  return sprite;
 }

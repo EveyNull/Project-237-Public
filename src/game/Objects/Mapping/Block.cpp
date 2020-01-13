@@ -2,25 +2,29 @@
 // Created by e22-watson on 06/12/2019.
 //
 
+#include <Engine/DebugPrinter.h>
 #include <Engine/FileIO.h>
 #include <Engine/Sprite.h>
 
+#include "../../Utility/StringHelper.h"
 #include "Block.h"
-#include <Engine/DebugPrinter.h>
+
 #include <cmath>
 #include <list>
 #include <random>
 
-Block::Block(int n_rows, int n_cols)
+Block::Block(ASGE::Renderer* renderer,
+             std::pair<int, int> n_size,
+             Vector2 position)
 {
-  rows = n_rows;
-  cols = n_cols;
+  size = n_size;
 
   using File = ASGE::FILEIO::File;
   File blockTemplate = File();
 
   std::string fileName = "/data/map_blocks//";
-  fileName.insert(17, std::to_string(n_rows) + "x" + std::to_string(n_cols));
+  fileName.insert(
+    17, std::to_string(size.first) + "x" + std::to_string(size.second));
   fileName.insert(fileName.length(), std::to_string(rand() % 2 + 1));
 
   if (blockTemplate.open(fileName))
@@ -33,37 +37,33 @@ Block::Block(int n_rows, int n_cols)
       std::list<std::list<int>> tile_types = std::list<std::list<int>>();
       std::string buffer_string = static_cast<std::string>(buffer.as_char());
 
-      std::size_t current_line, previous_line = 0;
-      current_line = buffer_string.find('\n');
-      while (current_line != std::string::npos)
+      std::vector<std::string> lines = StringHelper::split(buffer_string, '\n');
+
+      for (const std::string& line : lines)
       {
-        std::size_t current_char, previous_char = 0;
-        std::string line =
-          buffer_string.substr(previous_line, current_line - previous_line);
-        current_char = line.find(',');
+        std::list<int> tile_row = std::list<int>();
 
-        std::list<int> line_data = std::list<int>();
-        while (current_char != std::string::npos)
+        std::vector<std::string> tiles = StringHelper::split(line, ',');
+
+        for (const std::string& tile : tiles)
         {
-          line_data.emplace_back(std::stoi(
-            line.substr(previous_char, current_char - previous_char)));
-          previous_char = current_char + 1;
-          current_char = line.find(',', previous_char);
+          tile_row.emplace_back(std::stoi(tile));
         }
-        tile_types.emplace_back(line_data);
 
-        previous_line = current_line + 1;
-        current_line = buffer_string.find('\n', previous_line);
+        tile_types.emplace_back(tile_row);
       }
 
-      for (int i = 0; i < n_rows; i++)
+      for (int i = 0; i < size.first; i++)
       {
         std::list<int> row = tile_types.front();
-        for (int j = 0; j < n_cols; j++)
+        for (int j = 0; j < size.second; j++)
         {
-          tiles.emplace(std::pair<int, int>(j, i), Tile());
           int tile_type = row.front();
-          tiles.at(std::pair<int, int>(j, i)).setIsWalkable(tile_type != 1);
+          Vector2 tile_pos = position;
+          tile_pos.setX(tile_pos.getX() + j * 10);
+          tile_pos.setY(tile_pos.getY() + i * 10);
+          tiles.emplace(std::pair<int, int>(j, i),
+                        Tile(renderer, tile_type != 1, tile_pos));
           row.pop_front();
         }
         tile_types.pop_front();
@@ -87,43 +87,12 @@ Tile* Block::getTile(std::pair<int, int> coords)
   return &tiles.at(coords);
 }
 
-float Block::getXPos()
-{
-  return xPos;
-}
-
-float Block::getYPos()
-{
-  return yPos;
-}
-
-std::pair<float, float> Block::getPos()
-{
-  return std::pair<float, float>(xPos, yPos);
-}
-
-void Block::setXPos(float new_pos)
-{
-  xPos = new_pos;
-}
-
-void Block::setYPos(float new_pos)
-{
-  yPos = new_pos;
-}
-
-void Block::setPos(std::pair<float, float> new_pos)
-{
-  xPos = new_pos.first;
-  yPos = new_pos.second;
-}
-
 int Block::getRows()
 {
-  return rows;
+  return size.first;
 }
 
 int Block::getCols()
 {
-  return cols;
+  return size.second;
 }

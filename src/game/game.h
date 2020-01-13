@@ -5,6 +5,7 @@
 
 #include "Objects/GameObject.h"
 #include "Objects/Mapping/Block.h"
+#include "Utility/SceneManager.h"
 #include "Utility/Vector2.h"
 
 /**
@@ -34,17 +35,7 @@ class MyASGEGame : public ASGE::OGLGame
   int mouse_callback_id = -1; /**< Mouse Input Callback ID. */
   bool in_menu = true;
 
-  std::map<std::pair<int, int>, Block> map;
-
-  int map_width = 10;
-  int map_height = 5;
-
-  int tiles_per_block = 10;
-  int tile_size = 10;
-
-  Vector2 render_offset = Vector2(0, 0);
-
-  ASGE::Sprite* player = nullptr;
+  SceneManager* sceneManager = nullptr;
 
   bool W_PRESSED = false;
   bool S_PRESSED = false;

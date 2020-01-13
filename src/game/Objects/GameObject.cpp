@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 
-bool GameObject::addSpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
+bool GameObject::addSpriteComponent(ASGE::Renderer* renderer,
                                     const std::string& sprite_file)
 {
   if (!spriteComponent)
@@ -13,7 +13,44 @@ bool GameObject::addSpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
   }
 }
 
-ASGE::Sprite* GameObject::getSprite()
+SpriteComponent* GameObject::getSpriteComponent()
 {
-  return spriteComponent->getSprite();
+  if (spriteComponent)
+  {
+    return spriteComponent;
+  }
+  else
+  {
+    return nullptr;
+  }
+}
+
+float GameObject::getXPos()
+{
+  return position.getX();
+}
+
+float GameObject::getYPos()
+{
+  return position.getY();
+}
+
+Vector2 GameObject::getPos()
+{
+  return position;
+}
+
+void GameObject::setXPos(float new_xpos)
+{
+  position.setX(new_xpos);
+}
+
+void GameObject::setYPos(float new_ypos)
+{
+  position.setY(new_ypos);
+}
+
+void GameObject::setPos(Vector2 new_pos)
+{
+  position = new_pos;
 }

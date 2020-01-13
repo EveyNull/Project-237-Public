@@ -7,18 +7,20 @@
 
 #include <Engine/Sprite.h>
 
-class Tile
+#include "../GameObject.h"
+
+class Tile : public GameObject
 {
  public:
-  Tile();
+  Tile() = delete;
+  Tile(ASGE::Renderer* renderer, bool isWalkable) :
+    Tile(renderer, isWalkable, Vector2(0.f, 0.f)){};
+  Tile(ASGE::Renderer* renderer, bool isWalkable, Vector2 n_position);
   bool getIsWalkable();
   void setIsWalkable(bool isWalkable);
-  void setSprite(ASGE::Sprite* n_sprite);
-  ASGE::Sprite* getSprite();
 
  private:
   bool walkable = false;
-  ASGE::Sprite* sprite;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TILE_H

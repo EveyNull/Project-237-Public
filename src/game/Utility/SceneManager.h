@@ -16,6 +16,9 @@ class SceneManager
 {
  public:
   SceneManager(ASGE::Renderer* renderer, LevelDifficulty difficulty);
+  SceneManager(const SceneManager&) = delete;
+  SceneManager& operator=(const SceneManager&) = delete;
+
   void setUpBlocks(ASGE::Renderer* renderer);
 
   void update(float delta_time);

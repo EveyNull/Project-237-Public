@@ -18,7 +18,7 @@ class SpriteComponent
 
  private:
   ASGE::Sprite* sprite = nullptr;
-  bool visible;
+  bool visible = true;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_SPRITECOMPONENT_H

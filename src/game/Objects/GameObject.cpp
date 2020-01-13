@@ -7,7 +7,10 @@
 bool GameObject::addSpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
                                     const std::string& sprite_file)
 {
-  spriteComponent = new SpriteComponent(renderer, sprite_file);
+  if (!spriteComponent)
+  {
+    spriteComponent = new SpriteComponent(renderer, sprite_file);
+  }
 }
 
 ASGE::Sprite* GameObject::getSprite()

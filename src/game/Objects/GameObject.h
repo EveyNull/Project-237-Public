@@ -12,6 +12,7 @@ class GameObject
 {
  public:
   GameObject() = default;
+  ~GameObject() = default;
   bool addSpriteComponent(std::unique_ptr<ASGE::Renderer>& renderer,
                           const std::string& sprite_file);
 

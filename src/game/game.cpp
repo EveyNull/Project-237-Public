@@ -178,7 +178,7 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // make sure you use delta time in any movement calculations!
 
   sceneManager->update(game_time.delta.count());
-  if(sceneManager->getGameState() == GameState::EXITING)
+  if (sceneManager->getGameState() == GameState::EXITING)
   {
     delete sceneManager;
     signalExit();

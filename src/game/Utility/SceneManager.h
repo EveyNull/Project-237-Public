@@ -6,10 +6,10 @@
 #include <map>
 
 #include "../Objects/GameObject.h"
-#include "../Objects/Mapping/Block.h"
 #include "../Objects/Level.h"
-#include "LevelDifficulty.h"
+#include "../Objects/Mapping/Block.h"
 #include "GameState.h"
+#include "LevelDifficulty.h"
 
 #ifndef THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H
 #  define THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H

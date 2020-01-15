@@ -4,8 +4,7 @@
 
 #include "Level.h"
 
-
-Level::Level(ASGE::Renderer *renderer, LevelDifficulty difficulty)
+Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
 {
   switch (difficulty)
   {
@@ -35,12 +34,12 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
 {
   player->setPos(
     Vector2(player->getXPos() +
-            (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.25f,
+              (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.25f,
             player->getYPos() +
-            (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.25f));
+              (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.25f));
 }
 
-void Level::render(ASGE::Renderer *renderer, Vector2 window_size)
+void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
 {
   for (auto iterator = map.begin(); iterator != map.end(); ++iterator)
   {

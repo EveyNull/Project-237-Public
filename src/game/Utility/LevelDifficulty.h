@@ -1,6 +1,7 @@
 //
 // Created by e22-watson on 13/01/2020.
 //
+#pragma once
 
 #ifndef THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H
 #  define THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H

@@ -2,77 +2,70 @@
 // Created by e22-watson on 13/01/2020.
 //
 
+#include <Engine/DebugPrinter.h>
 #include "SceneManager.h"
 
-SceneManager::SceneManager(ASGE::Renderer* renderer, LevelDifficulty difficulty)
-{
-  switch (difficulty)
-  {
-    case LevelDifficulty::EASY:
-    {
-      map_width = 10;
-      map_height = 10;
-      break;
-    }
-
-    default:
-    {
-      map_width = 20;
-      map_height = 20;
-      break;
-    }
-  }
-
-  setUpBlocks(renderer);
-
-  player = new GameObject();
-  player->addSpriteComponent(renderer, "/data/1px.png");
-  player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
-}
-
-void SceneManager::setUpBlocks(ASGE::Renderer* renderer)
-{
-  for (int i = 0; i < map_width; i++)
-  {
-    for (int j = 0; j < map_height; j++)
-    {
-      Block block = Block(renderer,
-                          std::pair<int, int>(10, 10),
-                          Vector2(i * 10 * 10, j * 10 * 10));
-      map.emplace(std::pair<int, int>(i, j), block);
-    }
-  }
-}
+SceneManager::SceneManager(ASGE::Renderer* n_renderer)
+: renderer(n_renderer) {}
 
 void SceneManager::update(float delta_time)
 {
-  player->setPos(
-    Vector2(player->getXPos() +
-              (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.25f,
-            player->getYPos() +
-              (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.25f));
+  if(gameState == GameState::MAINMENU)
+  {
+    if(keys_pressed[5])
+    {
+      gameState = GameState::EXITING;
+      keys_pressed[5] = false;
+      return;
+    }
+    if(keys_pressed[0])
+    {
+      game_level = new Level(renderer, LevelDifficulty::EASY);
+      gameState = GameState::INGAME;
+    }
+  }
+  else if(gameState == GameState::INGAME)
+  {
+    if(!paused)
+    {
+      game_level->update(delta_time, keys_pressed);
+    }
+    else
+    {
+      if(keys_pressed[5])
+      {
+        gameState = GameState::MAINMENU;
+        delete game_level;
+        keys_pressed[5] = false;
+        return;
+      }
+    }
+    if(keys_pressed[4])
+    {
+      togglePause();
+      keys_pressed[4] = false;
+    }
+    else
+    {
+      just_paused = false;
+    }
+  }
 }
 
 void SceneManager::render(ASGE::Renderer* renderer, Vector2 window_size)
 {
-  for (auto iterator = map.begin(); iterator != map.end(); ++iterator)
+  if(gameState == GameState::MAINMENU)
   {
-    std::map<std::pair<int, int>, Tile>& map2 =
-      iterator->second.get_all_tiles();
-    for (auto jterator = map2.begin(); jterator != map2.end(); ++jterator)
+    renderer->renderText("PRESS W TO START", window_size.getX()/2, window_size.getY()/2);
+  }
+  else if(gameState == GameState::INGAME)
+  {
+    game_level->render(renderer, window_size);
+    if(paused)
     {
-      Tile& tile = jterator->second;
-      ASGE::Sprite* tile_sprite = tile.getSpriteComponent()->getSprite();
-      tile_sprite->xPos(tile.getXPos() + (window_size.getX() / 2) -
-                        player->getXPos());
-      tile_sprite->yPos(tile.getYPos() + (window_size.getY() / 2) -
-                        player->getYPos());
-      renderer->renderSprite(*tile_sprite);
+      renderer->renderText("PAUSED", window_size.getX()/2, window_size.getY()/2, ASGE::COLOURS::RED);
     }
   }
-  player->getSpriteComponent()->getSprite()->xPos(window_size.getX() / 2);
-  player->getSpriteComponent()->getSprite()->yPos(window_size.getY() / 2);
-  renderer->renderSprite(*player->getSpriteComponent()->getSprite());
 }
 
 void SceneManager::setKeyPressed(int key, bool pressed)
@@ -81,4 +74,14 @@ void SceneManager::setKeyPressed(int key, bool pressed)
   {
     keys_pressed[key] = pressed;
   }
+}
+
+void SceneManager::togglePause()
+{
+  paused = !paused;
+}
+
+GameState SceneManager::getGameState()
+{
+  return gameState;
 }

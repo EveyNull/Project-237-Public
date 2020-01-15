@@ -58,7 +58,7 @@ bool MyASGEGame::init()
   mouse_callback_id = inputs->addCallbackFnc(
     ASGE::E_MOUSE_CLICK, &MyASGEGame::clickHandler, this);
 
-  sceneManager = new SceneManager(renderer.get(), LevelDifficulty::EASY);
+  sceneManager = new SceneManager(renderer.get());
 
   return true;
 }
@@ -97,10 +97,6 @@ void MyASGEGame::keyHandler(ASGE::SharedEventData data)
 {
   auto key = static_cast<const ASGE::KeyEvent*>(data.get());
 
-  if (key->key == ASGE::KEYS::KEY_ESCAPE)
-  {
-    signalExit();
-  }
   bool pressed = true;
   if (key->action == ASGE::KEYS::KEY_RELEASED)
   {
@@ -129,6 +125,16 @@ void MyASGEGame::keyHandler(ASGE::SharedEventData data)
     case ASGE::KEYS::KEY_D:
     {
       key_pressed = 3;
+      break;
+    }
+    case ASGE::KEYS::KEY_P:
+    {
+      key_pressed = 4;
+      break;
+    }
+    case ASGE::KEYS::KEY_ESCAPE:
+    {
+      key_pressed = 5;
       break;
     }
     default:
@@ -172,19 +178,11 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // make sure you use delta time in any movement calculations!
 
   sceneManager->update(game_time.delta.count());
-
-  /*
-  player->xPos(player->xPos() +
-               (D_PRESSED - A_PRESSED) * game_time.delta.count() * 0.25f);
-  player->yPos(player->yPos() +
-               (S_PRESSED - W_PRESSED) * game_time.delta.count() * 0.25f);
-  float x_offset = (game_width / 2) - player->xPos();
-  float y_offset = (game_height / 2) - player->yPos();
-  render_offset = Vector2(x_offset, y_offset);
-
-  if (!in_menu)
+  if(sceneManager->getGameState() == GameState::EXITING)
   {
-  }*/
+    delete sceneManager;
+    signalExit();
+  }
 }
 
 /**

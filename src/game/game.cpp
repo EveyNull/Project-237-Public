@@ -96,52 +96,7 @@ void MyASGEGame::setupResolution()
 void MyASGEGame::keyHandler(ASGE::SharedEventData data)
 {
   auto key = static_cast<const ASGE::KeyEvent*>(data.get());
-
-  bool pressed = true;
-  if (key->action == ASGE::KEYS::KEY_RELEASED)
-  {
-    pressed = false;
-  }
-
-  int key_pressed = -1;
-
-  switch (key->key)
-  {
-    case ASGE::KEYS::KEY_W:
-    {
-      key_pressed = 0;
-      break;
-    }
-    case ASGE::KEYS::KEY_S:
-    {
-      key_pressed = 1;
-      break;
-    }
-    case ASGE::KEYS::KEY_A:
-    {
-      key_pressed = 2;
-      break;
-    }
-    case ASGE::KEYS::KEY_D:
-    {
-      key_pressed = 3;
-      break;
-    }
-    case ASGE::KEYS::KEY_P:
-    {
-      key_pressed = 4;
-      break;
-    }
-    case ASGE::KEYS::KEY_ESCAPE:
-    {
-      key_pressed = 5;
-      break;
-    }
-    default:
-      break;
-  }
-
-  sceneManager->setKeyPressed(key_pressed, pressed);
+  sceneManager->setKeyPressed(input.getKey(key), input.getKeyDown(key));
 }
 
 /**

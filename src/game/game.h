@@ -5,6 +5,7 @@
 
 #include "Objects/GameObject.h"
 #include "Objects/Mapping/Block.h"
+#include "Utility/InputManager.h"
 #include "Utility/SceneManager.h"
 #include "Utility/Vector2.h"
 
@@ -31,4 +32,5 @@ class MyASGEGame : public ASGE::OGLGame
   bool in_menu = true;
 
   SceneManager* sceneManager = nullptr;
+  InputManager input;
 };

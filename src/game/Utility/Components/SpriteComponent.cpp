@@ -5,12 +5,13 @@
 #include "SpriteComponent.h"
 
 SpriteComponent::SpriteComponent(ASGE::Renderer* renderer,
-                                 const std::string& sprite_file)
+                                 const std::string& sprite_file,
+                                 float& tile_size)
 {
   sprite = renderer->createRawSprite();
   sprite->loadTexture(sprite_file);
-  sprite->width(10);
-  sprite->height(10);
+  sprite->width(tile_size);
+  sprite->height(tile_size);
 }
 
 ASGE::Sprite* SpriteComponent::getSprite()

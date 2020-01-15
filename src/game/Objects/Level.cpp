@@ -3,6 +3,7 @@
 //
 
 #include "Level.h"
+#include <bitset>
 
 Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
 {
@@ -23,10 +24,13 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
     }
   }
 
-  setUpBlocks(renderer);
+  if (!setUpBlocks(renderer))
+  {
+    throw - 1;
+  }
 
   player = new GameObject();
-  player->addSpriteComponent(renderer, "/data/1px.png");
+  player->addSpriteComponent(renderer, "/data/1px.png", 5);
   player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
 }
 
@@ -61,16 +65,60 @@ void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
   renderer->renderSprite(*player->getSpriteComponent()->getSprite());
 }
 
-void Level::setUpBlocks(ASGE::Renderer* renderer)
+bool Level::setUpBlocks(ASGE::Renderer* renderer)
 {
   for (int i = 0; i < map_width; i++)
   {
     for (int j = 0; j < map_height; j++)
     {
-      Block block = Block(renderer,
-                          std::pair<int, int>(10, 10),
-                          Vector2(i * 10 * 10, j * 10 * 10));
-      map.emplace(std::pair<int, int>(i, j), block);
+      BlockType block_type;
+      std::bitset<2> bitset = std::bitset<2>();
+      bitset[0] = (i == 0 || i == map_width - 1);
+      bitset[1] = (j == 0 || j == map_height - 1);
+
+      switch (bitset.count())
+      {
+        case 1:
+        {
+          if (bitset[0])
+          {
+            block_type = BlockType::X_EDGE;
+          }
+          else
+          {
+            block_type = BlockType::Y_EDGE;
+          }
+          break;
+        }
+        case 2:
+        {
+          block_type = BlockType::CORNER;
+          break;
+        }
+        default:
+        {
+          block_type = BlockType::MIDDLE;
+        }
+      }
+      try
+      {
+        Block block = Block(renderer,
+                            block_type,
+                            std::pair<int, int>(10, 10),
+                            10,
+                            std::pair<int, int>(i, j),
+                            i >= map_width / 2,
+                            j >= map_height / 2);
+        map.emplace(std::pair<int, int>(i, j), block);
+      }
+      catch (int e)
+      {
+        if (e == -1)
+        {
+          return false;
+        }
+      }
     }
   }
+  return true;
 }

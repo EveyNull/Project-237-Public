@@ -19,7 +19,20 @@ void SceneManager::update(float delta_time)
     }
     if (keys_pressed[0])
     {
-      game_level = new Level(renderer, LevelDifficulty::EASY);
+      keys_pressed[0] = false;
+      try
+      {
+        game_level = new Level(renderer, LevelDifficulty::EASY);
+        failed_open_level = false;
+      }
+      catch (int e)
+      {
+        if (e == -1)
+        {
+          failed_open_level = true;
+          return;
+        }
+      }
       gameState = GameState::INGAME;
     }
   }
@@ -57,6 +70,13 @@ void SceneManager::render(ASGE::Renderer* renderer, Vector2 window_size)
   {
     renderer->renderText(
       "PRESS W TO START", window_size.getX() / 2, window_size.getY() / 2);
+    if (failed_open_level)
+    {
+      renderer->renderText("FAILED TO LOAD LEVEL",
+                           window_size.getX() / 2,
+                           window_size.getY() / 2 + 100.f,
+                           ASGE::COLOURS::RED);
+    }
   }
   else if (gameState == GameState::INGAME)
   {

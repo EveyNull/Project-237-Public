@@ -14,8 +14,11 @@ class Tile : public GameObject
  public:
   Tile() = delete;
   Tile(ASGE::Renderer* renderer, bool isWalkable) :
-    Tile(renderer, isWalkable, Vector2(0.f, 0.f)){};
-  Tile(ASGE::Renderer* renderer, bool isWalkable, Vector2 n_position);
+    Tile(renderer, isWalkable, 10.f, Vector2(0.f, 0.f)){};
+  Tile(ASGE::Renderer* renderer,
+       bool isWalkable,
+       float tile_size,
+       const Vector2& n_position);
   bool getIsWalkable();
   void setIsWalkable(bool isWalkable);
 

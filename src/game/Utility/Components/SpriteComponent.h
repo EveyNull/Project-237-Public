@@ -12,7 +12,9 @@ class SpriteComponent
 {
  public:
   SpriteComponent() = default;
-  SpriteComponent(ASGE::Renderer* renderer, const std::string& sprite_file);
+  SpriteComponent(ASGE::Renderer* renderer,
+                  const std::string& sprite_file,
+                  float& tile_size);
   ASGE::Sprite* getSprite();
 
  private:

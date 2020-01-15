@@ -19,7 +19,7 @@ set(SOURCE_FILES
         "game/game.cpp")
 
 set(HEADER_FILES
-        "game/game.h" game/Objects/Mapping/Tile.cpp game/Objects/Mapping/Tile.h game/Objects/Mapping/Block.cpp game/Objects/Mapping/Block.h game/Utility/Vector2.cpp game/Utility/Vector2.h game/Objects/GameObject.cpp game/Objects/GameObject.h game/Utility/Components/SpriteComponent.cpp game/Utility/Components/SpriteComponent.h game/Utility/SceneManager.cpp game/Utility/SceneManager.h game/Utility/LevelDifficulty.h game/Utility/StringHelper.cpp game/Utility/StringHelper.h game/Objects/Level.cpp game/Objects/Level.h game/Utility/GameState.h game/Utility/InputManager.cpp game/Utility/InputManager.h)
+        "game/game.h" game/Objects/Mapping/Tile.cpp game/Objects/Mapping/Tile.h game/Objects/Mapping/Block.cpp game/Objects/Mapping/Block.h game/Utility/Vector2.cpp game/Utility/Vector2.h game/Objects/GameObject.cpp game/Objects/GameObject.h game/Utility/Components/SpriteComponent.cpp game/Utility/Components/SpriteComponent.h game/Utility/SceneManager.cpp game/Utility/SceneManager.h game/Utility/LevelDifficulty.h game/Utility/StringHelper.cpp game/Utility/StringHelper.h game/Objects/Level.cpp game/Objects/Level.h game/Utility/GameState.h game/Utility/InputManager.cpp game/Utility/InputManager.h game/Objects/Mapping/BlockType.h)
 
 ## the executable
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})

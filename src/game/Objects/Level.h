@@ -19,7 +19,7 @@ class Level
   Level(const Level&) = default;
   Level& operator=(const Level&) = default;
   Level(ASGE::Renderer* renderer, LevelDifficulty difficulty);
-  void setUpBlocks(ASGE::Renderer* renderer);
+  bool setUpBlocks(ASGE::Renderer* renderer);
 
   void update(float delta_time, const std::deque<bool>& keys_pressed);
   void render(ASGE::Renderer* renderer, Vector2 window_size);

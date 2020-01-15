@@ -13,8 +13,9 @@ class GameObject
  public:
   GameObject() = default;
   ~GameObject() = default;
-  bool
-  addSpriteComponent(ASGE::Renderer* renderer, const std::string& sprite_file);
+  bool addSpriteComponent(ASGE::Renderer* renderer,
+                          const std::string& sprite_file,
+                          float sprite_size);
 
   SpriteComponent* getSpriteComponent();
 

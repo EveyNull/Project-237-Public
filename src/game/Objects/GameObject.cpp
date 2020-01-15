@@ -5,11 +5,12 @@
 #include "GameObject.h"
 
 bool GameObject::addSpriteComponent(ASGE::Renderer* renderer,
-                                    const std::string& sprite_file)
+                                    const std::string& sprite_file,
+                                    float sprite_size)
 {
   if (!spriteComponent)
   {
-    spriteComponent = new SpriteComponent(renderer, sprite_file);
+    spriteComponent = new SpriteComponent(renderer, sprite_file, sprite_size);
   }
 }
 

@@ -14,17 +14,49 @@
 #include <random>
 
 Block::Block(ASGE::Renderer* renderer,
+             BlockType block_type,
              const std::pair<int, int>& n_size,
-             Vector2 position) :
+             float tile_size,
+             const std::pair<int, int>& map_coords,
+             bool flip_x,
+             bool flip_y) :
   size(n_size)
 {
   using File = ASGE::FILEIO::File;
   File blockTemplate = File();
 
+  std::string block_type_dir;
+  switch (block_type)
+  {
+    case BlockType::CORNER:
+    {
+      block_type_dir = "corner";
+      break;
+    }
+    case BlockType::X_EDGE:
+    {
+      block_type_dir = "x_edge";
+      break;
+    }
+    case BlockType::Y_EDGE:
+    {
+      block_type_dir = "y_edge";
+      break;
+    }
+    default:
+    {
+      block_type_dir = "middle";
+      break;
+    }
+  }
+
   std::string fileName = "/data/map_blocks//";
+  fileName.insert(17,
+                  std::to_string(size.first) + "x" +
+                    std::to_string(size.second) + "/" + block_type_dir);
   fileName.insert(
-    17, std::to_string(size.first) + "x" + std::to_string(size.second));
-  fileName.insert(fileName.length(), std::to_string(rand() % 2 + 1));
+    fileName.length(),
+    std::to_string(rand() % ASGE::FILEIO::enumerateFiles(fileName).size() + 1));
 
   if (blockTemplate.open(fileName))
   {
@@ -51,18 +83,33 @@ Block::Block(ASGE::Renderer* renderer,
 
         tile_types.emplace_back(tile_row);
       }
+      while (tile_types.size() > size.second)
+      {
+        tile_types.pop_back();
+      }
+
+      if (flip_y)
+      {
+        tile_types.reverse();
+      }
 
       for (int i = 0; i < size.first; i++)
       {
         std::list<int> row = tile_types.front();
+        if (flip_x)
+        {
+          row.reverse();
+        }
         for (int j = 0; j < size.second; j++)
         {
           int tile_type = row.front();
-          Vector2 tile_pos = position;
-          tile_pos.setX(tile_pos.getX() + j * 10);
-          tile_pos.setY(tile_pos.getY() + i * 10);
+          Vector2 tile_pos =
+            Vector2(map_coords.first * size.first * tile_size,
+                    map_coords.second * size.second * tile_size);
+          tile_pos.setX(tile_pos.getX() + j * tile_size);
+          tile_pos.setY(tile_pos.getY() + i * tile_size);
           tiles.emplace(std::pair<int, int>(j, i),
-                        Tile(renderer, tile_type != 1, tile_pos));
+                        Tile(renderer, tile_type != 1, tile_size, tile_pos));
           row.pop_front();
         }
         tile_types.pop_front();
@@ -73,6 +120,7 @@ Block::Block(ASGE::Renderer* renderer,
   else
   {
     ASGE::DebugPrinter{} << "Failed to open file: " << fileName << std::endl;
+    throw - 1;
   }
 }
 

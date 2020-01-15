@@ -38,6 +38,8 @@ class SceneManager
 
   Level* game_level = nullptr;
 
+  bool failed_open_level = false;
+
   ASGE::Renderer* renderer = nullptr;
   std::deque<bool> keys_pressed = std::deque<bool>(6);
 };

@@ -3,9 +3,12 @@
 //
 
 #include "Tile.h"
-Tile::Tile(ASGE::Renderer* renderer, bool isWalkable, Vector2 n_position)
+Tile::Tile(ASGE::Renderer* renderer,
+           bool isWalkable,
+           float tile_size,
+           const Vector2& n_position)
 {
-  addSpriteComponent(renderer, "/data/1px.png");
+  addSpriteComponent(renderer, "/data/1px.png", tile_size);
   walkable = isWalkable;
   position = n_position;
   if (!isWalkable)

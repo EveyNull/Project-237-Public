@@ -18,7 +18,7 @@ class SceneManager
 {
  public:
   ~SceneManager() = default;
-  SceneManager(ASGE::Renderer* n_renderer);
+  explicit SceneManager(ASGE::Renderer* n_renderer);
   SceneManager(const SceneManager&) = delete;
   SceneManager& operator=(const SceneManager&) = delete;
 

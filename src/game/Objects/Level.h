@@ -17,6 +17,8 @@ class Level
 {
 public:
     ~Level() = default;
+    Level(const Level&) = default;
+    Level& operator=(const Level&) = default;
     Level(ASGE::Renderer* renderer, LevelDifficulty difficulty);
     void setUpBlocks(ASGE::Renderer* renderer);
 

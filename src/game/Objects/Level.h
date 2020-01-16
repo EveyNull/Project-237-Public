@@ -26,6 +26,8 @@ class Level
   void render(ASGE::Renderer* renderer, Vector2 window_size);
   void setSpriteOffset(GameObject* gameObject, Vector2 window_size);
 
+  std::pair<int, int> getTileCoordsFromPos(GameObject* object);
+
  private:
   AIManager* ai_manager = nullptr;
   std::map<std::pair<int, int>, Block> map;

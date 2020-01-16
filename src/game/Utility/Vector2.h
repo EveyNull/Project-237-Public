@@ -11,12 +11,20 @@ class Vector2
   Vector2() = default;
   Vector2(int x, int y);
   Vector2(float x, float y);
+  Vector2(double x, double y);
+
+  Vector2 operator*(const Vector2&);
+  Vector2 operator*(float scalar);
+
+  Vector2 operator+(const Vector2&);
 
   float getX();
   float getY();
 
   void setX(float n_x);
   void setY(float n_y);
+
+  void normalise();
 
  private:
   float x, y;

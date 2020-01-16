@@ -50,15 +50,23 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
     player->getYPos() +
       (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.5f));
 
-  int x, y;
-  x = std::floor((player->getXPos() +
-                  (player->getSpriteComponent()->getSprite()->width() / 2)) /
-                 tile_size);
-  y = std::floor((player->getYPos() +
-                  (player->getSpriteComponent()->getSprite()->height() / 2)) /
-                 tile_size);
+  ai_manager->UpdateKnownPlayerPos(
+    std::pair<int, int>(getTileCoordsFromPos(player)));
 
-  ai_manager->UpdateKnownPlayerPos(std::pair<int, int>(x, y));
+  ai_manager->update(delta_time);
+  ai_manager->setCurrentEnemyPos(getTileCoordsFromPos(enemy));
+}
+
+std::pair<int, int> Level::getTileCoordsFromPos(GameObject* object)
+{
+  return std::pair<int, int>(
+    static_cast<int>(
+      std::floor(object->getXPos() +
+                 (object->getSpriteComponent()->getSprite()->width() / 2)) /
+      tile_size),
+    std::floor(object->getYPos() +
+               (object->getSpriteComponent()->getSprite()->height() / 2)) /
+      tile_size);
 }
 
 void Level::render(ASGE::Renderer* renderer, Vector2 window_size)

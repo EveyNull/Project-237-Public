@@ -11,6 +11,8 @@
 #include "GameState.h"
 #include "LevelDifficulty.h"
 
+#include "UI.h"
+
 #ifndef THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H
 #  define THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H
 
@@ -37,6 +39,7 @@ class SceneManager
   bool just_paused = false;
 
   Level* game_level = nullptr;
+  UI* game_UI = nullptr;
 
   bool failed_open_level = false;
 

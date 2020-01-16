@@ -16,6 +16,8 @@ class SpriteComponent
                   const std::string& sprite_file,
                   float& tile_size);
   ASGE::Sprite* getSprite();
+  void setVisible(bool vis);
+  bool getVisible();
 
  private:
   ASGE::Sprite* sprite = nullptr;

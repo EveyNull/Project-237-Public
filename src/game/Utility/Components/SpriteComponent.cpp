@@ -18,3 +18,13 @@ ASGE::Sprite* SpriteComponent::getSprite()
 {
   return sprite;
 }
+
+void SpriteComponent::setVisible(bool vis)
+{
+  visible = vis;
+}
+
+bool SpriteComponent::getVisible()
+{
+  return visible;
+}

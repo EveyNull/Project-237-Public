@@ -8,6 +8,7 @@
 #include "../Objects/GameObject.h"
 #include "../Objects/Level.h"
 #include "../Objects/Mapping/Block.h"
+#include "AIManager.h"
 #include "GameState.h"
 #include "LevelDifficulty.h"
 

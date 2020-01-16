@@ -2,6 +2,9 @@
 // Created by Tau on 15/01/2020.
 //
 
+#include <cmath>
+
+#include <Engine/DebugPrinter.h>
 #include "Level.h"
 #include <bitset>
 
@@ -29,6 +32,9 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
     throw - 1;
   }
 
+  enemy = new GameObject();
+  ai_manager = new AIManager(map, enemy);
+
   player = new GameObject();
   player->addSpriteComponent(renderer, "/data/1px.png", 5);
   player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
@@ -41,6 +47,13 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
               (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.25f,
             player->getYPos() +
               (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.25f));
+
+  int x,y;
+  x = std::floor((player->getXPos() + (player->getSpriteComponent()->getSprite()->width()/2))/10);
+  y = std::floor((player->getYPos() + (player->getSpriteComponent()->getSprite()->height()/2))/10);
+
+  ASGE::DebugPrinter{} << x << "," << y << std::endl;
+
 }
 
 void Level::render(ASGE::Renderer* renderer, Vector2 window_size)

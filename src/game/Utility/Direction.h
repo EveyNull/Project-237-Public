@@ -3,14 +3,15 @@
 //
 
 #ifndef PROJECT_DIRECTION_H
-#define PROJECT_DIRECTION_H
+#  define PROJECT_DIRECTION_H
 
-#endif //PROJECT_DIRECTION_H
+#endif // PROJECT_DIRECTION_H
 
 enum Direction
 {
-    UP = 0,
-    DOWN = 1,
-    LEFT = 2,
-    RIGHT = 3
+  NONE = 0,
+  UP = -1,
+  DOWN = 1,
+  LEFT = -2,
+  RIGHT = 2
 };

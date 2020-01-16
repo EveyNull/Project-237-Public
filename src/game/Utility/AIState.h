@@ -3,14 +3,14 @@
 //
 
 #ifndef PROJECT_AISTATE_H
-#define PROJECT_AISTATE_H
+#  define PROJECT_AISTATE_H
 
-#endif //PROJECT_AISTATE_H
+#endif // PROJECT_AISTATE_H
 
 enum AIState
 {
-    ROAMING,
-    SEARCHING,
-    HOMING,
-    CHASING
+  ROAMING,
+  SEARCHING,
+  HOMING,
+  CHASING
 };

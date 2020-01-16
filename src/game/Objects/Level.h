@@ -24,10 +24,12 @@ class Level
 
   void update(float delta_time, const std::deque<bool>& keys_pressed);
   void render(ASGE::Renderer* renderer, Vector2 window_size);
+  void setSpriteOffset(GameObject* gameObject, Vector2 window_size);
 
-private:
+ private:
   AIManager* ai_manager = nullptr;
   std::map<std::pair<int, int>, Block> map;
+  int tile_size = 100;
   GameObject* player = nullptr;
   GameObject* enemy = nullptr;
   int map_width = 0, map_height = 0;

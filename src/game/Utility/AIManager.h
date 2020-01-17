@@ -21,6 +21,7 @@ class AIManager
   void update(float delta_time);
 
   void UpdateKnownPlayerPos(const Vector2& new_pos_coords);
+  void DecideNextMove();
   bool UpdateAITargetPos(const std::pair<int, int>& new_pos_target);
   void UpdateAIStepPos();
 

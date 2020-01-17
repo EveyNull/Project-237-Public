@@ -7,6 +7,7 @@
 
 #include <Engine/Sprite.h>
 
+#include "../../Utility/Direction.h"
 #include "../GameObject.h"
 
 class Tile : public GameObject
@@ -20,10 +21,14 @@ class Tile : public GameObject
        float tile_size,
        const Vector2& n_position);
   bool getIsWalkable();
+  Direction& getFootprints();
+
   void setIsWalkable(bool isWalkable);
+  void setFootprints(const Direction& new_direction);
 
  private:
   bool walkable = false;
+  Direction footprints = Direction::NONE;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TILE_H

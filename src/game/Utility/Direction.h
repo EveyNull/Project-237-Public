@@ -2,6 +2,8 @@
 // Created by Tau on 16/01/2020.
 //
 
+#pragma once
+
 #ifndef PROJECT_DIRECTION_H
 #  define PROJECT_DIRECTION_H
 

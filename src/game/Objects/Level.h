@@ -23,11 +23,15 @@ class Level
   bool setUpBlocks(ASGE::Renderer* renderer);
 
   void update(float delta_time, const std::deque<bool>& keys_pressed);
+  std::pair<int, int> getTileCoordsFromPos(GameObject* object);
+
   void render(ASGE::Renderer* renderer, Vector2 window_size);
   void renderAtOffset(ASGE::Renderer* renderer,
                       GameObject* gameObject,
                       bool render_from_center,
                       Vector2 window_size);
+
+  void updateFootprints(std::pair<int, int> new_tile_coords);
 
  private:
   AIManager* ai_manager = nullptr;
@@ -36,6 +40,8 @@ class Level
   GameObject* player = nullptr;
   GameObject* enemy = nullptr;
   int map_width = 0, map_height = 0;
+
+  std::pair<int, int> player_last_tile = std::pair<int, int>(0, 0);
 };
 
 #endif // PROJECT_LEVEL_H

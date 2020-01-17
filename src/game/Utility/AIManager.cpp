@@ -21,7 +21,7 @@ AIManager::AIManager(std::map<std::pair<int, int>, Block>& level,
 
 void AIManager::update(float delta_time)
 {
-  float move_speed = 1.f;
+  float move_speed = 0.1f;
   if (current_state == AIState::CHASING)
   {
     move_speed = 0.25f;
@@ -32,9 +32,6 @@ void AIManager::update(float delta_time)
   {
     move_dir = Vector2(current_step_pos - current_enemy_pos);
     move_dir.normalise();
-
-    Vector2 test2 = move_dir * delta_time * move_speed;
-    Vector2 test = enemy->getPos() + (move_dir * delta_time * move_speed);
 
     enemy->setPos(
       moveToPos((enemy->getPos() + (move_dir * delta_time * move_speed)),
@@ -61,18 +58,77 @@ Vector2 AIManager::moveToPos(Vector2 intended_move, Vector2 target)
 void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos_coords)
 {
   current_player_pos = new_pos_coords;
+}
+
+void AIManager::DecideNextMove()
+{
   bool changed_target = false;
+  bool see_player = false;
   switch (ai_difficulty)
   {
     default:
     {
       if (checkTileInSight(getCoordsFromPos(current_player_pos)))
       {
+        see_player = true;
         current_state = AIState::CHASING;
         changed_target =
           UpdateAITargetPos(getCoordsFromPos(current_player_pos));
       }
       break;
+    }
+  }
+
+  if (!see_player && current_enemy_pos == current_step_pos)
+  {
+    current_state = AIState::ROAMING;
+    switch (
+      getTileFromCoords(getCoordsFromPos(current_enemy_pos))->getFootprints())
+    {
+      case Direction::DOWN:
+      {
+        final_destination_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                              getCoordsFromPos(current_enemy_pos).second + 1);
+        changed_target = true;
+        break;
+      }
+
+      case Direction::UP:
+      {
+        final_destination_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                              getCoordsFromPos(current_enemy_pos).second - 1);
+        changed_target = true;
+        break;
+      }
+      case Direction::RIGHT:
+      {
+        final_destination_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first + 1,
+                              getCoordsFromPos(current_enemy_pos).second);
+        changed_target = true;
+        break;
+      }
+
+      case Direction::LEFT:
+      {
+        final_destination_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first - 1,
+                              getCoordsFromPos(current_enemy_pos).second);
+        changed_target = true;
+        break;
+      }
+
+      default:
+      {
+        break;
+      }
+    }
+    if (changed_target)
+    {
+      getTileFromCoords(getCoordsFromPos(current_enemy_pos))
+        ->setFootprints(Direction::NONE);
     }
   }
 
@@ -116,10 +172,7 @@ bool AIManager::UpdateAITargetPos(const std::pair<int, int>& new_pos_target)
 
 void AIManager::UpdateAIStepPos()
 {
-  if (checkTileInSight(final_destination_tile))
-  {
-    current_step_pos = getPosFromCoords(final_destination_tile);
-  }
+  current_step_pos = getPosFromCoords(final_destination_tile);
 }
 
 bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)

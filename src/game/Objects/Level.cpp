@@ -41,6 +41,7 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   player = new GameObject();
   player->addSpriteComponent(renderer, "/data/1px.png", 60);
   player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::BLUE);
+  player_last_tile = getTileCoordsFromPos(player);
 }
 
 void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
@@ -51,8 +52,42 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
       (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.5f));
 
   ai_manager->UpdateKnownPlayerPos(player->getPos());
+  ai_manager->DecideNextMove();
+
+  std::pair<int, int> player_coords = getTileCoordsFromPos(player);
+  if (player_coords != player_last_tile)
+  {
+    Tile& tile_left =
+      map
+        .at(std::pair<int, int>(player_last_tile.first / map_width,
+                                player_last_tile.second / map_height))
+        .getTile(player_last_tile.first %
+                   map.at(std::pair<int, int>(0, 0)).getCols(),
+                 player_last_tile.second %
+                   map.at(std::pair<int, int>(0, 0)).getRows());
+
+    if (tile_left.getFootprints() == Direction::NONE)
+    {
+      if (player_coords.first - player_last_tile.first > 0)
+        tile_left.setFootprints(Direction::RIGHT);
+      else if (player_coords.first - player_last_tile.first < 0)
+        tile_left.setFootprints(Direction::LEFT);
+      else if (player_coords.second - player_last_tile.second > 0)
+        tile_left.setFootprints(Direction::DOWN);
+      else
+        tile_left.setFootprints(Direction::UP);
+    }
+    player_last_tile = player_coords;
+  }
 
   ai_manager->update(delta_time);
+}
+
+std::pair<int, int> Level::getTileCoordsFromPos(GameObject* object)
+{
+  return std::pair<int, int>(
+    static_cast<int>(std::floor(object->getXPos()) / tile_size),
+    std::floor(object->getYPos()) / tile_size);
 }
 
 void Level::render(ASGE::Renderer* renderer, Vector2 window_size)

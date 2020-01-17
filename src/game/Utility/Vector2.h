@@ -15,11 +15,12 @@ class Vector2
 
   Vector2 operator*(const Vector2&);
   Vector2 operator*(float scalar);
-
   Vector2 operator+(const Vector2&);
+  Vector2 operator-(const Vector2&);
+  bool operator==(const Vector2&);
 
-  float getX();
-  float getY();
+  float getX() const;
+  float getY() const;
 
   void setX(float n_x);
   void setY(float n_y);

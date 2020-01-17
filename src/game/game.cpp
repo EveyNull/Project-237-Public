@@ -47,7 +47,7 @@ bool MyASGEGame::init()
     return false;
   }
 
-  // toggleFPS();
+  toggleFPS();
 
   // input handling functions
   inputs->use_threads = false;

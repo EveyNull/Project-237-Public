@@ -8,50 +8,78 @@
 #include "AIManager.h"
 
 AIManager::AIManager(std::map<std::pair<int, int>, Block>& level,
-                     GameObject* n_enemy) :
+                     GameObject* n_enemy,
+                     int n_tile_size) :
   maze_map(level),
-  enemy(n_enemy)
+  enemy(n_enemy), tile_size(n_tile_size)
 {
-  final_destination_tile = current_enemy_pos;
+  current_enemy_pos = enemy->getPos();
+  final_destination_tile = getCoordsFromPos(current_enemy_pos);
+
   UpdateAIStepPos();
 }
 
 void AIManager::update(float delta_time)
 {
-  float move_speed = 0.f;
+  float move_speed = 1.f;
   if (current_state == AIState::CHASING)
   {
     move_speed = 0.25f;
   }
 
   Vector2 move_dir = Vector2(0, 0);
-  if (current_enemy_pos != current_step_tile)
+  if (!(current_enemy_pos == current_step_pos))
   {
-    move_dir = Vector2(current_step_tile.first - current_enemy_pos.first,
-                       current_step_tile.second - current_enemy_pos.second);
+    move_dir = Vector2(current_step_pos - current_enemy_pos);
     move_dir.normalise();
 
-    enemy->setPos(enemy->getPos() + (move_dir * delta_time * move_speed));
+    Vector2 test2 = move_dir * delta_time * move_speed;
+    Vector2 test = enemy->getPos() + (move_dir * delta_time * move_speed);
+
+    enemy->setPos(
+      moveToPos((enemy->getPos() + (move_dir * delta_time * move_speed)),
+                current_step_pos));
+    current_enemy_pos = enemy->getPos();
   }
 }
 
-void AIManager::UpdateKnownPlayerPos(const std::pair<int, int>& new_pos_coords)
+Vector2 AIManager::moveToPos(Vector2 intended_move, Vector2 target)
+{
+  Vector2 a = intended_move - current_enemy_pos;
+  Vector2 b = target - current_enemy_pos;
+  if (a.getX() / b.getX() > 1)
+  {
+    intended_move.setX(target.getX());
+  }
+  if (a.getY() / b.getY() > 1)
+  {
+    intended_move.setY(target.getY());
+  }
+  return intended_move;
+}
+
+void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos_coords)
 {
   current_player_pos = new_pos_coords;
+  bool changed_target = false;
   switch (ai_difficulty)
   {
     default:
     {
-      bool test = checkTileInSight(current_player_pos);
-      if (test)
+      if (checkTileInSight(getCoordsFromPos(current_player_pos)))
       {
         current_state = AIState::CHASING;
-        UpdateAITargetPos(current_player_pos);
+        changed_target =
+          UpdateAITargetPos(getCoordsFromPos(current_player_pos));
       }
       break;
     }
   }
-  UpdateAIStepPos();
+
+  if (changed_target)
+  {
+    UpdateAIStepPos();
+  }
 }
 
 Tile* AIManager::getTileFromCoords(const std::pair<int, int>& target_pos)
@@ -64,30 +92,48 @@ Tile* AIManager::getTileFromCoords(const std::pair<int, int>& target_pos)
                                   target_pos.second % block_size);
 }
 
-void AIManager::UpdateAITargetPos(const std::pair<int, int>& new_pos_target)
+std::pair<int, int> AIManager::getCoordsFromPos(const Vector2& target_pos)
 {
-  final_destination_tile = new_pos_target;
+  return std::pair<int, int>(std::floor(target_pos.getX() / tile_size),
+                             std::floor(target_pos.getY() / tile_size));
+}
+
+Vector2 AIManager::getPosFromCoords(const std::pair<int, int>& target_pos)
+{
+  return Vector2((target_pos.first * tile_size) + (tile_size / 2),
+                 target_pos.second * tile_size + (tile_size / 2));
+}
+
+bool AIManager::UpdateAITargetPos(const std::pair<int, int>& new_pos_target)
+{
+  if (final_destination_tile != new_pos_target)
+  {
+    final_destination_tile = new_pos_target;
+    return true;
+  }
+  return false;
 }
 
 void AIManager::UpdateAIStepPos()
 {
   if (checkTileInSight(final_destination_tile))
   {
-    current_step_tile = final_destination_tile;
+    current_step_pos = getPosFromCoords(final_destination_tile);
   }
 }
 
 bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
 {
-  if (target_pos.first - current_enemy_pos.first == 0)
+  std::pair<int, int> enemy_current_tile = getCoordsFromPos(current_enemy_pos);
+  if (target_pos.first - enemy_current_tile.first == 0)
   {
     for (int i = 0; i < 10; i++)
     {
       int new_y_pos =
-        current_enemy_pos.second +
-        (target_pos.second - current_enemy_pos.second > 0 ? i : i * -1);
+        enemy_current_tile.second +
+        (target_pos.second - enemy_current_tile.second > 0 ? i : i * -1);
       if (!getTileFromCoords(
-             std::pair<int, int>(current_enemy_pos.first, new_y_pos))
+             std::pair<int, int>(enemy_current_tile.first, new_y_pos))
              ->getIsWalkable())
       {
         return false;
@@ -98,15 +144,15 @@ bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
       }
     }
   }
-  else if (target_pos.second - current_enemy_pos.second == 0)
+  else if (target_pos.second - enemy_current_tile.second == 0)
   {
     for (int i = 0; i < 10; i++)
     {
       int new_x_pos =
-        current_enemy_pos.first +
-        (target_pos.first - current_enemy_pos.first > 0 ? i : i * -1);
+        enemy_current_tile.first +
+        (target_pos.first - enemy_current_tile.first > 0 ? i : i * -1);
       if (!getTileFromCoords(
-             std::pair<int, int>(new_x_pos, current_enemy_pos.second))
+             std::pair<int, int>(new_x_pos, enemy_current_tile.second))
              ->getIsWalkable())
       {
         return false;
@@ -125,5 +171,5 @@ bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
 
 void AIManager::setCurrentEnemyPos(const std::pair<int, int>& new_pos)
 {
-  current_enemy_pos = new_pos;
+  current_enemy_pos = getPosFromCoords(new_pos);
 }

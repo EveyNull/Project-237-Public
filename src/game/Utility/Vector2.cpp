@@ -39,29 +39,32 @@ Vector2 Vector2::operator+(const Vector2& param)
   return Vector2(x + param.x, y + param.y);
 }
 
+Vector2 Vector2::operator-(const Vector2& param)
+{
+  return Vector2(x - param.x, y - param.y);
+}
+
+bool Vector2::operator==(const Vector2& param)
+{
+  return (x == param.x && y == param.y);
+}
+
 void Vector2::normalise()
 {
-  auto magnitude = std::sqrt(std::pow(x, 2) * std::pow(y, 2));
+  auto magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
   if (magnitude > 0)
   {
     x /= magnitude;
     y /= magnitude;
   }
-  else
-  {
-    if (x > 0)
-      x = 1;
-    if (y > 0)
-      y = 1;
-  }
 }
 
-float Vector2::getX()
+float Vector2::getX() const
 {
   return x;
 }
 
-float Vector2::getY()
+float Vector2::getY() const
 {
   return y;
 }

@@ -36,7 +36,7 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   enemy->addSpriteComponent(renderer, "/data/1px.png", 60);
   enemy->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
   enemy->setPos(Vector2(130.f, 130.f));
-  ai_manager = new AIManager(map, enemy);
+  ai_manager = new AIManager(map, enemy, tile_size);
 
   player = new GameObject();
   player->addSpriteComponent(renderer, "/data/1px.png", 60);
@@ -50,23 +50,9 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
     player->getYPos() +
       (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.5f));
 
-  ai_manager->UpdateKnownPlayerPos(
-    std::pair<int, int>(getTileCoordsFromPos(player)));
+  ai_manager->UpdateKnownPlayerPos(player->getPos());
 
   ai_manager->update(delta_time);
-  ai_manager->setCurrentEnemyPos(getTileCoordsFromPos(enemy));
-}
-
-std::pair<int, int> Level::getTileCoordsFromPos(GameObject* object)
-{
-  return std::pair<int, int>(
-    static_cast<int>(
-      std::floor(object->getXPos() +
-                 (object->getSpriteComponent()->getSprite()->width() / 2)) /
-      tile_size),
-    std::floor(object->getYPos() +
-               (object->getSpriteComponent()->getSprite()->height() / 2)) /
-      tile_size);
 }
 
 void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
@@ -77,26 +63,53 @@ void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
       iterator->second.get_all_tiles();
     for (auto jterator = map2.begin(); jterator != map2.end(); ++jterator)
     {
-      setSpriteOffset(&jterator->second, window_size);
-      renderer->renderSprite(
-        *jterator->second.getSpriteComponent()->getSprite());
+      renderAtOffset(renderer, &jterator->second, false, window_size);
     }
   }
 
-  setSpriteOffset(enemy, window_size);
-  renderer->renderSprite(*enemy->getSpriteComponent()->getSprite());
+  renderAtOffset(renderer, enemy, true, window_size);
 
-  player->getSpriteComponent()->getSprite()->xPos(window_size.getX() / 2);
-  player->getSpriteComponent()->getSprite()->yPos(window_size.getY() / 2);
+  player->getSpriteComponent()->getSprite()->xPos(
+    (window_size.getX() / 2) -
+    player->getSpriteComponent()->getSprite()->width() / 2);
+  player->getSpriteComponent()->getSprite()->yPos(
+    (window_size.getY() / 2) -
+    player->getSpriteComponent()->getSprite()->height() / 2);
   renderer->renderSprite(*player->getSpriteComponent()->getSprite());
 }
 
-void Level::setSpriteOffset(GameObject* gameObject, Vector2 window_size)
+void Level::renderAtOffset(ASGE::Renderer* renderer,
+                           GameObject* gameObject,
+                           bool render_from_center,
+                           Vector2 window_size)
 {
   gameObject->getSpriteComponent()->getSprite()->xPos(
     gameObject->getXPos() + (window_size.getX() / 2) - player->getXPos());
   gameObject->getSpriteComponent()->getSprite()->yPos(
     gameObject->getYPos() + (window_size.getY() / 2) - player->getYPos());
+
+  if (render_from_center)
+  {
+    gameObject->getSpriteComponent()->getSprite()->xPos(
+      gameObject->getSpriteComponent()->getSprite()->xPos() -
+      gameObject->getSpriteComponent()->getSprite()->width() / 2);
+    gameObject->getSpriteComponent()->getSprite()->yPos(
+      gameObject->getSpriteComponent()->getSprite()->yPos() -
+      gameObject->getSpriteComponent()->getSprite()->height() / 2);
+  }
+
+  if (gameObject->getSpriteComponent()->getSprite()->xPos() > 0 &&
+      gameObject->getSpriteComponent()->getSprite()->xPos() <
+        window_size.getX() -
+          gameObject->getSpriteComponent()->getSprite()->width()
+
+      && gameObject->getSpriteComponent()->getSprite()->yPos() > 0 &&
+      gameObject->getSpriteComponent()->getSprite()->yPos() <
+        window_size.getY() -
+          gameObject->getSpriteComponent()->getSprite()->height())
+  {
+    renderer->renderSprite(*gameObject->getSpriteComponent()->getSprite());
+  }
 }
 
 bool Level::setUpBlocks(ASGE::Renderer* renderer)

@@ -1,0 +1,16 @@
+//
+// Created by k2-wotherspoon on 17/01/2020.
+//
+
+#ifndef THE_SHINING_GAME_PROJECT_237_ITEMIDS_H
+#  define THE_SHINING_GAME_PROJECT_237_ITEMIDS_H
+
+#endif // THE_SHINING_GAME_PROJECT_237_ITEMIDS_H
+
+enum ItemIDs
+{
+  NONE = 0,
+  BEARTRAP = 1,
+  TORCH = 2,
+  BOTTLE = 3
+};

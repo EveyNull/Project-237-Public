@@ -5,6 +5,7 @@
 #include <deque>
 
 #include "../Objects/GameObject.h"
+#include "Inventory.h"
 
 #ifndef THE_SHINING_GAME_PROJECT_237_UI_H
 #  define THE_SHINING_GAME_PROJECT_237_UI_H
@@ -20,6 +21,10 @@ class UI
  private:
   int total_slots = 3;
   float fill_amount = 0;
+
+  float UI_size = 50;
+
+  Inventory* test = nullptr;
 
   GameObject selecter;
   GameObject slots[3];

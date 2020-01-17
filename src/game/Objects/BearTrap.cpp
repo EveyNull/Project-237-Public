@@ -4,45 +4,42 @@
 
 #include "BearTrap.h"
 
-void BearTrap::initialiseBearTrap(std::unique_ptr<ASGE::Renderer>& renderer,
+bool BearTrap::initialiseBearTrap(ASGE::Renderer* renderer,
                                   int tileSize,
                                   float xpos,
                                   float ypos)
 {
-  addSpriteComponent(renderer, Frame1);
-  getSprite()->height(tileSize);
-  getSprite()->width(tileSize);
-  getSprite()->xPos(xpos);
-  getSprite()->yPos(ypos);
+  addSpriteComponent(renderer, Frame1, 50);
+  getSpriteComponent()->getSprite()->xPos(xpos);
+  getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
-  setVisible(true);
+  getSpriteComponent()->setVisible(true);
+  return (true);
 }
 
-void BearTrap::updateBearTrap(int tileSize)
+void BearTrap::updateBearTrap(int tileSize, int frame)
 {
-  int whichFrame = getFrame();
-
-  switch (whichFrame)
+  switch (frame)
   {
     case 1:
     {
-      getSprite()->loadTexture(Frame1);
+      getSpriteComponent()->getSprite()->loadTexture(Frame1);
       break;
     }
     case 2:
     {
-      getSprite()->loadTexture(Frame2);
+      getSpriteComponent()->getSprite()->loadTexture(Frame2);
       break;
     }
     default:
     {
-      getSprite()->loadTexture(Frame1);
+      getSpriteComponent()->getSprite()->loadTexture(Frame1);
       break;
     }
   }
 
-  getSprite()->height(tileSize);
-  getSprite()->width(tileSize);
-  getSprite()->xPos(getXPos());
-  getSprite()->yPos(getYPos());
+  getSpriteComponent()->getSprite()->height(tileSize);
+  getSpriteComponent()->getSprite()->width(tileSize);
+  getSpriteComponent()->getSprite()->xPos(getXPos());
+  getSpriteComponent()->getSprite()->yPos(getYPos());
 }

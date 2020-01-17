@@ -34,7 +34,7 @@ int item::getState()
   return state;
 }
 
-void item::setVisible(bool Visible)
+/* void item::setVisible(bool Visible)
 {
   visible = Visible;
 }
@@ -43,6 +43,7 @@ bool item::getVisible()
 {
   return visible;
 }
+ */
 
 void item::setFrame(int frame)
 {

@@ -11,12 +11,12 @@
 class BearTrap : public item
 {
  public:
-  void initialiseBearTrap(std::unique_ptr<ASGE::Renderer>& renderer,
+  bool initialiseBearTrap(ASGE::Renderer* renderer,
                           int tileSize,
                           float xpos,
                           float ypos);
 
-  void updateBearTrap(int tileSize);
+  void updateBearTrap(int tileSize, int frame);
 
  private:
   std::string Frame1 = "/data/item_images/bear1.png";

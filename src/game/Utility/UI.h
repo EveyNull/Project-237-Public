@@ -13,6 +13,7 @@
 class UI
 {
  public:
+  UI(const UI&) = default;
   void initialiseUI(ASGE::Renderer* renderer);
   void render(ASGE::Renderer* renderer);
   explicit UI(ASGE::Renderer* renderer);

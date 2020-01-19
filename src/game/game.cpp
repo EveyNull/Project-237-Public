@@ -17,7 +17,7 @@
  */
 MyASGEGame::MyASGEGame()
 {
-  game_name = "ASGE Game";
+  game_name = "Project 237";
 }
 
 /**

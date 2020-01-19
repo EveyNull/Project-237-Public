@@ -9,7 +9,7 @@
 
 enum ItemIDs
 {
-  NONE = 0,
+  EMPTY = 0,
   BEARTRAP = 1,
   TORCH = 2,
   BOTTLE = 3

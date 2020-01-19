@@ -33,7 +33,7 @@ void Inventory::setNumber(int Slot, int new_number)
 
 void Inventory::clearSlot(int Slot)
 {
-  itemArray[Slot][0] = NONE;
+  itemArray[Slot][0] = EMPTY;
   itemArray[Slot][1] = 0;
 }
 
@@ -83,7 +83,7 @@ void Inventory::setInventory()
   // debug function
   itemArray[0][0] = BEARTRAP;
   itemArray[0][1] = 3;
-  itemArray[1][0] = NONE;
+  itemArray[1][0] = EMPTY;
   itemArray[1][1] = 0;
   itemArray[2][0] = TORCH;
   itemArray[2][1] = 1;

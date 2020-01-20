@@ -40,12 +40,12 @@ class SceneManager
   bool just_paused = false;
 
   Level* game_level = nullptr;
-  UI* game_UI = nullptr;
+  // UI* game_UI = nullptr;
 
   bool failed_open_level = false;
 
   ASGE::Renderer* renderer = nullptr;
-  std::deque<bool> keys_pressed = std::deque<bool>(6);
+  std::deque<bool> keys_pressed = std::deque<bool>(14);
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H

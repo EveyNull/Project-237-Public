@@ -23,7 +23,7 @@ void SceneManager::update(float delta_time)
       try
       {
         game_level = new Level(renderer, LevelDifficulty::EASY);
-        game_UI = new UI(renderer);
+        // game_UI = new UI(renderer);
         failed_open_level = false;
       }
       catch (int e)
@@ -42,7 +42,7 @@ void SceneManager::update(float delta_time)
     if (!paused)
     {
       game_level->update(delta_time, keys_pressed);
-      game_UI->update(keys_pressed);
+      // game_UI->update(keys_pressed);
     }
     else
     {
@@ -50,7 +50,7 @@ void SceneManager::update(float delta_time)
       {
         gameState = GameState::MAINMENU;
         delete game_level;
-        delete game_UI;
+        // delete game_UI;
         keys_pressed[5] = false;
         return;
       }
@@ -84,7 +84,7 @@ void SceneManager::render(ASGE::Renderer* renderer, Vector2 window_size)
   else if (gameState == GameState::INGAME)
   {
     game_level->render(renderer, window_size);
-    game_UI->render(renderer);
+    // game_UI->render(renderer);
     if (paused)
     {
       renderer->renderText("PAUSED",

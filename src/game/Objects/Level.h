@@ -7,8 +7,10 @@
 
 #include "../Utility/AIManager.h"
 #include "../Utility/LevelDifficulty.h"
+#include "../Utility/UI.h"
 #include "GameObject.h"
 #include "Mapping/Block.h"
+#include "Player.h"
 
 #ifndef PROJECT_LEVEL_H
 #  define PROJECT_LEVEL_H
@@ -37,11 +39,13 @@ class Level
   AIManager* ai_manager = nullptr;
   std::map<std::pair<int, int>, Block> map;
   int tile_size = 100;
-  GameObject* player = nullptr;
+  Player* player = nullptr;
   GameObject* enemy = nullptr;
   int map_width = 0, map_height = 0;
 
   std::pair<int, int> player_last_tile = std::pair<int, int>(0, 0);
+
+  UI* ui = nullptr;
 };
 
 #endif // PROJECT_LEVEL_H

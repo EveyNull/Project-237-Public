@@ -38,10 +38,12 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   enemy->setPos(Vector2(130.f, 130.f));
   ai_manager = new AIManager(map, enemy, tile_size);
 
-  player = new GameObject();
-  player->addSpriteComponent(renderer, "/data/1px.png", 60);
-  player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::BLUE);
+  player = new Player(renderer, tile_size);
+  // player->addSpriteComponent(renderer, "/data/1px.png", 60);
+  // player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::BLUE);
   player_last_tile = getTileCoordsFromPos(player);
+
+  ui = new UI(renderer);
 }
 
 void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
@@ -50,6 +52,8 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
     player->getXPos() + (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.5f,
     player->getYPos() +
       (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.5f));
+
+  player->update(keys_pressed, delta_time);
 
   ai_manager->UpdateKnownPlayerPos(player->getPos());
   ai_manager->DecideNextMove();
@@ -103,6 +107,11 @@ void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
   }
 
   renderAtOffset(renderer, enemy, true, window_size);
+  if (player->thrown_bottle != nullptr)
+  {
+    renderAtOffset(renderer, player->thrown_bottle, true, window_size);
+  }
+  player->renderUI(renderer);
 
   player->getSpriteComponent()->getSprite()->xPos(
     (window_size.getX() / 2) -

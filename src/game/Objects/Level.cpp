@@ -41,7 +41,7 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   enemy = new GameObject();
   enemy->addSpriteComponent(renderer, "/data/1px.png", 60);
   enemy->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
-  enemy->setPos(Vector2(130.f, 130.f));
+  enemy->setPos(Vector2(330.f, 330.f));
   ai_manager = new AIManager(map, enemy, tile_size);
 
   player = new Player(renderer, tile_size);

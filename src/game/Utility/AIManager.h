@@ -10,6 +10,8 @@
 #  include "AIState.h"
 #  include "Direction.h"
 #  include "LevelDifficulty.h"
+#  include "PathTile.h"
+#  include <vector>
 
 class AIManager
 {
@@ -20,7 +22,7 @@ class AIManager
 
   void update(float delta_time);
 
-  void UpdateKnownPlayerPos(const Vector2& new_pos_coords);
+  void UpdateKnownPlayerPos(const Vector2& new_pos);
   void DecideNextMove();
   bool UpdateAITargetPos(const std::pair<int, int>& new_pos_target);
   void UpdateAIStepPos();
@@ -30,10 +32,17 @@ class AIManager
   Vector2 getPosFromCoords(const std::pair<int, int>& target_pos);
 
   bool checkTileInSight(const std::pair<int, int>& target_pos);
+  int getDistanceToDest(const std::pair<int, int>& coords);
+
+  Vector2 pathFindToTarget();
 
   void setCurrentEnemyPos(const std::pair<int, int>& new_pos);
 
   Vector2 moveToPos(Vector2 intended_move, Vector2 target);
+
+  void AddAdjacentTilesToOpenList(std::vector<PathTile>& open_list,
+                                  const std::vector<PathTile>& closed_list,
+                                  PathTile center_tile);
 
  private:
   LevelDifficulty ai_difficulty = LevelDifficulty ::EASY;

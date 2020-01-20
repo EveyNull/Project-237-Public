@@ -3,6 +3,7 @@
 //
 
 #include <Engine/DebugPrinter.h>
+#include <algorithm>
 #include <cmath>
 
 #include "AIManager.h"
@@ -55,9 +56,14 @@ Vector2 AIManager::moveToPos(Vector2 intended_move, Vector2 target)
   return intended_move;
 }
 
-void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos_coords)
+void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos)
 {
-  current_player_pos = new_pos_coords;
+  if (getCoordsFromPos(new_pos) != getCoordsFromPos(current_player_pos))
+  {
+    current_player_pos = new_pos;
+    final_destination_tile = getCoordsFromPos(current_player_pos);
+    pathFindToTarget();
+  }
 }
 
 void AIManager::DecideNextMove()
@@ -168,6 +174,114 @@ bool AIManager::UpdateAITargetPos(const std::pair<int, int>& new_pos_target)
     return true;
   }
   return false;
+}
+
+int AIManager::getDistanceToDest(const std::pair<int, int>& coords)
+{
+  return std::abs(final_destination_tile.first - coords.first) +
+         std::abs(final_destination_tile.second - coords.second);
+}
+
+Vector2 AIManager::pathFindToTarget()
+{
+  PathTile current_tile =
+    PathTile(0,
+             getDistanceToDest(getCoordsFromPos(current_enemy_pos)),
+             getCoordsFromPos(current_enemy_pos),
+             getCoordsFromPos(current_enemy_pos));
+
+  std::vector<PathTile> open_list;
+  open_list.emplace_back(current_tile);
+  std::vector<PathTile> closed_list;
+  bool path_found = false;
+
+  while (!path_found)
+  {
+    // Add tile we're looking at to the closed list and then generate its
+    // children, adding them to the open list
+    closed_list.emplace_back(current_tile);
+    AddAdjacentTilesToOpenList(open_list, closed_list, current_tile);
+
+    for (auto itr = open_list.begin(); itr != open_list.end(); ++itr)
+    {
+      if (itr->coordinates == current_tile.coordinates)
+      {
+        open_list.erase(itr);
+      }
+    }
+
+    // Now we
+    int best_weight = INFINITY;
+    PathTile best_tile = open_list[0];
+
+    for (PathTile tile : open_list)
+    {
+      if (tile.coordinates == final_destination_tile)
+      {
+        std::pair<int, int> next_tile = tile.previous_coordinates;
+        while (std::find_if(closed_list.begin(),
+                            closed_list.end(),
+                            [&next_tile](PathTile pt) {
+                              return pt.coordinates == next_tile;
+                            })
+                 ->previous_coordinates != getCoordsFromPos(current_enemy_pos))
+        {
+          path_found = true;
+          next_tile = std::find_if(closed_list.begin(),
+                                   closed_list.end(),
+                                   [&next_tile](PathTile pt) {
+                                     return pt.coordinates == next_tile;
+                                   })
+                        ->previous_coordinates;
+        }
+      }
+      if (tile.weight < best_weight)
+      {
+        best_weight = tile.weight;
+        best_tile = tile;
+      }
+    }
+    current_tile = best_tile;
+  }
+}
+
+void AIManager::AddAdjacentTilesToOpenList(
+  std::vector<PathTile>& open_list,
+  const std::vector<PathTile>& closed_list,
+  PathTile center_tile)
+{
+  std::pair<int, int> adjacent_tiles[4]{
+    std::pair<int, int>(center_tile.coordinates.first + 1,
+                        center_tile.coordinates.second),
+    std::pair<int, int>(center_tile.coordinates.first - 1,
+                        center_tile.coordinates.second),
+    std::pair<int, int>(center_tile.coordinates.first,
+                        center_tile.coordinates.second + 1),
+    std::pair<int, int>(center_tile.coordinates.first,
+                        center_tile.coordinates.second - 1)
+  };
+  for (std::pair<int, int> new_coords : adjacent_tiles)
+  {
+    if (getTileFromCoords(new_coords)->getIsWalkable())
+    {
+      PathTile child_tile = PathTile(center_tile.step + 1,
+                                     getDistanceToDest(new_coords),
+                                     new_coords,
+                                     center_tile.coordinates);
+      if (std::find_if(
+            open_list.begin(), open_list.end(), [&new_coords](PathTile pt) {
+              return pt.coordinates == new_coords;
+            }) == open_list.end())
+      {
+        if (std::find_if(closed_list.begin(),
+                         closed_list.end(),
+                         [&new_coords](PathTile pt) {
+                           return pt.coordinates == new_coords;
+                         }) == closed_list.end())
+          open_list.emplace_back(child_tile);
+      }
+    }
+  }
 }
 
 void AIManager::UpdateAIStepPos()

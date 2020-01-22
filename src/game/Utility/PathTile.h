@@ -15,8 +15,10 @@ struct PathTile
   int weight;
   PathTile(int n_step,
            int distance,
-           std::pair<int, int> n_coordinates,
-           std::pair<int, int> n_prev_coords)
+           const std::pair<int, int>& n_coordinates,
+           const std::pair<int, int>& n_prev_coords) :
+    coordinates(n_coordinates),
+    previous_coordinates(n_prev_coords)
   {
     step = n_step;
     weight = distance + step;

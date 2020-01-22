@@ -207,6 +207,7 @@ Vector2 AIManager::pathFindToTarget()
       if (itr->coordinates == current_tile.coordinates)
       {
         open_list.erase(itr);
+        break;
       }
     }
 

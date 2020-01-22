@@ -10,9 +10,10 @@
 
 AIManager::AIManager(std::map<std::pair<int, int>, Block>& level,
                      GameObject* n_enemy,
-                     int n_tile_size) :
+                     int n_tile_size,
+                     LevelDifficulty n_difficulty) :
   maze_map(level),
-  enemy(n_enemy), tile_size(n_tile_size)
+  enemy(n_enemy), tile_size(n_tile_size), ai_difficulty(n_difficulty)
 {
   current_enemy_pos = enemy->getPos();
   current_step_pos = current_enemy_pos;

@@ -14,7 +14,7 @@ class Enemy : public GameObject
   void removeHealth();
 
   float getSpeed();
-  void setSpeed(int AI_state);
+  void setDefaultSpeed(int AI_state);
 
  private:
   int health = 3;

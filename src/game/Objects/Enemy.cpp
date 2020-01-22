@@ -19,22 +19,22 @@ float Enemy::getSpeed()
   return speed;
 }
 
-void Enemy::setSpeed(int AI_state)
+void Enemy::setDefaultSpeed(int AI_state)
 {
   if (AI_state == 0)
   {
-    speed = 0.1f;
+    speed = 0.20f;
   }
   else if (AI_state == 1)
   {
-    speed = 0.15f;
+    speed = 0.25f;
   }
   else if (AI_state == 2)
   {
-    speed = 0.2f;
+    speed = 0.30f;
   }
   else if (AI_state == 3)
   {
-    speed = 0.35f;
+    speed = 0.40f;
   }
 }

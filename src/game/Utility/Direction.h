@@ -12,8 +12,8 @@
 enum Direction
 {
   NONE = 0,
-  UP = -1,
-  DOWN = 1,
-  LEFT = -2,
-  RIGHT = 2
+  UP = 1,
+  DOWN = 2,
+  LEFT = 3,
+  RIGHT = 4
 };

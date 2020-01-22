@@ -15,23 +15,20 @@ AIManager::AIManager(std::map<std::pair<int, int>, Block>& level,
   enemy(n_enemy), tile_size(n_tile_size)
 {
   current_enemy_pos = enemy->getPos();
-  final_destination_tile = getCoordsFromPos(current_enemy_pos);
-
-  UpdateAIStepPos();
+  current_step_pos = current_enemy_pos;
 }
 
 void AIManager::update(float delta_time)
 {
-  float move_speed = 0.1f;
+  float move_speed = 0.3f;
   if (current_state == AIState::CHASING)
   {
-    move_speed = 0.25f;
+    move_speed = 0.5f;
   }
 
-  Vector2 move_dir = Vector2(0, 0);
   if (!(current_enemy_pos == current_step_pos))
   {
-    move_dir = Vector2(current_step_pos - current_enemy_pos);
+    Vector2 move_dir = Vector2(current_step_pos - current_enemy_pos);
     move_dir.normalise();
 
     enemy->setPos(
@@ -53,6 +50,7 @@ Vector2 AIManager::moveToPos(Vector2 intended_move, Vector2 target)
   {
     intended_move.setY(target.getY());
   }
+
   return intended_move;
 }
 
@@ -60,87 +58,95 @@ void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos)
 {
   if (getCoordsFromPos(new_pos) != getCoordsFromPos(current_player_pos))
   {
+    if (ai_difficulty == LevelDifficulty::MEDIUM &&
+        getManhattanDistance(getCoordsFromPos(new_pos),
+                             getCoordsFromPos(current_enemy_pos)) > 10)
+    {
+      return;
+    }
     current_player_pos = new_pos;
-    final_destination_tile = getCoordsFromPos(current_player_pos);
-    pathFindToTarget();
   }
 }
 
 void AIManager::DecideNextMove()
 {
-  bool changed_target = false;
-  bool see_player = false;
-  switch (ai_difficulty)
+  if (checkTileInSight(getCoordsFromPos(current_player_pos)))
   {
-    default:
-    {
-      if (checkTileInSight(getCoordsFromPos(current_player_pos)))
-      {
-        see_player = true;
-        current_state = AIState::CHASING;
-        changed_target =
-          UpdateAITargetPos(getCoordsFromPos(current_player_pos));
-      }
-      break;
-    }
+    current_state = AIState::CHASING;
+    current_step_pos = current_player_pos;
   }
-
-  if (!see_player && current_enemy_pos == current_step_pos)
+  else if (current_enemy_pos == current_step_pos)
   {
-    current_state = AIState::ROAMING;
-    switch (
-      getTileFromCoords(getCoordsFromPos(current_enemy_pos))->getFootprints())
+    current_state = AIState::SEARCHING;
+    if (ai_difficulty == LevelDifficulty::HARD)
     {
-      case Direction::DOWN:
+      current_step_pos = pathFindToTarget(getCoordsFromPos(current_player_pos));
+    }
+    else
+    {
+      current_state = AIState::ROAMING;
+      std::pair<int, int> target_tile;
+      bool footprints_found = false;
+      switch (
+        getTileFromCoords(getCoordsFromPos(current_enemy_pos))->getFootprints())
       {
-        final_destination_tile =
-          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
-                              getCoordsFromPos(current_enemy_pos).second + 1);
-        changed_target = true;
-        break;
-      }
+        case Direction::DOWN:
+        {
+          target_tile =
+            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                                getCoordsFromPos(current_enemy_pos).second + 1);
+          footprints_found = true;
+          break;
+        }
 
-      case Direction::UP:
-      {
-        final_destination_tile =
-          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
-                              getCoordsFromPos(current_enemy_pos).second - 1);
-        changed_target = true;
-        break;
-      }
-      case Direction::RIGHT:
-      {
-        final_destination_tile =
-          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first + 1,
-                              getCoordsFromPos(current_enemy_pos).second);
-        changed_target = true;
-        break;
-      }
+        case Direction::UP:
+        {
+          target_tile =
+            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                                getCoordsFromPos(current_enemy_pos).second - 1);
+          footprints_found = true;
+          break;
+        }
+        case Direction::RIGHT:
+        {
+          target_tile =
+            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first + 1,
+                                getCoordsFromPos(current_enemy_pos).second);
+          footprints_found = true;
+          break;
+        }
 
-      case Direction::LEFT:
-      {
-        final_destination_tile =
-          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first - 1,
-                              getCoordsFromPos(current_enemy_pos).second);
-        changed_target = true;
-        break;
-      }
+        case Direction::LEFT:
+        {
+          target_tile =
+            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first - 1,
+                                getCoordsFromPos(current_enemy_pos).second);
+          footprints_found = true;
+          break;
+        }
 
-      default:
+        default:
+        {
+          break;
+        }
+      }
+      if (footprints_found)
       {
-        break;
+        current_step_pos = getPosFromCoords(target_tile);
+        getTileFromCoords(getCoordsFromPos(current_enemy_pos))
+          ->setFootprints(Direction::NONE);
+      }
+      else
+      {
+        if (getFurthestWalkableTileInDirection(current_travel_dir) ==
+            getCoordsFromPos(current_enemy_pos))
+        {
+          current_travel_dir = Direction(rand() % 4 + 1);
+        }
+        current_step_pos = pathFindToTarget(
+          getFurthestWalkableTileInDirection(current_travel_dir));
       }
     }
-    if (changed_target)
-    {
-      getTileFromCoords(getCoordsFromPos(current_enemy_pos))
-        ->setFootprints(Direction::NONE);
-    }
-  }
-
-  if (changed_target)
-  {
-    UpdateAIStepPos();
   }
 }
 
@@ -166,41 +172,90 @@ Vector2 AIManager::getPosFromCoords(const std::pair<int, int>& target_pos)
                  target_pos.second * tile_size + (tile_size / 2));
 }
 
-bool AIManager::UpdateAITargetPos(const std::pair<int, int>& new_pos_target)
+int AIManager::getManhattanDistance(const std::pair<int, int>& target_coords,
+                                    const std::pair<int, int>& start_coords)
 {
-  if (final_destination_tile != new_pos_target)
+  return std::abs(target_coords.first - start_coords.first) +
+         std::abs(target_coords.second - start_coords.second);
+}
+
+std::pair<int, int> AIManager::getFurthestWalkableTileInDirection(Direction dir)
+{
+  current_travel_dir = dir;
+  std::pair<int, int> current_tile = getCoordsFromPos(current_enemy_pos);
+  switch (dir)
   {
-    final_destination_tile = new_pos_target;
-    return true;
+    case Direction::UP:
+    {
+      while (getTileFromCoords(
+               std::pair<int, int>(current_tile.first, current_tile.second - 1))
+               ->getIsWalkable())
+      {
+        current_tile =
+          std::pair<int, int>(current_tile.first, current_tile.second - 1);
+      }
+      return current_tile;
+    }
+    case Direction::DOWN:
+    {
+      while (getTileFromCoords(
+               std::pair<int, int>(current_tile.first, current_tile.second + 1))
+               ->getIsWalkable())
+      {
+        current_tile =
+          std::pair<int, int>(current_tile.first, current_tile.second + 1);
+      }
+      return current_tile;
+    }
+    case Direction::LEFT:
+    {
+      while (getTileFromCoords(
+               std::pair<int, int>(current_tile.first - 1, current_tile.second))
+               ->getIsWalkable())
+      {
+        current_tile =
+          std::pair<int, int>(current_tile.first - 1, current_tile.second);
+      }
+      return current_tile;
+    }
+    case Direction::RIGHT:
+    {
+      while (getTileFromCoords(
+               std::pair<int, int>(current_tile.first + 1, current_tile.second))
+               ->getIsWalkable())
+      {
+        current_tile =
+          std::pair<int, int>(current_tile.first + 1, current_tile.second);
+      }
+      return current_tile;
+    }
+    default:
+    {
+      return current_tile;
+    }
   }
-  return false;
 }
 
-int AIManager::getDistanceToDest(const std::pair<int, int>& coords)
+Vector2 AIManager::pathFindToTarget(const std::pair<int, int>& target_tile)
 {
-  return std::abs(final_destination_tile.first - coords.first) +
-         std::abs(final_destination_tile.second - coords.second);
-}
-
-Vector2 AIManager::pathFindToTarget()
-{
-  PathTile current_tile =
-    PathTile(0,
-             getDistanceToDest(getCoordsFromPos(current_enemy_pos)),
-             getCoordsFromPos(current_enemy_pos),
-             getCoordsFromPos(current_enemy_pos));
+  PathTile current_tile = PathTile(
+    0,
+    getManhattanDistance(target_tile, getCoordsFromPos(current_enemy_pos)),
+    getCoordsFromPos(current_enemy_pos),
+    getCoordsFromPos(current_enemy_pos));
 
   std::vector<PathTile> open_list;
   open_list.emplace_back(current_tile);
   std::vector<PathTile> closed_list;
-  bool path_found = false;
+  int tiles_tried = 0;
 
-  while (!path_found)
+  while (tiles_tried < 500)
   {
     // Add tile we're looking at to the closed list and then generate its
     // children, adding them to the open list
     closed_list.emplace_back(current_tile);
-    AddAdjacentTilesToOpenList(open_list, closed_list, current_tile);
+    AddAdjacentTilesToOpenList(
+      target_tile, open_list, closed_list, current_tile);
 
     for (auto itr = open_list.begin(); itr != open_list.end(); ++itr)
     {
@@ -211,15 +266,15 @@ Vector2 AIManager::pathFindToTarget()
       }
     }
 
-    // Now we
     int best_weight = INFINITY;
     PathTile best_tile = open_list[0];
 
     for (PathTile tile : open_list)
     {
-      if (tile.coordinates == final_destination_tile)
+      if (tile.coordinates == target_tile)
       {
-        std::pair<int, int> next_tile = tile.previous_coordinates;
+        closed_list.emplace_back(tile);
+        std::pair<int, int> next_tile = tile.coordinates;
         while (std::find_if(closed_list.begin(),
                             closed_list.end(),
                             [&next_tile](PathTile pt) {
@@ -227,7 +282,6 @@ Vector2 AIManager::pathFindToTarget()
                             })
                  ->previous_coordinates != getCoordsFromPos(current_enemy_pos))
         {
-          path_found = true;
           next_tile = std::find_if(closed_list.begin(),
                                    closed_list.end(),
                                    [&next_tile](PathTile pt) {
@@ -235,6 +289,7 @@ Vector2 AIManager::pathFindToTarget()
                                    })
                         ->previous_coordinates;
         }
+        return getPosFromCoords(next_tile);
       }
       if (tile.weight < best_weight)
       {
@@ -243,10 +298,14 @@ Vector2 AIManager::pathFindToTarget()
       }
     }
     current_tile = best_tile;
+    tiles_tried++;
   }
+
+  return current_enemy_pos;
 }
 
 void AIManager::AddAdjacentTilesToOpenList(
+  const std::pair<int, int>& target_tile,
   std::vector<PathTile>& open_list,
   const std::vector<PathTile>& closed_list,
   PathTile center_tile)
@@ -265,10 +324,11 @@ void AIManager::AddAdjacentTilesToOpenList(
   {
     if (getTileFromCoords(new_coords)->getIsWalkable())
     {
-      PathTile child_tile = PathTile(center_tile.step + 1,
-                                     getDistanceToDest(new_coords),
-                                     new_coords,
-                                     center_tile.coordinates);
+      PathTile child_tile =
+        PathTile(center_tile.step + 1,
+                 getManhattanDistance(target_tile, new_coords),
+                 new_coords,
+                 center_tile.coordinates);
       if (std::find_if(
             open_list.begin(), open_list.end(), [&new_coords](PathTile pt) {
               return pt.coordinates == new_coords;
@@ -283,11 +343,6 @@ void AIManager::AddAdjacentTilesToOpenList(
       }
     }
   }
-}
-
-void AIManager::UpdateAIStepPos()
-{
-  current_step_pos = getPosFromCoords(final_destination_tile);
 }
 
 bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
@@ -335,9 +390,4 @@ bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
   {
     return false;
   }
-}
-
-void AIManager::setCurrentEnemyPos(const std::pair<int, int>& new_pos)
-{
-  current_enemy_pos = getPosFromCoords(new_pos);
 }

@@ -56,7 +56,7 @@ class Level
   int tile_size = 100;
   Player* player = nullptr;
   GameObject* enemy = nullptr;
-  int map_width = 0, map_height = 0;
+  int map_width = 0, map_height = 0, tiles_squared_per_block = 10;
 
   std::pair<int, int> player_last_tile = std::pair<int, int>(0, 0);
 

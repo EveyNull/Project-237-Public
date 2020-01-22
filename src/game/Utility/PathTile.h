@@ -22,7 +22,5 @@ struct PathTile
   {
     step = n_step;
     weight = distance + step;
-    coordinates = n_coordinates;
-    previous_coordinates = n_prev_coords;
   }
 };

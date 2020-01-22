@@ -17,8 +17,8 @@ void Projectile::update(float delta_time)
 {
   if (getSpriteComponent()->getVisible())
   {
-    setXPos(getXPos() + 1 * delta_time * 0.5f);
-    setYPos(getYPos() + 0 * delta_time * 0.5f);
+    setXPos(getXPos() + 1 * delta_time * speed);
+    setYPos(getYPos() + 0 * delta_time * speed);
     getSpriteComponent()->getSprite()->xPos(getXPos());
     getSpriteComponent()->getSprite()->yPos(getYPos());
     timer += 5 * (delta_time / 1000);

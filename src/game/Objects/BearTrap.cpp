@@ -9,7 +9,9 @@ bool BearTrap::initialiseBearTrap(ASGE::Renderer* renderer,
                                   float xpos,
                                   float ypos)
 {
-  addSpriteComponent(renderer, Frame1, 50);
+  addSpriteComponent(renderer, Frame1, tileSize);
+  setXPos(xpos);
+  setYPos(ypos);
   getSpriteComponent()->getSprite()->xPos(xpos);
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);

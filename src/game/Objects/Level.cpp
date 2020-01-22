@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <vector>
 
 #include "Level.h"
 #include <Engine/DebugPrinter.h>
@@ -28,6 +29,11 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   }
 
   if (!setUpBlocks(renderer))
+  {
+    throw - 1;
+  }
+
+  if (!setUpItems(5, 4, 4, 4, renderer))
   {
     throw - 1;
   }
@@ -85,6 +91,11 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
   }
 
   ai_manager->update(delta_time);
+
+  for (int i = 0; i < bottles.size(); i++)
+  {
+    bottles[i].update(delta_time);
+  }
 }
 
 std::pair<int, int> Level::getTileCoordsFromPos(GameObject* object)
@@ -105,6 +116,8 @@ void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
       renderAtOffset(renderer, &jterator->second, false, window_size);
     }
   }
+
+  renderItems(renderer, window_size);
 
   renderAtOffset(renderer, enemy, true, window_size);
   if (player->thrown_bottle != nullptr)
@@ -212,4 +225,76 @@ bool Level::setUpBlocks(ASGE::Renderer* renderer)
     }
   }
   return true;
+}
+
+bool Level::setUpItems(int bear_num,
+                       int bottle_num,
+                       int barrier_num,
+                       int torch_num,
+                       ASGE::Renderer* renderer)
+{
+  for (int i = 0; i < bear_num; i++)
+  {
+    BearTrap* beartrap = new BearTrap;
+    beartrap->initialiseBearTrap(
+      renderer, tile_size, (i * 3 * tile_size), i * tile_size);
+    beartraps.push_back(*beartrap);
+  }
+
+  for (int i = 0; i < bottle_num; i++)
+  {
+    Bottle* bottle = new Bottle;
+    bottle->initialiseBottle(
+      renderer, tile_size, (i * tile_size), (i * tile_size));
+    bottles.push_back(*bottle);
+  }
+
+  for (int i = 0; i < barrier_num; i++)
+  {
+    Barrier* barrier = new Barrier;
+    barrier->initialiseBarrier(
+      renderer, tile_size, i * 2 * tile_size, i * 2 * tile_size);
+    barriers.push_back(*barrier);
+  }
+
+  for (int i = 0; i < torch_num; i++)
+  {
+    Torch* torch = new Torch;
+    torch->initialiseTorch(
+      renderer, tile_size, i * 4 * tile_size, i * 4 * tile_size);
+    torches.push_back(*torch);
+  }
+  return true;
+}
+
+void Level::renderItems(ASGE::Renderer* renderer, Vector2 window_size)
+{
+  for (int i = 0; i < beartraps.size(); i++)
+  {
+    if (beartraps[i].getSpriteComponent()->getVisible())
+    {
+      renderAtOffset(renderer, &beartraps[i], false, window_size);
+    }
+  }
+  for (int i = 0; i < bottles.size(); i++)
+  {
+    if (bottles[i].getSpriteComponent()->getVisible())
+    {
+      renderAtOffset(renderer, &bottles[i], false, window_size);
+    }
+  }
+  for (int i = 0; i < barriers.size(); i++)
+  {
+    if (barriers[i].getSpriteComponent()->getVisible())
+    {
+      renderAtOffset(renderer, &barriers[i], false, window_size);
+    }
+  }
+  for (int i = 0; i < torches.size(); i++)
+  {
+    if (torches[i].getSpriteComponent()->getVisible())
+    {
+      renderAtOffset(renderer, &torches[i], false, window_size);
+    }
+  }
 }

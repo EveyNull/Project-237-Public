@@ -11,7 +11,7 @@
 class Torch : public item
 {
  public:
-  void initialiseTorch(std::unique_ptr<ASGE::Renderer>& renderer,
+  void initialiseTorch(ASGE::Renderer* renderer,
                        int tileSize,
                        float xpos,
                        float ypos);

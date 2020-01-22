@@ -10,7 +10,13 @@
 class Barrier : public item
 {
  public:
+  bool initialiseBarrier(ASGE::Renderer* renderer,
+                         int tileSize,
+                         float xpos,
+                         float ypos);
+
  private:
+  std::string Frame1 = "/data/item_images/fence.png";
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_BARRIER_H

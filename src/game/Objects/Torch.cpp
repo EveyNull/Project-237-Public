@@ -4,18 +4,20 @@
 
 #include "Torch.h"
 
-void Torch::initialiseTorch(std::unique_ptr<ASGE::Renderer>& renderer,
+void Torch::initialiseTorch(ASGE::Renderer* renderer,
                             int tileSize,
                             float xpos,
                             float ypos)
 {
-  addSpriteComponent(renderer, Frame1);
-  getSprite()->height(tileSize);
-  getSprite()->width(tileSize);
-  getSprite()->xPos(xpos);
-  getSprite()->yPos(ypos);
+  addSpriteComponent(renderer, Frame1, tileSize);
+  setXPos(xpos);
+  setYPos(ypos);
+  getSpriteComponent()->getSprite()->height(tileSize);
+  getSpriteComponent()->getSprite()->width(tileSize);
+  getSpriteComponent()->getSprite()->xPos(xpos);
+  getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
-  setVisible(true);
+  getSpriteComponent()->setVisible(true);
 }
 
 void Torch::updateTorch(int tileSize)
@@ -26,28 +28,28 @@ void Torch::updateTorch(int tileSize)
   {
     case 1:
     {
-      getSprite()->loadTexture(Frame1);
+      getSpriteComponent()->getSprite()->loadTexture(Frame1);
       break;
     }
     case 2:
     {
-      getSprite()->loadTexture(Frame2);
+      getSpriteComponent()->getSprite()->loadTexture(Frame2);
       break;
     }
     case 3:
     {
-      getSprite()->loadTexture(Frame3);
+      getSpriteComponent()->getSprite()->loadTexture(Frame3);
       break;
     }
     default:
     {
-      getSprite()->loadTexture(Frame1);
+      getSpriteComponent()->getSprite()->loadTexture(Frame1);
       break;
     }
   }
 
-  getSprite()->height(tileSize);
-  getSprite()->width(tileSize);
-  getSprite()->xPos(getXPos());
-  getSprite()->yPos(getYPos());
+  getSpriteComponent()->getSprite()->height(tileSize);
+  getSpriteComponent()->getSprite()->width(tileSize);
+  getSpriteComponent()->getSprite()->xPos(getXPos());
+  getSpriteComponent()->getSprite()->yPos(getYPos());
 }

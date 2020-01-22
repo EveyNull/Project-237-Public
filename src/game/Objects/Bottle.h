@@ -10,7 +10,17 @@
 class Bottle : public item
 {
  public:
+  bool initialiseBottle(ASGE::Renderer* renderer,
+                        int tileSize,
+                        float xpos,
+                        float ypos);
+  void update(float delta_time);
+
  private:
+  float timer = 0;
+  float ogX = 0;
+  float ogY = 0;
+  std::string Frame1 = "/data/ui_images/bottleicon.png";
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_BOTTLE_H

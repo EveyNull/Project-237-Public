@@ -21,7 +21,7 @@ class Projectile : public GameObject
   bool getExist();
 
  private:
-  float speed = 50;
+  float speed = 1;
   float timer = 0;
   bool exist = false;
 };

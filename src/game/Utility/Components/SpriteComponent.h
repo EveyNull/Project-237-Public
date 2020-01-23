@@ -2,6 +2,7 @@
 // Created by e22-watson on 13/01/2020.
 //
 
+#include "Rect.h"
 #include <Engine/Renderer.h>
 #include <Engine/Sprite.h>
 
@@ -18,6 +19,8 @@ class SpriteComponent
   ASGE::Sprite* getSprite();
   void setVisible(bool vis);
   bool getVisible();
+
+  rect getBoundingBox() const;
 
  private:
   ASGE::Sprite* sprite = nullptr;

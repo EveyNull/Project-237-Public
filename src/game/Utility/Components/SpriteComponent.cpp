@@ -28,3 +28,14 @@ bool SpriteComponent::getVisible()
 {
   return visible;
 }
+
+rect SpriteComponent::getBoundingBox() const
+{
+  rect bounding_box;
+  bounding_box.x = sprite->xPos();
+  bounding_box.y = sprite->yPos();
+  bounding_box.length = sprite->width();
+  bounding_box.height = sprite->height();
+
+  return bounding_box;
+}

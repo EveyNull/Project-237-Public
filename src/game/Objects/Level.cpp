@@ -48,6 +48,38 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   // player->addSpriteComponent(renderer, "/data/1px.png", 60);
   // player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::BLUE);
   player_last_tile = getTileCoordsFromPos(player);
+
+  if (soloud.init() == SoLoud::SO_NO_ERROR)
+  {
+    for (int i = 0; i < 4; i++)
+    {
+      ASGE::FILEIO::File file;
+      std::string file_path = sounds[i];
+      if (file.open(file_path))
+      {
+        auto io_buffer = file.read();
+        if (angry_noises[i].loadMem(io_buffer.as_unsigned_char(),
+                                    static_cast<unsigned int>(io_buffer.length),
+                                    false,
+                                    false))
+        {
+          ASGE::DebugPrinter{} << "Failed to load sound" << std::endl;
+          file.close();
+          return;
+        }
+      }
+      else
+      {
+        ASGE::DebugPrinter{} << "Failed to open file: " << file_path
+                             << std::endl;
+      }
+      file.close();
+    }
+  }
+  else
+  {
+    ASGE::DebugPrinter{} << "Failed to initialise SoLoud engine" << std::endl;
+  }
 }
 
 void Level::update(float delta_time,

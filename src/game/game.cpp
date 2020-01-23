@@ -58,7 +58,8 @@ bool MyASGEGame::init()
   mouse_callback_id = inputs->addCallbackFnc(
     ASGE::E_MOUSE_CLICK, &MyASGEGame::clickHandler, this);
 
-  sceneManager = new SceneManager(renderer.get());
+  sceneManager =
+    new SceneManager(renderer.get(), Vector2(game_width, game_height));
 
   return true;
 }
@@ -111,13 +112,8 @@ void MyASGEGame::keyHandler(ASGE::SharedEventData data)
  */
 void MyASGEGame::clickHandler(ASGE::SharedEventData data)
 {
-  auto click = static_cast<const ASGE::ClickEvent*>(data.get());
-
-  double x_pos = click->xpos;
-  double y_pos = click->ypos;
-
-  ASGE::DebugPrinter{} << "x_pos: " << x_pos << std::endl;
-  ASGE::DebugPrinter{} << "y_pos: " << y_pos << std::endl;
+  sceneManager->setClickEvent(
+    *static_cast<const ASGE::ClickEvent*>(data.get()));
 }
 
 /**
@@ -153,6 +149,6 @@ void MyASGEGame::render(const ASGE::GameTime&)
 
   if (in_menu)
   {
-    sceneManager->render(renderer.get(), Vector2(game_width, game_height));
+    sceneManager->render(renderer.get());
   }
 }

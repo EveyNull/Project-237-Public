@@ -10,6 +10,7 @@
 
 enum LevelDifficulty
 {
+  NO_DIFFICULTY = -1,
   EASY = 0,
   MEDIUM = 1,
   HARD = 2

@@ -89,7 +89,7 @@ void SceneManager::render(ASGE::Renderer* renderer, Vector2 window_size)
     {
       renderer->renderText("PAUSED",
                            window_size.getX() / 2,
-                           window_size.getY() / 2,
+                           window_size.getY() / 2 - 200.f,
                            ASGE::COLOURS::RED);
     }
   }

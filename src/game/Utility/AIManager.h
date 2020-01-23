@@ -24,7 +24,7 @@ class AIManager
   void update(float delta_time);
 
   void UpdateKnownPlayerPos(const Vector2& new_pos);
-  void DecideNextMove();
+  void DecideNextMove(bool game_over);
 
   Tile* getTileFromCoords(const std::pair<int, int>& target_pos);
   std::pair<int, int> getCoordsFromPos(const Vector2& target_pos);

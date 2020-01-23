@@ -69,9 +69,9 @@ void AIManager::UpdateKnownPlayerPos(const Vector2& new_pos)
   }
 }
 
-void AIManager::DecideNextMove()
+void AIManager::DecideNextMove(bool game_over)
 {
-  if (checkTileInSight(getCoordsFromPos(current_player_pos)))
+  if (checkTileInSight(getCoordsFromPos(current_player_pos)) && !game_over)
   {
     current_state = AIState::CHASING;
     current_step_pos = current_player_pos;

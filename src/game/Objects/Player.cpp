@@ -123,51 +123,14 @@ void Player::update(const std::deque<bool>& keys_pressed, float delta_time)
     }
   }
 
-  // inventory slot keys
-  if (keys_pressed[11])
+  for (int i = 11; i < 20; i++)
   {
-    setInvSlot(0);
-    ui->changeSlot(0);
-  }
-  if (keys_pressed[12])
-  {
-    setInvSlot(1);
-    ui->changeSlot(1);
-  }
-  if (keys_pressed[13])
-  {
-    setInvSlot(2);
-    ui->changeSlot(2);
-  }
-  if (keys_pressed[14])
-  {
-    setInvSlot(3);
-    ui->changeSlot(3);
-  }
-  if (keys_pressed[15])
-  {
-    setInvSlot(4);
-    ui->changeSlot(4);
-  }
-  if (keys_pressed[16])
-  {
-    setInvSlot(5);
-    ui->changeSlot(5);
-  }
-  if (keys_pressed[17])
-  {
-    setInvSlot(6);
-    ui->changeSlot(6);
-  }
-  if (keys_pressed[18])
-  {
-    setInvSlot(7);
-    ui->changeSlot(7);
-  }
-  if (keys_pressed[19])
-  {
-    setInvSlot(8);
-    ui->changeSlot(8);
+    if (keys_pressed[i])
+    {
+      setInvSlot(i - 11);
+      ui->changeSlot(i - 11);
+      break;
+    }
   }
 }
 

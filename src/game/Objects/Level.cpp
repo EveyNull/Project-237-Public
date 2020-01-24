@@ -237,6 +237,7 @@ bool Level::setUpBlocks(ASGE::Renderer* renderer)
         default:
         {
           block_type = BlockType::MIDDLE;
+          break;
         }
       }
       try

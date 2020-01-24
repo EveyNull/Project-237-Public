@@ -37,6 +37,8 @@ class Level
 
   int getItemAtCoords();
 
+  Direction updateFootprintDirection(const std::pair<int, int>& player_coords);
+
   void update(float delta_time, const std::deque<bool>& keys_pressed);
   void updateItems(float delta_time);
   std::pair<int, int> getTileCoordsFromPos(GameObject* object);

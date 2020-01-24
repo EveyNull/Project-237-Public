@@ -132,7 +132,7 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // auto dt_sec = game_time.delta.count() / 1000.0;;
   // make sure you use delta time in any movement calculations!
 
-  sceneManager->update(game_time.delta.count(), game_time.elapsed.count());
+  sceneManager->update(game_time.delta.count());
   if (sceneManager->getGameState() == GameState::EXITING)
   {
     delete sceneManager;

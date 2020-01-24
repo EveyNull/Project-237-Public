@@ -149,6 +149,6 @@ void MyASGEGame::render(const ASGE::GameTime&)
 
   if (in_menu)
   {
-    sceneManager->render(renderer.get());
+    sceneManager->render(renderer.get(), Vector2(game_width, game_height));
   }
 }

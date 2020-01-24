@@ -25,7 +25,7 @@ class SceneManager
   SceneManager(const SceneManager&) = delete;
   SceneManager& operator=(const SceneManager&) = delete;
 
-  void update(float delta_time);
+  void update(float delta_time, float game_time);
   void render(ASGE::Renderer* renderer, Vector2 window_size);
 
   void setKeyPressed(int key, bool pressed);

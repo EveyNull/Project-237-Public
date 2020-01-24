@@ -50,7 +50,9 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   player_last_tile = getTileCoordsFromPos(player);
 }
 
-void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
+void Level::update(float delta_time,
+                   float game_time,
+                   const std::deque<bool>& keys_pressed)
 {
   player->setPos(Vector2(
     player->getXPos() + (keys_pressed[3] - keys_pressed[2]) * delta_time * 0.5f,
@@ -99,6 +101,8 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
       }
     }
   }
+
+  player->checkWalking(horizontal, vertical, game_time);
 
   ai_manager->UpdateKnownPlayerPos(player->getPos());
   ai_manager->DecideNextMove();

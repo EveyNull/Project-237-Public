@@ -12,6 +12,28 @@
 #include <cmath>
 #include <list>
 #include <random>
+std::string getBlockTypeDir(const BlockType& block_type)
+{
+  switch (block_type)
+  {
+    case BlockType::CORNER:
+    {
+      return "corner";
+    }
+    case BlockType::X_EDGE:
+    {
+      return "x_edge";
+    }
+    case BlockType::Y_EDGE:
+    {
+      return "y_edge";
+    }
+    default:
+    {
+      return "middle";
+    }
+  }
+}
 
 Block::Block(ASGE::Renderer* renderer,
              BlockType block_type,
@@ -25,30 +47,7 @@ Block::Block(ASGE::Renderer* renderer,
   using File = ASGE::FILEIO::File;
   File blockTemplate = File();
 
-  std::string block_type_dir;
-  switch (block_type)
-  {
-    case BlockType::CORNER:
-    {
-      block_type_dir = "corner";
-      break;
-    }
-    case BlockType::X_EDGE:
-    {
-      block_type_dir = "x_edge";
-      break;
-    }
-    case BlockType::Y_EDGE:
-    {
-      block_type_dir = "y_edge";
-      break;
-    }
-    default:
-    {
-      block_type_dir = "middle";
-      break;
-    }
-  }
+  std::string block_type_dir = getBlockTypeDir(block_type);
 
   std::string fileName = "/data/map_blocks//";
   fileName.insert(17,

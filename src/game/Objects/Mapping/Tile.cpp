@@ -38,13 +38,13 @@ void Tile::setFootprints(const Direction& new_direction)
 {
   float tile_size = spriteComponent->getSprite()->width();
   footprints = new_direction;
-  if (new_direction != Direction::NONE)
+  if (footprints == Direction::NONE)
   {
-    spriteComponent->getSprite()->loadTexture("/data/footprints/right.png");
+    spriteComponent->getSprite()->loadTexture("/data/1px.png");
   }
   else
   {
-    spriteComponent->getSprite()->loadTexture("/data/1px.png");
+    spriteComponent->getSprite()->loadTexture("/data/footprints/right.png");
   }
   spriteComponent->getSprite()->width(tile_size);
   spriteComponent->getSprite()->height(tile_size);

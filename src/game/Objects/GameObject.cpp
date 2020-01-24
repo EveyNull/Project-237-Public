@@ -20,10 +20,7 @@ SpriteComponent* GameObject::getSpriteComponent()
   {
     return spriteComponent;
   }
-  else
-  {
-    return nullptr;
-  }
+  return nullptr;
 }
 
 float GameObject::getXPos()

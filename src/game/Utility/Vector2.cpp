@@ -46,7 +46,7 @@ Vector2 Vector2::operator-(const Vector2& param)
 
 bool Vector2::operator==(const Vector2& param)
 {
-  return (x == param.x && y == param.y);
+  return x == param.x && y == param.y;
 }
 
 void Vector2::normalise()

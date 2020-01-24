@@ -45,7 +45,7 @@ class SceneManager
   bool failed_open_level = false;
 
   ASGE::Renderer* renderer = nullptr;
-  std::deque<bool> keys_pressed = std::deque<bool>(14);
+  std::deque<bool> keys_pressed = std::deque<bool>(20);
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_SCENEMANAGER_H

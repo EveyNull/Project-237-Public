@@ -18,30 +18,47 @@ Player::Player(ASGE::Renderer* renderer, float new_tile_size)
   inventory->setInventory();
 }
 
-void Player::pressUse()
+int Player::pressUse(int itemID)
 {
   timer = 0;
-  // check on item
-  float tile_check_x =
-    round(((currentX + (getSpriteComponent()->getSprite()->width() / 2)) +
-           (tile_size / 2)) /
-          tile_size) *
-      tile_size -
-    (tile_size / 2) - (tile_size / 2);
-  float tile_check_y =
-    round(((currentY + (getSpriteComponent()->getSprite()->height() / 2)) +
-           (tile_size / 2)) /
-          tile_size) *
-      tile_size -
-    (tile_size / 2) - (tile_size / 2);
 
-  int asdg = inventory->getItemInSlot(inv_slot);
-
-  useItem();
-
-  // ASGE::DebugPrinter{} << "x_pos: " << asdg << std::endl;
-  // if on item, get
-  // if not, use
+  if (itemID == EMPTY)
+  {
+    // check if current slot empty, if yes do nothing, if no go to use
+    if (inventory->getItemInSlot(inv_slot) != 0)
+    {
+      useItem();
+      ASGE::DebugPrinter{} << "used item" << std::endl;
+      ui->update(inv_slot, itemID, inventory->getAmountInSlot(inv_slot));
+      return -1;
+    }
+  }
+  else
+  {
+    // check if any in inventory. if yes try to put in same slot. if cant put in
+    // slot, check if any other stacks. if cant in any, check current slot.
+    int asdf = getSlotToAddTo(itemID); // gets item stack slot number
+    if (asdf == -1)                    // change to 0 when putting items exists
+    {
+      int zoop = inventory->getEmptySlot();
+      if (zoop != -1)
+      {
+        inventory->setSlot(zoop, itemID, 1);
+        ASGE::DebugPrinter{} << "put in empty slot" << std::endl;
+        ui->update(zoop, itemID, 1);
+        return 1;
+      }
+    }
+    else
+    {
+      inventory->changeNumber(asdf, 1);
+      ASGE::DebugPrinter{} << "put in stack" << std::endl;
+      ui->update(asdf, itemID, inventory->getAmountInSlot(inv_slot));
+      return 1;
+    }
+  }
+  ASGE::DebugPrinter{} << "nothing to use or get" << std::endl;
+  return -1;
 }
 
 void Player::pickUpItem()
@@ -105,11 +122,6 @@ void Player::update(const std::deque<bool>& keys_pressed, float delta_time)
     }
   }
 
-  if (keys_pressed[6])
-  {
-    pressUse();
-  }
-
   // inventory slot keys
   if (keys_pressed[11])
   {
@@ -126,9 +138,51 @@ void Player::update(const std::deque<bool>& keys_pressed, float delta_time)
     setInvSlot(2);
     ui->changeSlot(2);
   }
+  if (keys_pressed[14])
+  {
+    setInvSlot(3);
+    ui->changeSlot(3);
+  }
+  if (keys_pressed[15])
+  {
+    setInvSlot(4);
+    ui->changeSlot(4);
+  }
+  if (keys_pressed[16])
+  {
+    setInvSlot(5);
+    ui->changeSlot(5);
+  }
+  if (keys_pressed[17])
+  {
+    setInvSlot(6);
+    ui->changeSlot(6);
+  }
+  if (keys_pressed[18])
+  {
+    setInvSlot(7);
+    ui->changeSlot(7);
+  }
+  if (keys_pressed[19])
+  {
+    setInvSlot(8);
+    ui->changeSlot(8);
+  }
 }
 
 void Player::renderUI(ASGE::Renderer* renderer)
 {
   ui->render(renderer);
 }
+
+int Player::getSlotToAddTo(int itemID)
+{
+  for (int i = 0; i < inventory->getNumberOfSlots(); i++)
+  {
+    if (inventory->getItemInSlot(i) == itemID) //&& less than max amount
+    {
+      return i;
+    }
+  }
+  return -1;
+};

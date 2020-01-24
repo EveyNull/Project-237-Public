@@ -10,7 +10,7 @@
 class Projectile : public GameObject
 {
  public:
-  Projectile(ASGE::Renderer* renderer);
+  explicit Projectile(ASGE::Renderer* renderer);
   ~Projectile() = default;
 
   void resetTimer();

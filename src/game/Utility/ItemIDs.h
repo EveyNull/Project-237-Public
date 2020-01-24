@@ -12,5 +12,6 @@ enum ItemIDs
   EMPTY = 0,
   BEARTRAP = 1,
   TORCH = 2,
-  BOTTLE = 3
+  BOTTLE = 3,
+  BARRIER = 4
 };

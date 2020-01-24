@@ -15,12 +15,14 @@ class Torch : public item
                        int tileSize,
                        float xpos,
                        float ypos);
-  void updateTorch(int tileSize);
+  void updateTorch(int tile_size, float delta_time);
 
  private:
   std::string Frame1 = "/data/item_images/torchOn1.png";
   std::string Frame2 = "/data/item_images/torchOn2.png";
   std::string Frame3 = "/data/item_images/torchOn3.png";
+
+  float timer = 0;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TORCH_H

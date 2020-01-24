@@ -72,6 +72,36 @@ int InputManager::getKey(const ASGE::KeyEvent* key)
       pressed = 13;
       break;
     }
+    case ASGE::KEYS::KEY_4:
+    {
+      pressed = 14;
+      break;
+    }
+    case ASGE::KEYS::KEY_5:
+    {
+      pressed = 15;
+      break;
+    }
+    case ASGE::KEYS::KEY_6:
+    {
+      pressed = 16;
+      break;
+    }
+    case ASGE::KEYS::KEY_7:
+    {
+      pressed = 17;
+      break;
+    }
+    case ASGE::KEYS::KEY_8:
+    {
+      pressed = 18;
+      break;
+    }
+    case ASGE::KEYS::KEY_9:
+    {
+      pressed = 19;
+      break;
+    }
     default:
       break;
   }

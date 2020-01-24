@@ -20,9 +20,31 @@ void Torch::initialiseTorch(ASGE::Renderer* renderer,
   getSpriteComponent()->setVisible(true);
 }
 
-void Torch::updateTorch(int tileSize)
+void Torch::updateTorch(int tile_size, float delta_time)
 {
   int whichFrame = getFrame();
+
+  timer += (delta_time / 1000);
+
+  if (timer <= 0.5 || ((1 < timer) && (timer <= 1.5)))
+  {
+    setFrame(1);
+  }
+
+  if ((0.5 < timer) && (timer <= 1))
+  {
+    setFrame(2);
+  }
+
+  if ((1.5 < timer) && (timer <= 2))
+  {
+    setFrame(3);
+  }
+
+  if (timer > 2)
+  {
+    timer = 0;
+  }
 
   switch (whichFrame)
   {
@@ -48,8 +70,8 @@ void Torch::updateTorch(int tileSize)
     }
   }
 
-  getSpriteComponent()->getSprite()->height(tileSize);
-  getSpriteComponent()->getSprite()->width(tileSize);
+  getSpriteComponent()->getSprite()->height(tile_size);
+  getSpriteComponent()->getSprite()->width(tile_size);
   getSpriteComponent()->getSprite()->xPos(getXPos());
   getSpriteComponent()->getSprite()->yPos(getYPos());
 }

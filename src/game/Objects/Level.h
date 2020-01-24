@@ -35,7 +35,10 @@ class Level
                   int torch_num,
                   ASGE::Renderer* renderer);
 
+  int getItemAtCoords();
+
   void update(float delta_time, const std::deque<bool>& keys_pressed);
+  void updateItems(float delta_time);
   std::pair<int, int> getTileCoordsFromPos(GameObject* object);
 
   void render(ASGE::Renderer* renderer, Vector2 window_size);
@@ -57,7 +60,7 @@ class Level
 
   std::pair<int, int> player_last_tile = std::pair<int, int>(0, 0);
 
-  UI* ui = nullptr;
+  int distance_in_array = 0;
 
   std::vector<BearTrap> beartraps;
   std::vector<Torch> torches;

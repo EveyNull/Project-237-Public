@@ -48,8 +48,6 @@ Level::Level(ASGE::Renderer* renderer, LevelDifficulty difficulty)
   // player->addSpriteComponent(renderer, "/data/1px.png", 60);
   // player->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::BLUE);
   player_last_tile = getTileCoordsFromPos(player);
-
-  ui = new UI(renderer);
 }
 
 void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
@@ -60,6 +58,47 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
       (keys_pressed[1] - keys_pressed[0]) * delta_time * 0.5f));
 
   player->update(keys_pressed, delta_time);
+
+  if (keys_pressed[6])
+  {
+    int have_to_remove = player->pressUse(getItemAtCoords());
+    int the_ID = getItemAtCoords();
+
+    if (have_to_remove == 1)
+    {
+      switch (the_ID)
+      {
+        case 1:
+        {
+          beartraps[distance_in_array].setXPos(-200); // we solve our problems
+                                                      // by yeeting it out of
+                                                      // the level
+          beartraps[distance_in_array].getSpriteComponent()->setVisible(false);
+          break;
+        }
+        case 2:
+        {
+          torches[distance_in_array].setXPos(-200);
+          torches[distance_in_array].getSpriteComponent()->setVisible(false);
+          break;
+        }
+        case 3:
+        {
+          bottles[distance_in_array].setXPos(-200);
+          bottles[distance_in_array].getSpriteComponent()->setVisible(false);
+          break;
+        }
+        case 4:
+        {
+          barriers[distance_in_array].setXPos(-200);
+          barriers[distance_in_array].getSpriteComponent()->setVisible(false);
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  }
 
   ai_manager->UpdateKnownPlayerPos(player->getPos());
   ai_manager->DecideNextMove();
@@ -91,11 +130,7 @@ void Level::update(float delta_time, const std::deque<bool>& keys_pressed)
   }
 
   ai_manager->update(delta_time);
-
-  for (int i = 0; i < bottles.size(); i++)
-  {
-    bottles[i].update(delta_time);
-  }
+  updateItems(delta_time);
 }
 
 std::pair<int, int> Level::getTileCoordsFromPos(GameObject* object)
@@ -236,8 +271,7 @@ bool Level::setUpItems(int bear_num,
   for (int i = 0; i < bear_num; i++)
   {
     BearTrap* beartrap = new BearTrap;
-    beartrap->initialiseBearTrap(
-      renderer, tile_size, (i * 3 * tile_size), i * tile_size);
+    beartrap->initialiseBearTrap(renderer, tile_size, ((i + 3) * tile_size), i);
     beartraps.push_back(*beartrap);
   }
 
@@ -297,4 +331,57 @@ void Level::renderItems(ASGE::Renderer* renderer, Vector2 window_size)
       renderAtOffset(renderer, &torches[i], false, window_size);
     }
   }
+}
+
+void Level::updateItems(float delta_time)
+{
+  for (int i = 0; i < bottles.size(); i++)
+  {
+    bottles[i].update(delta_time);
+  }
+
+  for (int i = 0; i < torches.size(); i++)
+  {
+    torches[i].updateTorch(tile_size, delta_time);
+  }
+}
+
+int Level::getItemAtCoords()
+{
+  std::pair<int, int> playercoords = getTileCoordsFromPos(player);
+
+  for (int i = 0; i < torches.size(); i++)
+  {
+    if (playercoords == getTileCoordsFromPos(&torches[i]))
+    {
+      distance_in_array = i;
+      return TORCH;
+    }
+  }
+  for (int i = 0; i < beartraps.size(); i++)
+  {
+    if (playercoords == getTileCoordsFromPos(&beartraps[i]))
+    {
+      distance_in_array = i;
+      return BEARTRAP;
+    }
+  }
+  for (int i = 0; i < barriers.size(); i++)
+  {
+    if (playercoords == getTileCoordsFromPos(&barriers[i]))
+    {
+      distance_in_array = i;
+      return BARRIER;
+    }
+  }
+  for (int i = 0; i < bottles.size(); i++)
+  {
+    if (playercoords == getTileCoordsFromPos(&bottles[i]))
+    {
+      distance_in_array = i;
+      return BOTTLE;
+    }
+  }
+
+  return EMPTY;
 }

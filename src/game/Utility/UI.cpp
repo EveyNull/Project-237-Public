@@ -14,7 +14,7 @@ void UI::initialiseUI(ASGE::Renderer* renderer)
 {
   selecter.addSpriteComponent(renderer, selecter_sprite, UI_size);
   selecter.getSpriteComponent()->getSprite()->yPos(20);
-  selecter.getSpriteComponent()->getSprite()->xPos(600);
+  selecter.getSpriteComponent()->getSprite()->xPos(400);
   selecter.getSpriteComponent()->setVisible(true);
 
   bear_trap.addSpriteComponent(renderer, bear_trap_sprite, UI_size);
@@ -29,6 +29,10 @@ void UI::initialiseUI(ASGE::Renderer* renderer)
   bottle.getSpriteComponent()->getSprite()->yPos(20);
   bottle.getSpriteComponent()->setVisible(false);
 
+  barrier.addSpriteComponent(renderer, barrier_sprite, UI_size);
+  barrier.getSpriteComponent()->getSprite()->yPos(20);
+  barrier.getSpriteComponent()->setVisible(false);
+
   fill_bar.addSpriteComponent(renderer, fill_bar_sprite, 50);
   fill_bar.getSpriteComponent()->getSprite()->height(10);
   fill_bar.getSpriteComponent()->getSprite()->width(100);
@@ -39,8 +43,13 @@ void UI::initialiseUI(ASGE::Renderer* renderer)
   {
     slots[i].addSpriteComponent(renderer, slot_sprite, UI_size);
     slots[i].getSpriteComponent()->getSprite()->yPos(20);
-    slots[i].getSpriteComponent()->getSprite()->xPos(600 + (i * 60));
+    slots[i].getSpriteComponent()->getSprite()->xPos(400 + (i * 60));
     slots[i].getSpriteComponent()->setVisible(true);
+
+    for (int j = 0; j < 2; j++)
+    {
+      itemArray[i][j] = 0;
+    }
   }
 }
 
@@ -54,6 +63,16 @@ void UI::render(ASGE::Renderer* renderer)
   if (torch.getSpriteComponent()->getVisible())
   {
     renderer->renderSprite(*torch.getSpriteComponent()->getSprite());
+  }
+
+  if (barrier.getSpriteComponent()->getVisible())
+  {
+    renderer->renderSprite(*barrier.getSpriteComponent()->getSprite());
+  }
+
+  if (bottle.getSpriteComponent()->getVisible())
+  {
+    renderer->renderSprite(*bottle.getSpriteComponent()->getSprite());
   }
 
   for (int i = 0; i < total_slots; i++)
@@ -74,53 +93,59 @@ void UI::render(ASGE::Renderer* renderer)
   {
     renderer->renderSprite(*filler.getSpriteComponent()->getSprite());
   }
+
+  for (int i = 0; i < total_slots; i++)
+  {
+    std::string amount = std::to_string(itemArray[i][1]);
+    renderer->renderText(amount, 400 + (i * 60), 80, 1, ASGE::COLOURS::BLACK);
+  }
 }
 
-void UI::update(const std::deque<bool>& keys_pressed)
+void UI::update(int slot, int itemID, int number)
 {
-  if (keys_pressed[0])
+  itemArray[slot][0] = itemID;
+  itemArray[slot][1] = number;
+
+  for (int i = 0; i < total_slots; i++)
   {
-    selecter.getSpriteComponent()->getSprite()->xPos(600);
-  }
-  if (keys_pressed[1])
-  {
-    selecter.getSpriteComponent()->getSprite()->xPos(660);
-  }
-  if (keys_pressed[6])
-  {
-    selecter.getSpriteComponent()->getSprite()->xPos(720);
-  }
-  /*
-    for (int i = 0; i < 3; i++)
+    if (number != 0)
     {
-      if (test->anythingInSlot(i))
+      switch (itemArray[i][0])
       {
-        // CHANGE TO SWITCH WHEN OTHER ITEMS ADDED
-        // Needs to be changed to:
-        // Change UI when item added or removed
-        int itemid = test->getItemInSlot(i);
-        if (itemid == 1)
+        case BOTTLE:
         {
-          bear_trap.getSpriteComponent()->getSprite()->xPos(600 + (i * 60));
-          bear_trap.getSpriteComponent()->setVisible(true);
-        }
-        if (itemid == 2)
-        {
-          torch.getSpriteComponent()->getSprite()->xPos(600 + (i * 60));
-          torch.getSpriteComponent()->setVisible(true);
-        }
-        if (itemid == 4)
-        {
-          bottle.getSpriteComponent()->getSprite()->xPos(600 + (i * 60));
+          bottle.getSpriteComponent()->getSprite()->xPos(400 + (i * 60));
           bottle.getSpriteComponent()->setVisible(true);
+          break;
         }
+        case BEARTRAP:
+        {
+          bear_trap.getSpriteComponent()->getSprite()->xPos(400 + (i * 60));
+          bear_trap.getSpriteComponent()->setVisible(true);
+          break;
+        }
+        case BARRIER:
+        {
+          barrier.getSpriteComponent()->getSprite()->xPos(400 + (i * 60));
+          barrier.getSpriteComponent()->setVisible(true);
+          break;
+        }
+        case TORCH:
+        {
+          torch.getSpriteComponent()->getSprite()->xPos(400 + (i * 60));
+          torch.getSpriteComponent()->setVisible(true);
+          break;
+        }
+        default:
+          break;
       }
-    } */
+    }
+  }
 }
 
 void UI::changeSlot(int new_slot)
 {
-  selecter.getSpriteComponent()->getSprite()->xPos(600 + (new_slot * 60));
+  selecter.getSpriteComponent()->getSprite()->xPos(400 + (new_slot * 60));
 }
 
 void UI::fillBar(float xpos, float ypos, float timer)
@@ -133,7 +158,7 @@ void UI::fillBar(float xpos, float ypos, float timer)
   filler.getSpriteComponent()->setVisible(true);
 
   filler.getSpriteComponent()->getSprite()->width((timer / 5) * 100);
-  ASGE::DebugPrinter{} << "x_pos: " << timer << std::endl;
+  // ASGE::DebugPrinter{} << "x_pos: " << timer << std::endl;
 }
 
 void UI::stopFill()

@@ -20,7 +20,7 @@ class Player : public GameObject
 
   void update(const std::deque<bool>& keys_pressed, float delta_time);
 
-  void pressUse();
+  int pressUse(int itemID);
 
   void pickUpItem();
   void placeItem();
@@ -28,6 +28,8 @@ class Player : public GameObject
 
   void setInvSlot(int slot);
   int getInvSlot();
+
+  int getSlotToAddTo(int itemID);
 
   void renderUI(ASGE::Renderer* renderer);
 

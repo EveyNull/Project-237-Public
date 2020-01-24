@@ -30,7 +30,7 @@ class Inventory
   void changeNumber(int Slot, int number_change);
   void setNumber(int Slot, int new_number);
 
-  void setSlot(int Slot, ItemIDs id, int number_change);
+  void setSlot(int Slot, int id, int number_change);
   void clearSlot(int Slot);
 
   int getSlotOfSameItemType(ItemIDs id);
@@ -39,13 +39,17 @@ class Inventory
   bool anythingInSlot(int slot);
   int getItemInSlot(int slot);
 
+  int getNumberOfSlots();
+
+  int getAmountInSlot(int slot);
+
  private:
-  int itemArray[3][2];
+  int itemArray[9][2];
 
   // row is slot number
   // column: 0 = item ID, 1 = number of items
 
-  int number_of_slots = 3;
+  int number_of_slots = 9;
   int number_of_columns = 2;
 };
 

@@ -18,44 +18,35 @@ bool InputManager::getKeyDown(const ASGE::KeyEvent* key)
 
 int InputManager::getKey(const ASGE::KeyEvent* key)
 {
-  int pressed = -1;
-
   switch (key->key)
   {
     case ASGE::KEYS::KEY_W:
     {
-      pressed = 0;
-      break;
+      return 0;
     }
     case ASGE::KEYS::KEY_S:
     {
-      pressed = 1;
-      break;
+      return 1;
     }
     case ASGE::KEYS::KEY_A:
     {
-      pressed = 2;
-      break;
+      return 2;
     }
     case ASGE::KEYS::KEY_D:
     {
-      pressed = 3;
-      break;
+      return 3;
     }
     case ASGE::KEYS::KEY_P:
     {
-      pressed = 4;
-      break;
+      return 4;
     }
     case ASGE::KEYS::KEY_ESCAPE:
     {
-      pressed = 5;
-      break;
+      return 5;
     }
     case ASGE::KEYS::KEY_E:
     {
-      pressed = 6;
-      break;
+      return 6;
     }
     case ASGE::KEYS::KEY_1:
     {
@@ -103,8 +94,6 @@ int InputManager::getKey(const ASGE::KeyEvent* key)
       break;
     }
     default:
-      break;
+      return -1;
   }
-
-  return pressed;
 }

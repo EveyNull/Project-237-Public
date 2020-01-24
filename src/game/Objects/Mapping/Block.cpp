@@ -53,6 +53,12 @@ Block::Block(ASGE::Renderer* renderer,
   fileName.insert(17,
                   std::to_string(size.first) + "x" +
                     std::to_string(size.second) + "/" + block_type_dir);
+  if (ASGE::FILEIO::enumerateFiles(fileName).empty())
+  {
+    ASGE::DebugPrinter{} << "No files found at directory: " << fileName
+                         << std::endl;
+    throw - 1;
+  }
   fileName.insert(
     fileName.length(),
     std::to_string(rand() % ASGE::FILEIO::enumerateFiles(fileName).size() + 1));

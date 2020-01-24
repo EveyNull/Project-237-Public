@@ -10,6 +10,5 @@
 enum GameState
 {
   EXITING,
-  MAINMENU,
   INGAME
 };

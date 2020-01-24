@@ -58,8 +58,8 @@ bool MyASGEGame::init()
   mouse_callback_id = inputs->addCallbackFnc(
     ASGE::E_MOUSE_CLICK, &MyASGEGame::clickHandler, this);
 
-  sceneManager =
-    new SceneManager(renderer.get(), Vector2(game_width, game_height));
+  sceneManager = std::make_unique<SceneManager>(
+    renderer.get(), Vector2(game_width, game_height));
 
   return true;
 }
@@ -128,10 +128,12 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   // auto dt_sec = game_time.delta.count() / 1000.0;;
   // make sure you use delta time in any movement calculations!
 
-  sceneManager->update(game_time.delta.count());
+  if (sceneManager)
+  {
+    sceneManager->update(game_time.delta.count());
+  }
   if (sceneManager->getGameState() == GameState::EXITING)
   {
-    delete sceneManager;
     signalExit();
   }
 }
@@ -147,7 +149,7 @@ void MyASGEGame::render(const ASGE::GameTime&)
 {
   renderer->setFont(0);
 
-  if (in_menu)
+  if (sceneManager)
   {
     sceneManager->render(renderer.get(), Vector2(game_width, game_height));
   }

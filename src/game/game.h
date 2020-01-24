@@ -31,6 +31,6 @@ class MyASGEGame : public ASGE::OGLGame
   int mouse_callback_id = -1; /**< Mouse Input Callback ID. */
   bool in_menu = true;
 
-  SceneManager* sceneManager = nullptr;
+  std::unique_ptr<SceneManager> sceneManager = nullptr;
   InputManager input;
 };

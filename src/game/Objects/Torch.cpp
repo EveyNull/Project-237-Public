@@ -22,8 +22,6 @@ void Torch::initialiseTorch(ASGE::Renderer* renderer,
 
 void Torch::updateTorch(int tile_size, float delta_time)
 {
-  int whichFrame = getFrame();
-
   timer += (delta_time / 1000);
 
   if (timer <= 0.5 || ((1 < timer) && (timer <= 1.5)))

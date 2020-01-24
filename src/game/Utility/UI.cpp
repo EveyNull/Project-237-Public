@@ -78,6 +78,8 @@ void UI::render(ASGE::Renderer* renderer)
   for (int i = 0; i < total_slots; i++)
   {
     renderer->renderSprite(*slots[i].getSpriteComponent()->getSprite());
+    std::string amount = std::to_string(itemArray[i][1]);
+    renderer->renderText(amount, 400 + (i * 60), 80, 1, ASGE::COLOURS::BLACK);
   }
 
   if (selecter.getSpriteComponent()->getVisible())
@@ -93,18 +95,13 @@ void UI::render(ASGE::Renderer* renderer)
   {
     renderer->renderSprite(*filler.getSpriteComponent()->getSprite());
   }
-
-  for (int i = 0; i < total_slots; i++)
-  {
-    std::string amount = std::to_string(itemArray[i][1]);
-    renderer->renderText(amount, 400 + (i * 60), 80, 1, ASGE::COLOURS::BLACK);
-  }
 }
 
 void UI::update(int slot, int itemID, int number)
 {
   itemArray[slot][0] = itemID;
   itemArray[slot][1] = number;
+  ASGE::DebugPrinter{} << "ye" << +number << std::endl;
 
   for (int i = 0; i < total_slots; i++)
   {
@@ -158,7 +155,7 @@ void UI::update(int slot, int itemID, int number)
           {
             bear_trap.getSpriteComponent()->setVisible(false);
           }
-          ASGE::DebugPrinter{} << "ye" << std::endl;
+
           break;
         }
         default:

@@ -44,20 +44,20 @@ int Player::pressUse(int itemID)
       if (zoop != -1)
       {
         inventory->setSlot(zoop, itemID, 1);
-        ASGE::DebugPrinter{} << "put in empty slot" << std::endl;
-        ui->update(zoop, itemID, 1);
+        // ASGE::DebugPrinter{} << "put in empty slot" << std::endl;
+        ui->update(zoop, itemID, inventory->getAmountInSlot(zoop));
         return 1;
       }
     }
     else
     {
       inventory->changeNumber(asdf, 1);
-      ASGE::DebugPrinter{} << "put in stack" << std::endl;
-      ui->update(asdf, itemID, inventory->getAmountInSlot(inv_slot));
+      ASGE::DebugPrinter{} << asdf << std::endl;
+      ui->update(asdf, itemID, inventory->getAmountInSlot(asdf));
       return 1;
     }
   }
-  ASGE::DebugPrinter{} << "nothing to use or get" << std::endl;
+  // ASGE::DebugPrinter{} << "nothing to use or get" << std::endl;
   return -1;
 }
 

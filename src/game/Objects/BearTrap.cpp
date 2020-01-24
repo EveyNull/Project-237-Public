@@ -16,7 +16,7 @@ bool BearTrap::initialiseBearTrap(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
-  return (true);
+  return true;
 }
 
 void BearTrap::updateBearTrap(int tileSize, int frame)

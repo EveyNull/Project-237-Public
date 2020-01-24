@@ -17,5 +17,5 @@ bool Barrier::initialiseBarrier(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
-  return (true);
+  return true;
 }

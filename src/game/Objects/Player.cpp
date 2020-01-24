@@ -69,7 +69,8 @@ void Player::pickUpItem()
 void Player::useItem()
 {
   delaying = true;
-  if (inventory->getItemInSlot(inv_slot) == BOTTLE)
+  if (inventory->getItemInSlot(inv_slot) == BOTTLE &&
+      inventory->getAmountInSlot(inv_slot) > 0)
   {
     thrown_bottle->setXPos(currentX);
     thrown_bottle->setYPos(currentY);

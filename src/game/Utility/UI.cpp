@@ -108,7 +108,7 @@ void UI::update(int slot, int itemID, int number)
 
   for (int i = 0; i < total_slots; i++)
   {
-    if (number != 0)
+    if (number > 0)
     {
       switch (itemArray[i][0])
       {
@@ -136,10 +136,36 @@ void UI::update(int slot, int itemID, int number)
           torch.getSpriteComponent()->setVisible(true);
           break;
         }
+        case EMPTY:
+        {
+          if (torch.getSpriteComponent()->getSprite()->xPos() ==
+              (400 + (i * 60)))
+          {
+            torch.getSpriteComponent()->setVisible(false);
+          }
+          else if (barrier.getSpriteComponent()->getSprite()->xPos() ==
+                   (400 + (i * 60)))
+          {
+            barrier.getSpriteComponent()->setVisible(false);
+          }
+          else if (bottle.getSpriteComponent()->getSprite()->xPos() ==
+                   (400 + (i * 60)))
+          {
+            bottle.getSpriteComponent()->setVisible(false);
+          }
+          else if (bear_trap.getSpriteComponent()->getSprite()->xPos() ==
+                   (400 + (i * 60)))
+          {
+            bear_trap.getSpriteComponent()->setVisible(false);
+          }
+          ASGE::DebugPrinter{} << "ye" << std::endl;
+          break;
+        }
         default:
           break;
       }
     }
+    // IF SLOT IS EMPTY MAKE ITEM IMAGE IN SLOT INVISIBLE
   }
 }
 

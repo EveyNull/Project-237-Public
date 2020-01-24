@@ -43,10 +43,7 @@ bool Inventory::anythingInSlot(int slot)
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+  return false;
 }
 
 int Inventory::getItemInSlot(int slot)

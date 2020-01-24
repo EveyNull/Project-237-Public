@@ -16,6 +16,7 @@ class Torch : public item
                        float xpos,
                        float ypos);
   void updateTorch(int tile_size, float delta_time);
+  void changeFrame(int frame_number);
 
  private:
   std::string Frame1 = "/data/item_images/torchOn1.png";

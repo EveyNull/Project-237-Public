@@ -20,7 +20,7 @@ bool Bottle::initialiseBottle(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
-  return (true);
+  return true;
 }
 
 void Bottle::update(float delta_time)

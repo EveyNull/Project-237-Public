@@ -29,16 +29,19 @@ void Torch::updateTorch(int tile_size, float delta_time)
   if (timer <= 0.5 || ((1 < timer) && (timer <= 1.5)))
   {
     setFrame(1);
+    changeFrame(1);
   }
 
   if ((0.5 < timer) && (timer <= 1))
   {
     setFrame(2);
+    changeFrame(2);
   }
 
   if ((1.5 < timer) && (timer <= 2))
   {
     setFrame(3);
+    changeFrame(3);
   }
 
   if (timer > 2)
@@ -46,7 +49,15 @@ void Torch::updateTorch(int tile_size, float delta_time)
     timer = 0;
   }
 
-  switch (whichFrame)
+  getSpriteComponent()->getSprite()->height(tile_size);
+  getSpriteComponent()->getSprite()->width(tile_size);
+  getSpriteComponent()->getSprite()->xPos(getXPos());
+  getSpriteComponent()->getSprite()->yPos(getYPos());
+}
+
+void Torch::changeFrame(int frame_number)
+{
+  switch (frame_number)
   {
     case 1:
     {
@@ -69,9 +80,4 @@ void Torch::updateTorch(int tile_size, float delta_time)
       break;
     }
   }
-
-  getSpriteComponent()->getSprite()->height(tile_size);
-  getSpriteComponent()->getSprite()->width(tile_size);
-  getSpriteComponent()->getSprite()->xPos(getXPos());
-  getSpriteComponent()->getSprite()->yPos(getYPos());
 }

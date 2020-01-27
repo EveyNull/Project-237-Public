@@ -10,8 +10,14 @@
 class InputManager
 {
  public:
+  std::pair<bool, bool> getKeyAction(const ASGE::KeyEvent* key);
+  std::pair<int, int> getInput(const ASGE::KeyEvent* key);
+
   bool getKeyDown(const ASGE::KeyEvent* key);
-  int getKey(const ASGE::KeyEvent* key);
+  bool getKeyReleased(const ASGE::KeyEvent* key);
+
+  int getMovement(const ASGE::KeyEvent* key);
+  int getPressed(const ASGE::KeyEvent* key);
 };
 
 #endif // PROJECT_INPUTMANAGER_H

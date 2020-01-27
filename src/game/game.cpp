@@ -97,7 +97,7 @@ void MyASGEGame::setupResolution()
 void MyASGEGame::keyHandler(ASGE::SharedEventData data)
 {
   auto key = static_cast<const ASGE::KeyEvent*>(data.get());
-  sceneManager->setKeyPressed(input.getKey(key), input.getKeyDown(key));
+  sceneManager->setKeyPressed(input.getInput(key), input.getKeyAction(key));
 }
 
 /**

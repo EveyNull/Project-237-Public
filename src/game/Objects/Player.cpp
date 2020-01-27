@@ -99,7 +99,7 @@ int Player::getInvSlot()
   return inv_slot;
 }
 
-void Player::update(const std::deque<bool>& keys_pressed, float delta_time)
+void Player::update(const std::deque<bool>& input_release, float delta_time)
 {
   currentX = getXPos();
   currentY = getYPos();
@@ -123,12 +123,12 @@ void Player::update(const std::deque<bool>& keys_pressed, float delta_time)
     }
   }
 
-  for (int i = 11; i < 20; i++)
+  for (int i = 0; i < 10; i++)
   {
-    if (keys_pressed[i])
+    if (input_release[i])
     {
-      setInvSlot(i - 11);
-      ui->changeSlot(i - 11);
+      setInvSlot(i);
+      ui->changeSlot(i);
       break;
     }
   }

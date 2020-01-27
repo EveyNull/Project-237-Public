@@ -4,10 +4,7 @@
 
 #include "Bottle.h"
 
-bool Bottle::initialiseBottle(ASGE::Renderer* renderer,
-                              int tileSize,
-                              float xpos,
-                              float ypos)
+Bottle::Bottle(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos)
 {
   addSpriteComponent(renderer, Frame1, tileSize);
   ogX = xpos + (tileSize / 4);
@@ -20,7 +17,7 @@ bool Bottle::initialiseBottle(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
-  return true;
+  item_id = 1;
 }
 
 void Bottle::update(float delta_time)

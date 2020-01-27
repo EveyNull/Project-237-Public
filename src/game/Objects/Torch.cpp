@@ -4,10 +4,7 @@
 
 #include "Torch.h"
 
-void Torch::initialiseTorch(ASGE::Renderer* renderer,
-                            int tileSize,
-                            float xpos,
-                            float ypos)
+Torch::Torch(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos)
 {
   addSpriteComponent(renderer, Frame1, tileSize);
   setXPos(xpos);
@@ -18,6 +15,7 @@ void Torch::initialiseTorch(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
+  item_id = 4;
 }
 
 void Torch::updateTorch(int tile_size, float delta_time)

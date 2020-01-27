@@ -11,10 +11,7 @@
 class Torch : public item
 {
  public:
-  void initialiseTorch(ASGE::Renderer* renderer,
-                       int tileSize,
-                       float xpos,
-                       float ypos);
+  Torch(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos);
   void updateTorch(int tile_size, float delta_time);
   void changeFrame(int frame_number);
 

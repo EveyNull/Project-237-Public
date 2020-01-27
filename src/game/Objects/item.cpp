@@ -45,6 +45,11 @@ bool item::getVisible()
 }
  */
 
+int item::getItemID()
+{
+  return item_id;
+}
+
 void item::setFrame(int frame)
 {
   frameNumber = frame;

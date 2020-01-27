@@ -25,7 +25,11 @@ class item : public GameObject
   void setFrame(int frame);
   int getFrame();
 
- private:
+  int getItemID();
+
+ protected:
+  int item_id;
+
   bool inInventory = false;
 
   bool enabled = false;

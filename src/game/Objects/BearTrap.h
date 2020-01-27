@@ -11,10 +11,7 @@
 class BearTrap : public item
 {
  public:
-  bool initialiseBearTrap(ASGE::Renderer* renderer,
-                          int tileSize,
-                          float xpos,
-                          float ypos);
+  BearTrap(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos);
 
   void updateBearTrap(int tileSize, int frame);
 

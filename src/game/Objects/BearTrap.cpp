@@ -4,10 +4,10 @@
 
 #include "BearTrap.h"
 
-bool BearTrap::initialiseBearTrap(ASGE::Renderer* renderer,
-                                  int tileSize,
-                                  float xpos,
-                                  float ypos)
+BearTrap::BearTrap(ASGE::Renderer* renderer,
+                   int tileSize,
+                   float xpos,
+                   float ypos)
 {
   addSpriteComponent(renderer, Frame1, tileSize);
   setXPos(xpos);
@@ -16,7 +16,8 @@ bool BearTrap::initialiseBearTrap(ASGE::Renderer* renderer,
   getSpriteComponent()->getSprite()->yPos(ypos);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
-  return true;
+
+  item_id = 0;
 }
 
 void BearTrap::updateBearTrap(int tileSize, int frame)

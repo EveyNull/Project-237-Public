@@ -9,6 +9,7 @@
 
 #include "../../Utility/Direction.h"
 #include "../GameObject.h"
+#include "../item.h"
 
 class Tile : public GameObject
 {
@@ -23,12 +24,17 @@ class Tile : public GameObject
   bool getIsWalkable();
   Direction& getFootprints();
 
+  void addItem(item* n_item);
+  void removeItem();
+  item* getItem();
+
   void setIsWalkable(bool isWalkable);
   void setFootprints(const Direction& new_direction);
 
  private:
   bool walkable = false;
   Direction footprints = Direction::NONE;
+  item* present_item = nullptr;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TILE_H

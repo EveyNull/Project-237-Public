@@ -10,10 +10,7 @@
 class Bottle : public item
 {
  public:
-  bool initialiseBottle(ASGE::Renderer* renderer,
-                        int tileSize,
-                        float xpos,
-                        float ypos);
+  Bottle(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos);
   void update(float delta_time);
 
  private:

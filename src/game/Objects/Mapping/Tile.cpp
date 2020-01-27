@@ -29,6 +29,22 @@ Direction& Tile::getFootprints()
   return footprints;
 }
 
+item* Tile::getItem()
+{
+  return present_item;
+}
+
+void Tile::addItem(item* n_item)
+{
+  present_item = n_item;
+}
+
+void Tile::removeItem()
+{
+  delete present_item;
+  present_item = nullptr;
+}
+
 void Tile::setIsWalkable(bool isWalkable)
 {
   walkable = isWalkable;

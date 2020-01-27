@@ -37,6 +37,7 @@ std::string getBlockTypeDir(const BlockType& block_type)
 
 Block::Block(ASGE::Renderer* renderer,
              BlockType block_type,
+             bool spawn_item,
              const std::pair<int, int>& n_size,
              float tile_size,
              const std::pair<int, int>& map_coords,
@@ -115,6 +116,12 @@ Block::Block(ASGE::Renderer* renderer,
           tile_pos.setY(tile_pos.getY() + i * tile_size);
           tiles.emplace(std::pair<int, int>(j, i),
                         Tile(renderer, tile_type != 1, tile_size, tile_pos));
+          if (tile_type == 2)
+          {
+            tiles.at(std::pair<int, int>(j, i))
+              .addItem(new BearTrap(
+                renderer, tile_size, tile_pos.getX(), tile_pos.getY()));
+          }
           row.pop_front();
         }
         tile_types.pop_front();

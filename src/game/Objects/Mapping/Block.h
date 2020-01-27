@@ -6,6 +6,7 @@
 #define THE_SHINING_GAME_PROJECT_237_BLOCK_H
 
 #include "../../Utility/Vector2.h"
+#include "../BearTrap.h"
 #include "BlockType.h"
 #include "Tile.h"
 #include <map>
@@ -15,18 +16,7 @@ class Block
  public:
   Block(ASGE::Renderer* renderer,
         BlockType block_type,
-        const std::pair<int, int>& n_size,
-        float tile_size,
-        const std::pair<int, int>& map_coords) :
-    Block(renderer,
-          BlockType::MIDDLE,
-          n_size,
-          tile_size,
-          map_coords,
-          false,
-          false){};
-  Block(ASGE::Renderer* renderer,
-        BlockType block_type,
+        bool spawn_item,
         const std::pair<int, int>& n_size,
         float tile_size,
         const std::pair<int, int>& map_coords,

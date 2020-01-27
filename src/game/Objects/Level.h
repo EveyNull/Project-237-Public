@@ -2,6 +2,7 @@
 // Created by Tau on 15/01/2020.
 //
 #pragma once
+#include <algorithm>
 #include <deque>
 #include <map>
 #include <vector>

@@ -10,10 +10,7 @@
 class Barrier : public item
 {
  public:
-  bool initialiseBarrier(ASGE::Renderer* renderer,
-                         int tileSize,
-                         float xpos,
-                         float ypos);
+  Barrier(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos);
 
  private:
   std::string Frame1 = "/data/item_images/fence.png";

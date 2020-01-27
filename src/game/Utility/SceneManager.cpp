@@ -7,7 +7,7 @@
 
 SceneManager::SceneManager(ASGE::Renderer* n_renderer) : renderer(n_renderer) {}
 
-void SceneManager::update(float delta_time)
+void SceneManager::update(float delta_time, const Vector2& window_size)
 {
   if (gameState == GameState::MAINMENU)
   {
@@ -92,6 +92,23 @@ void SceneManager::render(ASGE::Renderer* renderer, Vector2 window_size)
                            window_size.getY() / 2 - 200.f,
                            ASGE::COLOURS::RED);
     }
+  }
+  else if (gameState == GameState::LOREMENU)
+  {
+    renderer->renderText("LORE",
+                         window_size.getX() / 2,
+                         top_menu_text_ypos + 25.f,
+                         ASGE::COLOURS::RED);
+    game_lore->renderText(renderer, window_size);
+    game_lore->renderLore(renderer, window_size, keys_pressed);
+  }
+
+  if (failed_open_level)
+  {
+    renderer->renderText("FAILED TO LOAD LEVEL",
+                         window_size.getX() / 2,
+                         window_size.getY() / 2 + 100.f,
+                         ASGE::COLOURS::RED);
   }
 }
 

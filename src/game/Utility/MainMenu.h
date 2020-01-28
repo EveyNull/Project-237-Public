@@ -14,7 +14,7 @@
 class MainMenu : public Scene
 {
  public:
-  MainMenu(const Vector2& n_window_size);
+  explicit MainMenu(const Vector2& n_window_size);
   SceneID update(float delta_time,
                  const std::deque<bool>& keys_held,
                  const std::deque<bool>& keys_released,

@@ -4,6 +4,11 @@
 
 #include "SpriteComponent.h"
 
+SpriteComponent::SpriteComponent(ASGE::Renderer* renderer)
+{
+  sprite = renderer->createRawSprite();
+}
+
 SpriteComponent::SpriteComponent(ASGE::Renderer* renderer,
                                  const std::string& sprite_file,
                                  float& tile_size)

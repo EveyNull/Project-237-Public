@@ -16,7 +16,7 @@ class Block
  public:
   Block(ASGE::Renderer* renderer,
         BlockType block_type,
-        bool spawn_item,
+        item* spawn_item,
         const std::pair<int, int>& n_size,
         float tile_size,
         const std::pair<int, int>& map_coords,

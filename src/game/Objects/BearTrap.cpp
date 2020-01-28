@@ -4,19 +4,12 @@
 
 #include "BearTrap.h"
 
-BearTrap::BearTrap(ASGE::Renderer* renderer,
-                   int tileSize,
-                   float xpos,
-                   float ypos)
+BearTrap::BearTrap(ASGE::Renderer* renderer, int tile_size) :
+  item(renderer, tile_size)
 {
-  addSpriteComponent(renderer, Frame1, tileSize);
-  setXPos(xpos);
-  setYPos(ypos);
-  getSpriteComponent()->getSprite()->xPos(xpos);
-  getSpriteComponent()->getSprite()->yPos(ypos);
-  setEnabled(true);
-  getSpriteComponent()->setVisible(true);
-
+  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  spriteComponent->getSprite()->height(tile_size);
+  spriteComponent->getSprite()->width(tile_size);
   item_id = 0;
 }
 

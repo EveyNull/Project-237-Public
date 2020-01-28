@@ -10,7 +10,7 @@
 class Barrier : public item
 {
  public:
-  Barrier(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos);
+  Barrier(ASGE::Renderer* renderer, int tile_size);
 
  private:
   std::string Frame1 = "/data/item_images/fence.png";

@@ -4,15 +4,11 @@
 
 #include "Barrier.h"
 
-Barrier::Barrier(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos)
+Barrier::Barrier(ASGE::Renderer* renderer, int tile_size) :
+  item(renderer, tile_size)
 {
-  addSpriteComponent(renderer, Frame1, tileSize);
-  setXPos(xpos);
-  setYPos(ypos + (tileSize / 4));
-  getSpriteComponent()->getSprite()->height(tileSize / 2);
-  getSpriteComponent()->getSprite()->xPos(xpos);
-  getSpriteComponent()->getSprite()->yPos(ypos);
-  setEnabled(true);
-  getSpriteComponent()->setVisible(true);
+  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  spriteComponent->getSprite()->height(tile_size);
+  spriteComponent->getSprite()->width(tile_size);
   item_id = 3;
 }

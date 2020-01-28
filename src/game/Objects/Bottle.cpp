@@ -4,19 +4,12 @@
 
 #include "Bottle.h"
 
-Bottle::Bottle(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos)
+Bottle::Bottle(ASGE::Renderer* renderer, int tile_size) :
+  item(renderer, tile_size)
 {
-  addSpriteComponent(renderer, Frame1, tileSize);
-  ogX = xpos + (tileSize / 4);
-  setXPos(ogX);
-  ogY = ypos + (tileSize / 4);
-  setYPos(ogY);
-  getSpriteComponent()->getSprite()->height(tileSize / 2);
-  getSpriteComponent()->getSprite()->width(tileSize / 2);
-  getSpriteComponent()->getSprite()->xPos(xpos);
-  getSpriteComponent()->getSprite()->yPos(ypos);
-  setEnabled(true);
-  getSpriteComponent()->setVisible(true);
+  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  spriteComponent->getSprite()->height(tile_size / 2);
+  spriteComponent->getSprite()->width(tile_size / 2);
   item_id = 1;
 }
 

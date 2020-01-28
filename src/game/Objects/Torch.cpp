@@ -4,17 +4,12 @@
 
 #include "Torch.h"
 
-Torch::Torch(ASGE::Renderer* renderer, int tileSize, float xpos, float ypos)
+Torch::Torch(ASGE::Renderer* renderer, int tile_size) :
+  item(renderer, tile_size)
 {
-  addSpriteComponent(renderer, Frame1, tileSize);
-  setXPos(xpos);
-  setYPos(ypos);
-  getSpriteComponent()->getSprite()->height(tileSize);
-  getSpriteComponent()->getSprite()->width(tileSize);
-  getSpriteComponent()->getSprite()->xPos(xpos);
-  getSpriteComponent()->getSprite()->yPos(ypos);
-  setEnabled(true);
-  getSpriteComponent()->setVisible(true);
+  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  spriteComponent->getSprite()->height(tile_size / 2);
+  spriteComponent->getSprite()->width(tile_size / 2);
   item_id = 4;
 }
 

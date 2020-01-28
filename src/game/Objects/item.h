@@ -10,6 +10,8 @@
 class item : public GameObject
 {
  public:
+  item(ASGE::Renderer* renderer, int tile_size);
+
   void setState(int State);
   int getState();
 

@@ -4,6 +4,13 @@
 
 #include "item.h"
 
+item::item(ASGE::Renderer* renderer, int tile_size)
+{
+  addSpriteComponent(renderer);
+  setEnabled(true);
+  getSpriteComponent()->setVisible(true);
+}
+
 void item::setEnabled(bool Enabled)
 {
   enabled = Enabled;

@@ -4,6 +4,13 @@
 
 #include "GameObject.h"
 
+bool GameObject::addSpriteComponent(ASGE::Renderer* renderer)
+{
+  if (!spriteComponent)
+  {
+    spriteComponent = new SpriteComponent(renderer);
+  }
+}
 bool GameObject::addSpriteComponent(ASGE::Renderer* renderer,
                                     const std::string& sprite_file,
                                     float sprite_size)

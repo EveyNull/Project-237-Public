@@ -9,6 +9,7 @@ item::item(ASGE::Renderer* renderer, int tile_size)
   addSpriteComponent(renderer);
   setEnabled(true);
   getSpriteComponent()->setVisible(true);
+  item_id = -1;
 }
 
 void item::setEnabled(bool Enabled)

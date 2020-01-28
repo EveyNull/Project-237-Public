@@ -41,6 +41,7 @@ MyASGEGame::~MyASGEGame()
  */
 bool MyASGEGame::init()
 {
+  srand(time(nullptr));
   setupResolution();
   if (!initAPI())
   {

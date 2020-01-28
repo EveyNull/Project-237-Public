@@ -79,9 +79,18 @@ void AIManager::DecideNextMove(bool game_over)
   else if (current_enemy_pos == current_step_pos)
   {
     current_state = AIState::SEARCHING;
-    if (ai_difficulty == LevelDifficulty::HARD)
+    if (!game_over)
     {
-      current_step_pos = pathFindToTarget(getCoordsFromPos(current_player_pos));
+      if (ai_difficulty != LevelDifficulty::EASY)
+      {
+        if (ai_difficulty == LevelDifficulty::HARD ||
+            getManhattanDistance(getCoordsFromPos(current_player_pos),
+                                 getCoordsFromPos(current_enemy_pos)) < 10)
+        {
+          current_step_pos =
+            pathFindToTarget(getCoordsFromPos(current_player_pos));
+        }
+      }
     }
     else
     {

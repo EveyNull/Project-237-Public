@@ -46,11 +46,17 @@ class AIManager
                                   PathTile center_tile);
 
 <<<<<<< refs/remotes/origin/development:src/game/Utility/AI/AIManager.h
+<<<<<<< refs/remotes/origin/development:src/game/Utility/AI/AIManager.h
   int chooseBetween(
     bool upable, bool rightable, bool leftable, bool downable, int came_from);
 
 =======
 >>>>>>> a:src/game/Utility/AIManager.h
+=======
+  int chooseBetween(
+    bool upable, bool rightable, bool leftable, bool downable, int came_from);
+
+>>>>>>> AI buff!:src/game/Utility/AIManager.h
   void hitByBearTrap();
   int getState();
 

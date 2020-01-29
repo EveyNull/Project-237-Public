@@ -64,6 +64,8 @@ bool MyASGEGame::init()
   sceneManager = std::make_unique<SceneManager>(
     renderer.get(), Vector2(game_width, game_height));
 
+  input = new InputManager();
+
   return true;
 }
 
@@ -100,7 +102,7 @@ void MyASGEGame::setupResolution()
 void MyASGEGame::keyHandler(ASGE::SharedEventData data)
 {
   auto key = static_cast<const ASGE::KeyEvent*>(data.get());
-  sceneManager->setKeyPressed(input.getInput(key), input.getKeyAction(key));
+  input->setKeyPressed(input->getMovement(key), input->getAction(key));
 }
 
 /**
@@ -133,12 +135,13 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
 
   if (sceneManager)
   {
-    sceneManager->update(game_time.delta.count());
+    sceneManager->update(game_time.delta.count(), input->readBufferIntoKeys());
   }
   if (sceneManager->getGameState() == GameState::EXITING)
   {
     signalExit();
   }
+  input->resetAll();
 }
 
 /**

@@ -34,5 +34,5 @@ class MyASGEGame : public ASGE::OGLGame
   bool in_menu = true;
 
   std::unique_ptr<SceneManager> sceneManager = nullptr;
-  InputManager input;
+  InputManager* input = nullptr;
 };

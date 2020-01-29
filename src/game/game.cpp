@@ -48,6 +48,8 @@ bool MyASGEGame::init()
     return false;
   }
 
+  renderer->setClearColour(ASGE::COLOURS::BLACK);
+
   toggleFPS();
 
   // input handling functions

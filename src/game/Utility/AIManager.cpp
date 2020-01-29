@@ -92,70 +92,67 @@ void AIManager::DecideNextMove(bool game_over)
         }
       }
     }
+    current_state = AIState::ROAMING;
+    std::pair<int, int> target_tile;
+    bool footprints_found = false;
+    switch (
+      getTileFromCoords(getCoordsFromPos(current_enemy_pos))->getFootprints())
+    {
+      case Direction::DOWN:
+      {
+        target_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                              getCoordsFromPos(current_enemy_pos).second + 1);
+        footprints_found = true;
+        break;
+      }
+
+      case Direction::UP:
+      {
+        target_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
+                              getCoordsFromPos(current_enemy_pos).second - 1);
+        footprints_found = true;
+        break;
+      }
+      case Direction::RIGHT:
+      {
+        target_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first + 1,
+                              getCoordsFromPos(current_enemy_pos).second);
+        footprints_found = true;
+        break;
+      }
+
+      case Direction::LEFT:
+      {
+        target_tile =
+          std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first - 1,
+                              getCoordsFromPos(current_enemy_pos).second);
+        footprints_found = true;
+        break;
+      }
+
+      default:
+      {
+        break;
+      }
+    }
+    if (footprints_found)
+    {
+      current_step_pos = getPosFromCoords(target_tile);
+      getTileFromCoords(getCoordsFromPos(current_enemy_pos))
+        ->setFootprints(Direction::NONE);
+    }
     else
     {
-      current_state = AIState::ROAMING;
-      std::pair<int, int> target_tile;
-      bool footprints_found = false;
-      switch (
-        getTileFromCoords(getCoordsFromPos(current_enemy_pos))->getFootprints())
+      if (getFurthestWalkableTileInDirection(current_travel_dir) ==
+          getCoordsFromPos(current_enemy_pos))
       {
-        case Direction::DOWN:
-        {
-          target_tile =
-            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
-                                getCoordsFromPos(current_enemy_pos).second + 1);
-          footprints_found = true;
-          break;
-        }
-
-        case Direction::UP:
-        {
-          target_tile =
-            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first,
-                                getCoordsFromPos(current_enemy_pos).second - 1);
-          footprints_found = true;
-          break;
-        }
-        case Direction::RIGHT:
-        {
-          target_tile =
-            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first + 1,
-                                getCoordsFromPos(current_enemy_pos).second);
-          footprints_found = true;
-          break;
-        }
-
-        case Direction::LEFT:
-        {
-          target_tile =
-            std::pair<int, int>(getCoordsFromPos(current_enemy_pos).first - 1,
-                                getCoordsFromPos(current_enemy_pos).second);
-          footprints_found = true;
-          break;
-        }
-
-        default:
-        {
-          break;
-        }
+        current_travel_dir = Direction(rand() % 4 + 1);
       }
-      if (footprints_found)
-      {
-        current_step_pos = getPosFromCoords(target_tile);
-        getTileFromCoords(getCoordsFromPos(current_enemy_pos))
-          ->setFootprints(Direction::NONE);
-      }
-      else
-      {
-        if (getFurthestWalkableTileInDirection(current_travel_dir) ==
-            getCoordsFromPos(current_enemy_pos))
-        {
-          current_travel_dir = Direction(rand() % 4 + 1);
-        }
-        current_step_pos = pathFindToTarget(
-          getFurthestWalkableTileInDirection(current_travel_dir));
-      }
+      current_step_pos = pathFindToTarget(
+        getFurthestWalkableTileInDirection(current_travel_dir));
     }
   }
 }

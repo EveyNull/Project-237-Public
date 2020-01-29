@@ -2,29 +2,17 @@
 // Created by k2-wotherspoon on 13/01/2020.
 //
 
-#include "Item.h"
+#include "item.h"
 
-<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Item.cpp
-Item::Item(ASGE::Renderer* renderer, int)
-=======
 Item::Item(ASGE::Renderer* renderer, int tile_size)
->>>>>>> a:src/game/Objects/item.cpp
 {
   addSpriteComponent(renderer);
+  setEnabled(true);
   getSpriteComponent()->setVisible(true);
   item_id = -1;
 }
 
 void Item::update(int tile_size, int frame, float delta_time) {}
-<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Item.cpp
-void Item::updateTimer(float delta_time, int tile_size) {}
-
-void Item::resetTimer()
-{
-  timer = 0;
-}
-=======
->>>>>>> a:src/game/Objects/item.cpp
 
 void Item::setEnabled(bool Enabled)
 {

@@ -45,9 +45,12 @@ class AIManager
                                   const std::vector<PathTile>& closed_list,
                                   PathTile center_tile);
 
+<<<<<<< refs/remotes/origin/development:src/game/Utility/AI/AIManager.h
   int chooseBetween(
     bool upable, bool rightable, bool leftable, bool downable, int came_from);
 
+=======
+>>>>>>> a:src/game/Utility/AIManager.h
   void hitByBearTrap();
   int getState();
 

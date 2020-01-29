@@ -541,6 +541,7 @@ int AIManager::getState()
 bool AIManager::getUntargetable()
 {
   return untargetable;
+<<<<<<< refs/remotes/origin/development:src/game/Utility/AI/AIManager.cpp
 }
 
 int AIManager::chooseBetween(
@@ -665,4 +666,6 @@ int AIManager::chooseBetween(
         break;
     }
   }
+=======
+>>>>>>> a:src/game/Utility/AIManager.cpp
 }

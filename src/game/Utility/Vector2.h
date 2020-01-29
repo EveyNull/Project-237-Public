@@ -21,14 +21,16 @@ class Vector2
 
   float getX() const;
   float getY() const;
+  float getMagnitude() const;
 
   void setX(float n_x);
   void setY(float n_y);
+  void updateMagnitude();
 
   void normalise();
 
  private:
-  float x, y;
+  float x, y, magnitude;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_VECTOR2_H

@@ -10,18 +10,21 @@ Vector2::Vector2(int n_x, int n_y)
 {
   x = n_x;
   y = n_y;
+  magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
 }
 
 Vector2::Vector2(float n_x, float n_y)
 {
   x = n_x;
   y = n_y;
+  magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
 }
 
 Vector2::Vector2(double n_x, double n_y)
 {
   x = n_x;
   y = n_y;
+  magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
 }
 
 Vector2 Vector2::operator*(const Vector2& param)
@@ -51,7 +54,6 @@ bool Vector2::operator==(const Vector2& param)
 
 void Vector2::normalise()
 {
-  auto magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
   if (magnitude > 0)
   {
     x /= magnitude;
@@ -69,6 +71,11 @@ float Vector2::getY() const
   return y;
 }
 
+float Vector2::getMagnitude() const
+{
+  return magnitude;
+}
+
 void Vector2::setX(float n_x)
 {
   x = n_x;
@@ -77,4 +84,9 @@ void Vector2::setX(float n_x)
 void Vector2::setY(float n_y)
 {
   y = n_y;
+}
+
+void Vector2::updateMagnitude()
+{
+  magnitude = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
 }

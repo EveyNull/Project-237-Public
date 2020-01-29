@@ -3,6 +3,8 @@
 //
 
 #include "../Objects/GameObject.h"
+#include "LoreOption.h"
+#include "Scene.h"
 #include "Vector2.h"
 #include <Engine/OGLGame.h>
 #include <deque>
@@ -10,25 +12,37 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_LOREMENU_H
 #  define THE_SHINING_GAME_PROJECT_237_LOREMENU_H
 
-class LoreMenu
+class LoreMenu : public Scene
 {
  public:
-  LoreMenu() = default;
-  LoreMenu(ASGE::Renderer* renderer, const Vector2& window_size);
+  explicit LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer);
   ~LoreMenu() = default;
 
-  bool getLocked();
-  void setLocked();
+  SceneID update(float delta_time,
+                 const std::deque<bool>& keys_held,
+                 const std::deque<bool>& keys_released,
+                 const ASGE::ClickEvent& click_event) override;
 
-  void renderText(ASGE::Renderer* renderer, Vector2 window_size);
-  void renderLore(ASGE::Renderer* renderer,
-                  Vector2 window_size,
-                  const std::deque<bool>& keys_pressed);
+  void render(ASGE::Renderer* renderer, Vector2 window_size) override;
+
+  LoreOption checkClickedLore(float xPos, float yPos);
+
+  void loadLore(ASGE::Renderer* renderer, const Vector2& window_size);
+  void renderLore();
+
+  /* bool getLocked();
+   void setLocked();
+ */
 
  private:
+  bool lore_opened = false;
   bool locked = true;
 
+  float top_text_Ypos = 100.f;
+
   GameObject* lore[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+  Vector2 window_size;
+  LoreOption lore_selected = NO_LORE;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_LOREMENU_H

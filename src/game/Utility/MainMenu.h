@@ -7,7 +7,7 @@
 
 #include <Engine/Renderer.h>
 
-#include "LevelDifficulty.h"
+#include "MenuOption.h"
 #include "Scene.h"
 #include "SceneID.h"
 
@@ -21,7 +21,7 @@ class MainMenu : public Scene
                  const ASGE::ClickEvent& click_event) override;
   void render(ASGE::Renderer* renderer, Vector2 window_size) override;
 
-  LevelDifficulty checkClickedDifficulty(float xPos, float yPos);
+  MenuOption checkClickedMenuOption(float xPos, float yPos);
 
  private:
   float top_menu_text_ypos = 100.f;

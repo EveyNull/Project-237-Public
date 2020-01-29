@@ -19,21 +19,31 @@ SceneID MainMenu::update(float delta_time,
   {
     return SceneID::CLOSE_GAME;
   }
+  // test to get to lore menu
+  if (keys_released[0])
+  {
+    return SceneID::LORE_MENU;
+  }
+
   if (click_event.action == ASGE::E_MOUSE_CLICK)
   {
-    LevelDifficulty difficulty_selected =
-      checkClickedDifficulty(click_event.xpos, click_event.ypos);
-    if (difficulty_selected == LevelDifficulty::EASY)
+    MenuOption option_selected =
+      checkClickedMenuOption(click_event.xpos, click_event.ypos);
+    if (option_selected == MenuOption::EASY)
     {
       return SceneID::LEVEL_EASY;
     }
-    else if (difficulty_selected == LevelDifficulty::MEDIUM)
+    else if (option_selected == MenuOption::MEDIUM)
     {
       return SceneID::LEVEL_MEDIUM;
     }
-    else if (difficulty_selected == LevelDifficulty::HARD)
+    else if (option_selected == MenuOption::HARD)
     {
       return SceneID::LEVEL_HARD;
+    }
+    else if (option_selected == MenuOption::LORE)
+    {
+      return SceneID::LORE_MENU;
     }
   }
   return scene_id;
@@ -47,25 +57,33 @@ void MainMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
     "MEDIUM", window_size.getX() / 2, top_menu_text_ypos + 25.f + 50.f);
   renderer->renderText(
     "HARD", window_size.getX() / 2, top_menu_text_ypos + 25.f + 100.f);
+  renderer->renderText(
+    "LORE", window_size.getX() / 2, top_menu_text_ypos + 25.f + 150.f);
 }
 
-LevelDifficulty MainMenu::checkClickedDifficulty(float xPos, float yPos)
+MenuOption MainMenu::checkClickedMenuOption(float xPos, float yPos)
 {
   if (xPos > window_size.getX() / 2 && xPos < window_size.getX() / 2 + 100.f)
   {
     if (yPos > top_menu_text_ypos && yPos < top_menu_text_ypos + 49.f)
     {
-      return LevelDifficulty ::EASY;
+      return MenuOption ::EASY;
     }
-    if (yPos > top_menu_text_ypos + 50 && yPos < top_menu_text_ypos + 50 + 49.f)
+    else if (yPos > top_menu_text_ypos + 50 &&
+             yPos < top_menu_text_ypos + 50 + 49.f)
     {
-      return LevelDifficulty ::MEDIUM;
+      return MenuOption ::MEDIUM;
     }
-    if (yPos > top_menu_text_ypos + 100 &&
-        yPos < top_menu_text_ypos + 100 + 49.f)
+    else if (yPos > top_menu_text_ypos + 100 &&
+             yPos < top_menu_text_ypos + 100 + 49.f)
     {
-      return LevelDifficulty ::HARD;
+      return MenuOption ::HARD;
+    }
+    else if (yPos > top_menu_text_ypos + 150 &&
+             yPos < top_menu_text_ypos + 150 + 49.f)
+    {
+      return MenuOption ::LORE;
     }
   }
-  return LevelDifficulty ::NO_DIFFICULTY;
+  return MenuOption ::NO_DIFFICULTY;
 }

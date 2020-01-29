@@ -3,8 +3,110 @@
 //
 
 #include "LoreMenu.h"
+#include <Engine/DebugPrinter.h>
 
-LoreMenu::LoreMenu(ASGE::Renderer* renderer, const Vector2& window_size)
+LoreMenu::LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer) :
+  window_size(n_window_size)
+{
+  scene_id = SceneID::LORE_MENU;
+  loadLore(renderer, window_size);
+}
+
+SceneID LoreMenu::update(float delta_time,
+                         const std::deque<bool>& keys_held,
+                         const std::deque<bool>& keys_released,
+                         const ASGE::ClickEvent& click_event)
+{
+  if (keys_released[5] || lore_selected == EXIT_LORE)
+  {
+    return SceneID::MAIN_MENU;
+  }
+
+  if (click_event.action == ASGE::E_MOUSE_CLICK)
+  {
+    if (lore_opened)
+    {
+      lore_selected = NO_LORE;
+      lore_opened = false;
+    }
+    else
+    {
+      lore_selected = checkClickedLore(click_event.xpos, click_event.ypos);
+      renderLore();
+    }
+  }
+
+  return scene_id;
+}
+
+void LoreMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
+{
+  for (int i = 0; i < 5; i++)
+  {
+    if (lore[i]->getSpriteComponent()->getVisible())
+    {
+      renderer->renderSprite(*lore[i]->getSpriteComponent()->getSprite());
+    }
+  }
+  renderer->renderText("LORE 1",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f,
+                       ASGE::COLOURS::RED);
+  renderer->renderText("LORE 2",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f + 50.f,
+                       ASGE::COLOURS::RED);
+  renderer->renderText("LORE 3",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f + 100.f,
+                       ASGE::COLOURS::RED);
+  renderer->renderText("LORE 4",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f + 150.f,
+                       ASGE::COLOURS::RED);
+  renderer->renderText("LORE 5",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f + 200.f,
+                       ASGE::COLOURS::RED);
+  renderer->renderText("MAIN MENU",
+                       window_size.getX() / 10,
+                       top_text_Ypos + 25.f + 250.f,
+                       ASGE::COLOURS::RED);
+}
+
+LoreOption LoreMenu::checkClickedLore(float xPos, float yPos)
+{
+  if (xPos > window_size.getX() / 10 && xPos < window_size.getX() / 10 + 100.f)
+  {
+    if (yPos > top_text_Ypos && yPos < top_text_Ypos + 49.f)
+    {
+      return LoreOption ::LORE1;
+    }
+    else if (yPos > top_text_Ypos + 50.f && yPos < top_text_Ypos + 50 + 49.f)
+    {
+      return LoreOption ::LORE2;
+    }
+    else if (yPos > top_text_Ypos + 100.f && yPos < top_text_Ypos + 100 + 49.f)
+    {
+      return LoreOption ::LORE3;
+    }
+    else if (yPos > top_text_Ypos + 150.f && yPos < top_text_Ypos + 150 + 49.f)
+    {
+      return LoreOption ::LORE4;
+    }
+    else if (yPos > top_text_Ypos + 200.f && yPos < top_text_Ypos + 200 + 49.f)
+    {
+      return LoreOption ::LORE5;
+    }
+    else if (yPos > top_text_Ypos + 250.f && yPos < top_text_Ypos + 250 + 49.f)
+    {
+      return LoreOption ::EXIT_LORE;
+    }
+  }
+  return LoreOption ::NO_LORE;
+}
+
+void LoreMenu::loadLore(ASGE::Renderer* renderer, const Vector2& window_size)
 {
   for (int i = 0; i < 5; i++)
   {
@@ -12,11 +114,81 @@ LoreMenu::LoreMenu(ASGE::Renderer* renderer, const Vector2& window_size)
     lore[i]->addSpriteComponent(
       renderer, "/data/lore_pictures/Lore" + std::to_string(i + 1) + ".png", 1);
     lore[i]->getSpriteComponent()->setVisible(false);
-    lore[i]->getSpriteComponent()->getSprite()->width(window_size.getX());
+    lore[i]->getSpriteComponent()->getSprite()->width(8 * window_size.getX() /
+                                                      10);
     lore[i]->getSpriteComponent()->getSprite()->height(window_size.getY());
+    lore[i]->getSpriteComponent()->getSprite()->xPos(2 * window_size.getX() /
+                                                     10);
   }
 }
 
+void LoreMenu::renderLore()
+{
+  for (int i = 0; i < 5; i++)
+  {
+    if (lore_selected == NO_LORE || lore_selected == EXIT_LORE)
+    {
+      lore_opened = false;
+    }
+    else
+    {
+      lore_opened = true;
+    }
+  }
+
+  if (lore_opened)
+  {
+    if (lore_selected == LORE1)
+    {
+      lore[0]->getSpriteComponent()->setVisible(true);
+      lore[1]->getSpriteComponent()->setVisible(false);
+      lore[2]->getSpriteComponent()->setVisible(false);
+      lore[3]->getSpriteComponent()->setVisible(false);
+      lore[4]->getSpriteComponent()->setVisible(false);
+    }
+    else if (lore_selected == LORE2)
+    {
+      lore[1]->getSpriteComponent()->setVisible(true);
+      lore[0]->getSpriteComponent()->setVisible(false);
+      lore[2]->getSpriteComponent()->setVisible(false);
+      lore[3]->getSpriteComponent()->setVisible(false);
+      lore[4]->getSpriteComponent()->setVisible(false);
+    }
+    else if (lore_selected == LORE3)
+    {
+      lore[2]->getSpriteComponent()->setVisible(true);
+      lore[0]->getSpriteComponent()->setVisible(false);
+      lore[1]->getSpriteComponent()->setVisible(false);
+      lore[3]->getSpriteComponent()->setVisible(false);
+      lore[4]->getSpriteComponent()->setVisible(false);
+    }
+    else if (lore_selected == LORE4)
+    {
+      lore[3]->getSpriteComponent()->setVisible(true);
+      lore[0]->getSpriteComponent()->setVisible(false);
+      lore[1]->getSpriteComponent()->setVisible(false);
+      lore[2]->getSpriteComponent()->setVisible(false);
+      lore[4]->getSpriteComponent()->setVisible(false);
+    }
+    else if (lore_selected == LORE5)
+    {
+      lore[4]->getSpriteComponent()->setVisible(true);
+      lore[0]->getSpriteComponent()->setVisible(false);
+      lore[1]->getSpriteComponent()->setVisible(false);
+      lore[2]->getSpriteComponent()->setVisible(false);
+      lore[3]->getSpriteComponent()->setVisible(false);
+    }
+  }
+  else
+  {
+    for (int i = 0; i < 5; i++)
+    {
+      lore[i]->getSpriteComponent()->setVisible(false);
+    }
+  }
+}
+
+/*
 bool LoreMenu::getLocked()
 {
   return locked;
@@ -29,42 +201,4 @@ void LoreMenu::setLocked()
     locked = !locked;
   }
 }
-
-void LoreMenu::renderText(ASGE::Renderer* renderer, Vector2 window_size)
-{
-  renderer->renderText("LORE 1",
-                       window_size.getX() / 2,
-                       window_size.getY() / 2 - 200.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 2",
-                       window_size.getX() / 2,
-                       window_size.getY() / 2 - 100.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 3",
-                       window_size.getX() / 2,
-                       window_size.getY() / 2,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 4",
-                       window_size.getX() / 2,
-                       window_size.getY() / 2 + 100.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 5",
-                       window_size.getX() / 2,
-                       window_size.getY() / 2 + 200.f,
-                       ASGE::COLOURS::RED);
-}
-
-void LoreMenu::renderLore(ASGE::Renderer* renderer,
-                          Vector2 window_size,
-                          const std::deque<bool>& keys_pressed)
-{
-  if (keys_pressed[11])
-  {
-    lore[0]->getSpriteComponent()->setVisible(true);
-  }
-
-  if (lore[0]->getSpriteComponent()->getVisible())
-  {
-    renderer->renderSprite(*lore[0]->getSpriteComponent()->getSprite());
-  }
-}
+*/

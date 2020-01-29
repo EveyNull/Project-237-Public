@@ -8,10 +8,11 @@
 
 #endif // THE_SHINING_GAME_PROJECT_237_LEVELDIFFICULTY_H
 
-enum LevelDifficulty
+enum MenuOption
 {
   NO_DIFFICULTY = -1,
   EASY = 0,
   MEDIUM = 1,
-  HARD = 2
+  HARD = 2,
+  LORE = 3
 };

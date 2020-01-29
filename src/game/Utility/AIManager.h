@@ -9,7 +9,7 @@
 #  include "../Objects/Mapping/Block.h"
 #  include "AIState.h"
 #  include "Direction.h"
-#  include "LevelDifficulty.h"
+#  include "MenuOption.h"
 #  include "PathTile.h"
 #  include <vector>
 
@@ -19,7 +19,7 @@ class AIManager
   explicit AIManager(std::map<std::pair<int, int>, Block>& level,
                      GameObject* n_enemy,
                      int n_tile_size,
-                     LevelDifficulty n_difficulty);
+                     MenuOption n_difficulty);
 
   void update(float delta_time);
 
@@ -46,7 +46,7 @@ class AIManager
                                   PathTile center_tile);
 
  private:
-  LevelDifficulty ai_difficulty = LevelDifficulty ::EASY;
+  MenuOption ai_difficulty = MenuOption ::EASY;
 
   Direction current_travel_dir = Direction::NONE;
 

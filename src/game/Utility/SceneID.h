@@ -16,4 +16,5 @@ enum SceneID
   LEVEL_EASY = 2,
   LEVEL_MEDIUM = 3,
   LEVEL_HARD = 4,
+  LORE_MENU = 5,
 };

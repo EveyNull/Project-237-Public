@@ -45,6 +45,9 @@ class AIManager
                                   const std::vector<PathTile>& closed_list,
                                   PathTile center_tile);
 
+  int chooseBetween(
+    bool upable, bool rightable, bool leftable, bool downable, int came_from);
+
   void hitByBearTrap();
   int getState();
 

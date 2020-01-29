@@ -173,11 +173,99 @@ void AIManager::DecideNextMove(bool game_over)
     }
     else
     {
+      std::pair<int, int> current_tile = getCoordsFromPos(current_enemy_pos);
+      std::pair<int, int> tile_up =
+        std::pair<int, int>(current_tile.first, current_tile.second - 1);
+      std::pair<int, int> tile_right =
+        std::pair<int, int>(current_tile.first + 1, current_tile.second);
+      std::pair<int, int> tile_left =
+        std::pair<int, int>(current_tile.first - 1, current_tile.second);
+      std::pair<int, int> tile_down =
+        std::pair<int, int>(current_tile.first, current_tile.second + 1);
+      bool upable = getTileFromCoords(tile_up)->getIsWalkable();
+      bool rightable = getTileFromCoords(tile_right)->getIsWalkable();
+      bool leftable = getTileFromCoords(tile_left)->getIsWalkable();
+      bool downable = getTileFromCoords(tile_down)->getIsWalkable();
+      int number_of_exits = 0;
+      int came_from = UP;
+      if (upable)
+      {
+        number_of_exits++;
+      }
+      if (rightable)
+      {
+        number_of_exits++;
+      }
+      if (leftable)
+      {
+        number_of_exits++;
+      }
+      if (downable)
+      {
+        number_of_exits++;
+      }
+
+      switch (current_travel_dir)
+      {
+        case LEFT:
+        {
+          came_from = RIGHT;
+          break;
+        }
+        case UP:
+        {
+          came_from = DOWN;
+          break;
+        }
+        case DOWN:
+        {
+          came_from = UP;
+          break;
+        }
+        case RIGHT:
+        {
+          came_from = LEFT;
+          break;
+        }
+        default:
+          break;
+      }
+
       if (getFurthestWalkableTileInDirection(current_travel_dir) ==
           getCoordsFromPos(current_enemy_pos))
       {
+        // if hit end
+        if (number_of_exits >= 2)
+        {
+          current_travel_dir = Direction(
+            chooseBetween(upable, rightable, leftable, downable, came_from));
+        }
+        else
+        {
+          current_travel_dir = Direction(came_from);
+        }
+
+        // if exits > 1 don't go in same direction as just came
+      }
+
+      if (number_of_exits > 2)
+      {
+        // ASGE::DebugPrinter{} << number_of_exits << std::endl;
+
+        // choose randomly from directions that are not the one we came from
+        // came_from =
+        // current_step_pos =
+        // pathFindToTarget(getFurthestWalkableTileInDirection(current_travel_dir))
+        // current_travel_dir = Direction(rand() % 4 + 1);
+        current_travel_dir = Direction(
+          chooseBetween(upable, rightable, leftable, downable, came_from));
+      }
+      if (current_travel_dir == 0)
+      {
         current_travel_dir = Direction(rand() % 4 + 1);
       }
+
+      ASGE::DebugPrinter{} << rand() % 4 + 1 << std::endl;
       current_step_pos = pathFindToTarget(
         getFurthestWalkableTileInDirection(current_travel_dir));
     }
@@ -453,4 +541,128 @@ int AIManager::getState()
 bool AIManager::getUntargetable()
 {
   return untargetable;
+}
+
+int AIManager::chooseBetween(
+  bool upable, bool rightable, bool leftable, bool downable, int came_from)
+{
+  int number_of_exits = 0;
+  if (upable)
+  {
+    number_of_exits++;
+  }
+  if (rightable)
+  {
+    number_of_exits++;
+  }
+  if (leftable)
+  {
+    number_of_exits++;
+  }
+  if (downable)
+  {
+    number_of_exits++;
+  }
+
+  if (number_of_exits == 2)
+  {
+    if (upable && came_from != UP)
+    {
+      return UP;
+    }
+    else if (downable && came_from != DOWN)
+    {
+      return DOWN;
+    }
+    else if (rightable && came_from != RIGHT)
+    {
+      return RIGHT;
+    }
+    else if (leftable && came_from != LEFT)
+    {
+      return LEFT;
+    }
+  }
+  else if (number_of_exits == 3)
+  {
+    // Need logic here, seems complicated :(
+    int random = Direction(rand() % 4 + 1);
+    return random;
+  }
+
+  else if (number_of_exits == 4)
+  {
+    int random = Direction(rand() % 3 + 1);
+
+    switch (came_from)
+    {
+      case UP:
+      {
+        if (random == 1)
+        {
+          return RIGHT;
+        }
+        else if (random == 2)
+        {
+          return LEFT;
+        }
+        else if (random == 3)
+        {
+          return DOWN;
+        }
+        break;
+      }
+      case DOWN:
+      {
+        if (random == 1)
+        {
+          return RIGHT;
+        }
+        else if (random == 2)
+        {
+          return LEFT;
+        }
+        else if (random == 3)
+        {
+          return UP;
+        }
+        break;
+      }
+      case LEFT:
+      {
+        if (random == 1)
+        {
+          return RIGHT;
+        }
+        else if (random == 2)
+        {
+          return UP;
+        }
+        else if (random == 3)
+        {
+          return DOWN;
+        }
+        break;
+      }
+
+      case RIGHT:
+      {
+        if (random == 1)
+        {
+          return UP;
+        }
+        else if (random == 2)
+        {
+          return LEFT;
+        }
+        else if (random == 3)
+        {
+          return DOWN;
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  }
 }

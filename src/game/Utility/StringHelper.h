@@ -11,7 +11,8 @@ class StringHelper
 {
  public:
   static std::vector<std::string>
-  split(const std::string& string, char delimeter);
+  split(const std::string& string, std::string delimeter);
+  static std::string join(const std::vector<std::string>& input);
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_STRINGHELPER_H

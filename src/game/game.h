@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 
+#include "Utility/Static Classes/DataManager.h"
+
 #include "Objects/GameObject.h"
 #include "Objects/Mapping/Block.h"
 #include "Utility/InputManager.h"

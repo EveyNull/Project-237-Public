@@ -74,13 +74,13 @@ Block::Block(ASGE::Renderer* renderer,
       std::list<std::list<int>> tile_types = std::list<std::list<int>>();
       std::string buffer_string = static_cast<std::string>(buffer.as_char());
 
-      std::vector<std::string> lines = StringHelper::split(buffer_string, '\n');
+      std::vector<std::string> lines = StringHelper::split(buffer_string, "\n");
 
       for (const std::string& line : lines)
       {
         std::list<int> tile_row = std::list<int>();
 
-        std::vector<std::string> tiles = StringHelper::split(line, ',');
+        std::vector<std::string> tiles = StringHelper::split(line, ",");
 
         for (const std::string& tile : tiles)
         {

@@ -5,7 +5,7 @@
 #include "StringHelper.h"
 
 std::vector<std::string>
-StringHelper::split(const std::string& string, char delimiter)
+StringHelper::split(const std::string& string, std::string delimiter)
 {
   std::vector<std::string> results;
   std::size_t current, previous = 0;
@@ -18,4 +18,14 @@ StringHelper::split(const std::string& string, char delimiter)
     current = string.find(delimiter, previous);
   }
   return results;
+}
+
+std::string StringHelper::join(const std::vector<std::string>& input)
+{
+  std::string result;
+  for (const std::string& string : input)
+  {
+    result.append(string);
+  }
+  return result;
 }

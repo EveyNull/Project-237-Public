@@ -8,11 +8,11 @@
 #include "../GameObject.h"
 #include "item.h"
 
-class Torch : public item
+class Torch : public Item
 {
  public:
   Torch(ASGE::Renderer* renderer, int tile_size);
-  void updateTorch(int tile_size, float delta_time);
+  void update(int tile_size, int frame, float delta_time) override;
   void changeFrame(int frame_number);
 
  private:

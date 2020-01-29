@@ -27,10 +27,7 @@ int Player::pressUse(int itemID)
     // check if current slot empty, if yes do nothing, if no go to use
     if (inventory->getItemInSlot(inv_slot) != 0)
     {
-      useItem();
-      ASGE::DebugPrinter{} << "used item" << std::endl;
-      ui->update(inv_slot, itemID, inventory->getAmountInSlot(inv_slot));
-      return -1;
+      return useItem();
     }
   }
   else
@@ -44,49 +41,63 @@ int Player::pressUse(int itemID)
       if (zoop != -1)
       {
         inventory->setSlot(zoop, itemID, 1);
-        // ASGE::DebugPrinter{} << "put in empty slot" << std::endl;
         ui->update(zoop, itemID, inventory->getAmountInSlot(zoop));
-        return 1;
+        return 0;
       }
     }
     else
     {
       inventory->changeNumber(asdf, 1);
-      ASGE::DebugPrinter{} << asdf << std::endl;
       ui->update(asdf, itemID, inventory->getAmountInSlot(asdf));
-      return 1;
+      return 0;
     }
   }
-  // ASGE::DebugPrinter{} << "nothing to use or get" << std::endl;
   return -1;
 }
 
-void Player::pickUpItem()
-{
-  // pick up item on tile if inventory space
-}
-
-void Player::useItem()
+int Player::useItem()
 {
   delaying = true;
-  if (inventory->getItemInSlot(inv_slot) == BOTTLE &&
-      inventory->getAmountInSlot(inv_slot) > 0)
+  if (inventory->getAmountInSlot(inv_slot) > 0)
   {
-    thrown_bottle->setXPos(currentX);
-    thrown_bottle->setYPos(currentY);
-    thrown_bottle->getSpriteComponent()->getSprite()->xPos(currentX);
-    thrown_bottle->getSpriteComponent()->getSprite()->yPos(currentY);
-    thrown_bottle->getSpriteComponent()->setVisible(true);
-    thrown_bottle->resetTimer();
-    // inventory amount -1
-    inventory->changeNumber(inv_slot, -1);
+    switch (inventory->getItemInSlot(inv_slot))
+    {
+      case BOTTLE:
+      {
+        thrown_bottle->setXPos(currentX);
+        thrown_bottle->setYPos(currentY);
+        thrown_bottle->getSpriteComponent()->getSprite()->xPos(currentX);
+        thrown_bottle->getSpriteComponent()->getSprite()->yPos(currentY);
+        thrown_bottle->getSpriteComponent()->setVisible(true);
+        thrown_bottle->resetTimer();
+        inventory->changeNumber(inv_slot, -1);
+        ui->update(inv_slot, BOTTLE, inventory->getAmountInSlot(inv_slot));
+        return BOTTLE;
+      }
+      case BEARTRAP:
+      {
+        inventory->changeNumber(inv_slot, -1);
+        ui->update(inv_slot, BEARTRAP, inventory->getAmountInSlot(inv_slot));
+        return BEARTRAP;
+      }
+      case BARRIER:
+      {
+        inventory->changeNumber(inv_slot, -1);
+        ui->update(inv_slot, BARRIER, inventory->getAmountInSlot(inv_slot));
+        return BARRIER;
+      }
+      case TORCH:
+      {
+        inventory->changeNumber(inv_slot, -1);
+        ui->update(inv_slot, TORCH, inventory->getAmountInSlot(inv_slot));
+        return TORCH;
+      }
+      default:
+        break;
+    }
   }
 
-  if (inventory->getItemInSlot(inv_slot) == BEARTRAP)
-  {
-    putting = true;
-    inventory->changeNumber(inv_slot, -1);
-  }
+  return -1;
 }
 
 void Player::setInvSlot(int slot)
@@ -123,12 +134,12 @@ void Player::update(const std::deque<bool>& input_release, float delta_time)
     }
   }
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 1; i < 10; i++)
   {
     if (input_release[i])
     {
-      setInvSlot(i);
-      ui->changeSlot(i);
+      setInvSlot(i - 1);
+      ui->changeSlot(i - 1);
       break;
     }
   }

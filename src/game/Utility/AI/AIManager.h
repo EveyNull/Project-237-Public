@@ -45,6 +45,11 @@ class AIManager
                                   const std::vector<PathTile>& closed_list,
                                   PathTile center_tile);
 
+  void hitByBearTrap();
+  int getState();
+
+  bool getUntargetable();
+
  private:
   MenuOption ai_difficulty = MenuOption ::EASY;
 
@@ -62,6 +67,10 @@ class AIManager
   GameObject* enemy = nullptr;
 
   int tile_size;
+  float timer = 0;
+  bool pause = false;
+  bool untargetable = false;
+  float untargetable_timer = 0;
 };
 
 #endif // PROJECT_AIMANAGER_H

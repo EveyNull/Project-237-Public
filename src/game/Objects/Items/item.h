@@ -7,10 +7,12 @@
 
 #include "../GameObject.h"
 
-class item : public GameObject
+class Item : public GameObject
 {
  public:
-  item(ASGE::Renderer* renderer, int tile_size);
+  Item(ASGE::Renderer* renderer, int tile_size);
+
+  virtual void update(int tile_size, int frame, float delta_time);
 
   void setState(int State);
   int getState();
@@ -34,7 +36,7 @@ class item : public GameObject
 
   bool inInventory = false;
 
-  bool enabled = false;
+  bool enabled = true;
 
   bool visible = false;
 

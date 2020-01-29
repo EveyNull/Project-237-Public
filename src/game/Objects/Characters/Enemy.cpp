@@ -37,4 +37,8 @@ void Enemy::setDefaultSpeed(int AI_state)
   {
     speed = 0.475f;
   }
+  else if (AI_state == 4 || AI_state == 5)
+  {
+    speed = 0;
+  }
 }

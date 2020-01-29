@@ -27,7 +27,7 @@ void AIManager::update(float delta_time)
     move_speed = 0.5f;
   }
 
-  if (!(current_enemy_pos == current_step_pos))
+  if (!(current_enemy_pos == current_step_pos) && (current_state != PAUSED))
   {
     Vector2 move_dir = Vector2(current_step_pos - current_enemy_pos);
     move_dir.normalise();
@@ -36,6 +36,30 @@ void AIManager::update(float delta_time)
       moveToPos((enemy->getPos() + (move_dir * delta_time * move_speed)),
                 current_step_pos));
     current_enemy_pos = enemy->getPos();
+  }
+
+  if (current_state == PAUSED)
+  {
+    if (timer < 1)
+    {
+      timer += (delta_time / 1000);
+    }
+    else
+    {
+      current_state = SEARCHING;
+    }
+  }
+
+  if (untargetable)
+  {
+    if (untargetable_timer < 5)
+    {
+      untargetable_timer += (delta_time / 1000);
+    }
+    else
+    {
+      untargetable = false;
+    }
   }
 }
 
@@ -400,4 +424,33 @@ bool AIManager::checkTileInSight(const std::pair<int, int>& target_pos)
   {
     return false;
   }
+}
+
+void AIManager::hitByBearTrap()
+{
+  if (!untargetable)
+  {
+    timer = 0;
+    enemy->removeHealth();
+    if (enemy->getHealth() > 0)
+    {
+      current_state = PAUSED;
+      untargetable = true;
+      untargetable_timer = 0;
+    }
+    else
+    {
+      current_state = DEAD;
+    }
+  }
+}
+
+int AIManager::getState()
+{
+  return current_state;
+}
+
+bool AIManager::getUntargetable()
+{
+  return untargetable;
 }

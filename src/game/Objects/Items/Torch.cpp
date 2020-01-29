@@ -5,7 +5,7 @@
 #include "Torch.h"
 
 Torch::Torch(ASGE::Renderer* renderer, int tile_size) :
-  item(renderer, tile_size)
+  Item(renderer, tile_size)
 {
   getSpriteComponent()->getSprite()->loadTexture(Frame1);
   spriteComponent->getSprite()->height(tile_size / 2);
@@ -13,7 +13,7 @@ Torch::Torch(ASGE::Renderer* renderer, int tile_size) :
   item_id = 4;
 }
 
-void Torch::updateTorch(int tile_size, float delta_time)
+void Torch::update(int tile_size, int frame, float delta_time)
 {
   timer += (delta_time / 1000);
 

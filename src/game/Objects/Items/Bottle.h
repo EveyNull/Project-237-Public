@@ -7,11 +7,11 @@
 
 #include "item.h"
 
-class Bottle : public item
+class Bottle : public Item
 {
  public:
   Bottle(ASGE::Renderer* renderer, int tile_size);
-  void update(float delta_time);
+  void update(int tile_size, int frame, float delta_time) override;
 
  private:
   float timer = 0;

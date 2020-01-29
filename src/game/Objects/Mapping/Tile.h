@@ -24,9 +24,9 @@ class Tile : public GameObject
   bool getIsWalkable();
   Direction& getFootprints();
 
-  void addItem(item* n_item);
+  void addItem(Item* n_item);
   void removeItem();
-  item* getItem();
+  Item* getItem();
 
   void setIsWalkable(bool isWalkable);
   void setFootprints(const Direction& new_direction);
@@ -34,7 +34,7 @@ class Tile : public GameObject
  private:
   bool walkable = false;
   Direction footprints = Direction::NONE;
-  item* present_item = nullptr;
+  Item* present_item = nullptr;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TILE_H

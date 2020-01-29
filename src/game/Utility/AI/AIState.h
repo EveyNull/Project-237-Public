@@ -12,5 +12,7 @@ enum AIState
   ROAMING,
   SEARCHING,
   HOMING,
-  CHASING
+  CHASING,
+  PAUSED,
+  DEAD
 };

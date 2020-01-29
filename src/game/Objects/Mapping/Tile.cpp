@@ -35,12 +35,12 @@ Direction& Tile::getFootprints()
   return footprints;
 }
 
-item* Tile::getItem()
+Item* Tile::getItem()
 {
   return present_item;
 }
 
-void Tile::addItem(item* n_item)
+void Tile::addItem(Item* n_item)
 {
   present_item = n_item;
 }

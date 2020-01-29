@@ -7,10 +7,11 @@
 
 #include "item.h"
 
-class Barrier : public item
+class Barrier : public Item
 {
  public:
   Barrier(ASGE::Renderer* renderer, int tile_size);
+  void update(int tile_size, int frame, float delta_time) override;
 
  private:
   std::string Frame1 = "/data/item_images/fence.png";

@@ -8,12 +8,12 @@
 #include "../GameObject.h"
 #include "item.h"
 
-class BearTrap : public item
+class BearTrap : public Item
 {
  public:
   BearTrap(ASGE::Renderer* renderer, int tile_size);
 
-  void updateBearTrap(int tileSize, int frame);
+  void update(int tile_size, int frame, float delta_time) override;
 
  private:
   std::string Frame1 = "/data/item_images/bear1.png";

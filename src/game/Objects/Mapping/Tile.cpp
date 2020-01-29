@@ -13,10 +13,16 @@ Tile::Tile(ASGE::Renderer* renderer,
   addSpriteComponent(renderer, "/data/1px.png", tile_size);
   walkable = isWalkable;
   position = n_position;
-  if (!isWalkable)
+  if (isWalkable)
   {
-    spriteComponent->getSprite()->colour(ASGE::COLOURS::GREEN);
+    spriteComponent->getSprite()->loadTexture("/data/snow.png");
   }
+  else
+  {
+    spriteComponent->getSprite()->loadTexture("/data/hedge.png");
+  }
+  spriteComponent->getSprite()->width(tile_size);
+  spriteComponent->getSprite()->height(tile_size);
 }
 
 bool Tile::getIsWalkable()
@@ -56,7 +62,7 @@ void Tile::setFootprints(const Direction& new_direction)
   footprints = new_direction;
   if (footprints == Direction::NONE)
   {
-    spriteComponent->getSprite()->loadTexture("/data/1px.png");
+    spriteComponent->getSprite()->loadTexture("/data/snow.png");
   }
   else
   {

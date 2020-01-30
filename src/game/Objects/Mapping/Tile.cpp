@@ -58,6 +58,10 @@ void Tile::setIsWalkable(bool isWalkable)
 
 void Tile::setFootprints(const Direction& new_direction)
 {
+  if (!getIsWalkable())
+  {
+    return;
+  }
   float tile_size = spriteComponent->getSprite()->width();
   footprints = new_direction;
   if (footprints == Direction::NONE)

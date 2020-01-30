@@ -140,7 +140,10 @@ void AIManager::DecideNextMove(bool game_over)
     }
     if (footprints_found)
     {
-      current_step_pos = getPosFromCoords(target_tile);
+      if (getTileFromCoords(target_tile)->getIsWalkable())
+      {
+        current_step_pos = getPosFromCoords(target_tile);
+      }
       getTileFromCoords(getCoordsFromPos(current_enemy_pos))
         ->setFootprints(Direction::NONE);
     }

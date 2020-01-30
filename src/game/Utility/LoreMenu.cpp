@@ -67,6 +67,12 @@ void LoreMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
       lore_buttons[i].getSpriteComponent()->getSprite()->yPos() + 25.f,
       ASGE::COLOURS::RED);
   }
+
+  renderer->renderText(
+    "MAIN MENU",
+    lore_buttons[5].getSpriteComponent()->getSprite()->xPos(),
+    lore_buttons[5].getSpriteComponent()->getSprite()->yPos() + 25.f,
+    ASGE::COLOURS::RED);
 }
 
 LoreOption LoreMenu::checkClickedLore(float xPos, float yPos)

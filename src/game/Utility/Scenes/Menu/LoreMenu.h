@@ -6,6 +6,12 @@
 #include "../../Vector2.h"
 #include "../Scene.h"
 #include "LoreOption.h"
+<<<<<<< refs/remotes/origin/development:src/game/Utility/Scenes/Menu/LoreMenu.h
+=======
+#include "Scene.h"
+#include "Static Classes/DataManager.h"
+#include "Vector2.h"
+>>>>>>> Lore menu denies locked lore:src/game/Utility/LoreMenu.h
 #include <Engine/OGLGame.h>
 #include <deque>
 
@@ -30,16 +36,13 @@ class LoreMenu : public Scene
   void loadLore(ASGE::Renderer* renderer, const Vector2& window_size);
   void renderLore();
 
-  /* bool getLocked();
-   void setLocked();
- */
-
  private:
   bool lore_opened = false;
   bool locked = true;
 
   float top_text_Ypos = 100.f;
 
+  std::vector<bool> unlocked_lore;
   std::vector<GameObject> lore_buttons;
   GameObject* lore_list[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
   Vector2 window_size;

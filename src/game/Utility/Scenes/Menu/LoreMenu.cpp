@@ -23,6 +23,8 @@ LoreMenu::LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer) :
     lore_buttons[i].getSpriteComponent()->getSprite()->width(100.f);
     lore_buttons[i].getSpriteComponent()->getSprite()->height(25.f);
   }
+
+  unlocked_lore = DataManager::getAllUnlockedLore();
 }
 
 SceneID LoreMenu::update(float delta_time,
@@ -65,7 +67,7 @@ void LoreMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
       "LORE " + std::to_string(i + 1),
       lore_buttons[i].getSpriteComponent()->getSprite()->xPos(),
       lore_buttons[i].getSpriteComponent()->getSprite()->yPos() + 25.f,
-      ASGE::COLOURS::RED);
+      unlocked_lore[i] ? ASGE::COLOURS::GREEN : ASGE::COLOURS::RED);
   }
 
   renderer->renderText(
@@ -118,7 +120,7 @@ void LoreMenu::renderLore()
     }
   }
 
-  if (lore_opened)
+  if (lore_opened && unlocked_lore[lore_selected - 1])
   {
     if (lore_selected == LORE1)
     {

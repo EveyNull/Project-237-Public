@@ -34,13 +34,13 @@ void DataManager::unlockLoreByIndex(int id)
 
 std::vector<bool> DataManager::getAllUnlockedLore()
 {
-  std::vector<bool> results = std::vector<bool>();
+  std::vector<bool> results;
   ASGE::FILEIO::File file;
   if (file.open("/userData/data", ASGE::FILEIO::File::IOMode::READ))
   {
     auto buffer = file.read();
     std::vector<std::string> lines =
-      StringHelper::split(buffer.as_char(), "\r\n");
+      StringHelper::split(buffer.as_char(), "\n");
     for (const std::string& line : lines)
     {
       results.push_back(std::stoi(line));
@@ -49,10 +49,7 @@ std::vector<bool> DataManager::getAllUnlockedLore()
   }
   else
   {
-    for (int i = 0; i < 5; i++)
-    {
-      results.push_back(false);
-    }
+    results = std::vector<bool>(5);
   }
   return results;
 }

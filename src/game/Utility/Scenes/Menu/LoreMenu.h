@@ -22,6 +22,7 @@ class LoreMenu : public Scene
                  const std::deque<bool>& keys_released,
                  const ASGE::ClickEvent& click_event,
                  Vector2 mouse_pos);
+
   SceneID update(float delta_time,
                  const std::deque<bool>& keys_held,
                  const std::deque<bool>& keys_released,

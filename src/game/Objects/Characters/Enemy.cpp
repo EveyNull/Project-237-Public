@@ -9,9 +9,9 @@ int Enemy::getHealth()
   return health;
 }
 
-void Enemy::removeHealth()
+void Enemy::removeHealth(int amount)
 {
-  health--;
+  health = health - amount;
 }
 
 float Enemy::getSpeed()

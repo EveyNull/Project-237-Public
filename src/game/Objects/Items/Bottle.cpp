@@ -8,6 +8,10 @@ Bottle::Bottle(ASGE::Renderer* renderer, int tile_size) :
   Item(renderer, tile_size)
 {
   getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  // spriteComponent->getSprite()->xPos(spriteComponent->getSprite()->xPos() +
+  // (tile_size/4));
+  // spriteComponent->getSprite()->yPos(spriteComponent->getSprite()->yPos() +
+  // (tile_size/4));
   spriteComponent->getSprite()->height(tile_size / 2);
   spriteComponent->getSprite()->width(tile_size / 2);
   item_id = BOTTLE;

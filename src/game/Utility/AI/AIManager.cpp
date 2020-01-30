@@ -519,12 +519,31 @@ void AIManager::hitByBearTrap()
   if (!untargetable)
   {
     timer = 0;
-    enemy->removeHealth();
+    enemy->removeHealth(3);
     if (enemy->getHealth() > 0)
     {
       current_state = PAUSED;
       untargetable = true;
       untargetable_timer = 0;
+    }
+    else
+    {
+      current_state = DEAD;
+    }
+  }
+}
+
+void AIManager::hitByBottle()
+{
+  if (!untargetable)
+  {
+    timer = 0;
+    enemy->removeHealth(1);
+    if (enemy->getHealth() > 0)
+    {
+      current_state = PAUSED;
+      untargetable = true;
+      untargetable_timer = 3;
     }
     else
     {

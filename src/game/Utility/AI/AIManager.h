@@ -58,6 +58,7 @@ class AIManager
 
 >>>>>>> AI buff!:src/game/Utility/AIManager.h
   void hitByBearTrap();
+  void hitByBottle();
   int getState();
 
   bool getUntargetable();

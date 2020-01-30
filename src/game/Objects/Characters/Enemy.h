@@ -11,13 +11,13 @@ class Enemy : public GameObject
 {
  public:
   int getHealth();
-  void removeHealth();
+  void removeHealth(int amount);
 
   float getSpeed();
   void setDefaultSpeed(int AI_state);
 
  private:
-  int health = 3;
+  int health = 15;
   float speed = 0.1f;
 };
 

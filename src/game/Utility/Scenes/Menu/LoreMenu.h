@@ -1,17 +1,11 @@
 //
 // Created by c2-worden on 27/01/2020.
 //
-
 #include "../../../Objects/GameObject.h"
+#include "../../Static Classes/DataManager.h"
 #include "../../Vector2.h"
 #include "../Scene.h"
 #include "LoreOption.h"
-<<<<<<< refs/remotes/origin/development:src/game/Utility/Scenes/Menu/LoreMenu.h
-=======
-#include "Scene.h"
-#include "Static Classes/DataManager.h"
-#include "Vector2.h"
->>>>>>> Lore menu denies locked lore:src/game/Utility/LoreMenu.h
 #include <Engine/OGLGame.h>
 #include <deque>
 

@@ -15,7 +15,7 @@ class item : public GameObject
   void setState(int State);
   int getState();
 
-  void setEnabled(bool Enabled);
+  virtual void setEnabled(bool Enabled);
   bool getEnabled();
 
   void setVisible(bool Visible);

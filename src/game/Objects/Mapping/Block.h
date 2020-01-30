@@ -6,7 +6,7 @@
 #define THE_SHINING_GAME_PROJECT_237_BLOCK_H
 
 #include "../../Utility/Vector2.h"
-#include "../BearTrap.h"
+#include "../Items/BearTrap.h"
 #include "BlockType.h"
 #include "Tile.h"
 #include <list>

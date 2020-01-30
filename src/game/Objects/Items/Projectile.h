@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_PROJECTILE_H
 #define THE_SHINING_GAME_PROJECT_237_PROJECTILE_H
 
-#include "GameObject.h"
+#include "../GameObject.h"
 
 class Projectile : public GameObject
 {

@@ -9,8 +9,8 @@
 #include <Engine/Renderer.h>
 #include <deque>
 
+#include "../Vector2.h"
 #include "SceneID.h"
-#include "Vector2.h"
 
 class Scene
 {

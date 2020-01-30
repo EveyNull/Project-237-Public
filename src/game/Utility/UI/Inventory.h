@@ -5,9 +5,9 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_INVENTORY_H
 #define THE_SHINING_GAME_PROJECT_237_INVENTORY_H
 
-#include "../Objects/BearTrap.h"
-#include "../Objects/Bottle.h"
-#include "../Objects/Torch.h"
+#include "../../Objects/Items/BearTrap.h"
+#include "../../Objects/Items/Bottle.h"
+#include "../../Objects/Items/Torch.h"
 #include "ItemIDs.h"
 
 class Inventory

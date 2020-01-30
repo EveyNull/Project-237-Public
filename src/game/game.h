@@ -8,7 +8,7 @@
 #include "Objects/GameObject.h"
 #include "Objects/Mapping/Block.h"
 #include "Utility/InputManager.h"
-#include "Utility/SceneManager.h"
+#include "Utility/Scenes/SceneManager.h"
 #include "Utility/Vector2.h"
 
 /**

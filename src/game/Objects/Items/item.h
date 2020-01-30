@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_ITEM_H
 #define THE_SHINING_GAME_PROJECT_237_ITEM_H
 
-#include "GameObject.h"
+#include "../GameObject.h"
 
 class item : public GameObject
 {

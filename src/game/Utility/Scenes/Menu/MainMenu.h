@@ -8,10 +8,10 @@
 #include <Engine/Renderer.h>
 #include <vector>
 
-#include "../Objects/GameObject.h"
+#include "../../../Objects/GameObject.h"
+#include "../Scene.h"
+#include "../SceneID.h"
 #include "MenuOption.h"
-#include "Scene.h"
-#include "SceneID.h"
 
 class MainMenu : public Scene
 {

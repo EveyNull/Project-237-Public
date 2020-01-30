@@ -4,7 +4,7 @@
 
 #include <deque>
 
-#include "../Objects/GameObject.h"
+#include "../../Objects/GameObject.h"
 #include "Inventory.h"
 
 #ifndef THE_SHINING_GAME_PROJECT_237_UI_H

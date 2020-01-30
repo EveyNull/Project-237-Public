@@ -2,10 +2,10 @@
 // Created by c2-worden on 27/01/2020.
 //
 
-#include "../Objects/GameObject.h"
+#include "../../../Objects/GameObject.h"
+#include "../../Vector2.h"
+#include "../Scene.h"
 #include "LoreOption.h"
-#include "Scene.h"
-#include "Vector2.h"
 #include <Engine/OGLGame.h>
 #include <deque>
 

@@ -3,7 +3,7 @@
 //
 
 #include "MainMenu.h"
-#include "SceneID.h"
+#include "../SceneID.h"
 #include <Engine/DebugPrinter.h>
 
 MainMenu::MainMenu(ASGE::Renderer* renderer, const Vector2& n_window_size) :

@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_ENEMY_H
 #define THE_SHINING_GAME_PROJECT_237_ENEMY_H
 
-#include "GameObject.h"
+#include "../GameObject.h"
 
 class Enemy : public GameObject
 {

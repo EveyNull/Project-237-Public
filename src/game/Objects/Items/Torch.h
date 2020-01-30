@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_TORCH_H
 #define THE_SHINING_GAME_PROJECT_237_TORCH_H
 
-#include "GameObject.h"
+#include "../GameObject.h"
 #include "item.h"
 
 class Torch : public item

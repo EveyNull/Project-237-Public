@@ -5,7 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_LINE_H
 #define THE_SHINING_GAME_PROJECT_237_LINE_H
 
-#include "Vector2.h"
+#include "../Vector2.h"
 #include <Engine/Renderer.h>
 #include <Engine/Sprite.h>
 

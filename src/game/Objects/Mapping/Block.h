@@ -9,6 +9,7 @@
 #include "../BearTrap.h"
 #include "BlockType.h"
 #include "Tile.h"
+#include <list>
 #include <map>
 
 class Block
@@ -25,6 +26,14 @@ class Block
   Tile& getTile(int row, int col);
   Tile& getTile(std::pair<int, int> coords);
   std::map<std::pair<int, int>, Tile>& get_all_tiles();
+
+  void createRow(ASGE::Renderer* renderer,
+                 std::list<int> row,
+                 const std::pair<int, int>& map_coords,
+                 int tile_size,
+                 int i,
+                 int j,
+                 item* spawn_item);
 
   int getRows();
   int getCols();

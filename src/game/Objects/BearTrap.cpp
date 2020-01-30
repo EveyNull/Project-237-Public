@@ -15,23 +15,13 @@ BearTrap::BearTrap(ASGE::Renderer* renderer, int tile_size) :
 
 void BearTrap::updateBearTrap(int tileSize, int frame)
 {
-  switch (frame)
+  if (frame == 1)
   {
-    case 1:
-    {
-      getSpriteComponent()->getSprite()->loadTexture(Frame1);
-      break;
-    }
-    case 2:
-    {
-      getSpriteComponent()->getSprite()->loadTexture(Frame2);
-      break;
-    }
-    default:
-    {
-      getSpriteComponent()->getSprite()->loadTexture(Frame1);
-      break;
-    }
+    getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  }
+  if (frame == 2)
+  {
+    getSpriteComponent()->getSprite()->loadTexture(Frame2);
   }
 
   getSpriteComponent()->getSprite()->height(tileSize);

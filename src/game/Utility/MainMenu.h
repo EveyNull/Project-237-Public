@@ -19,7 +19,7 @@ class MainMenu : public Scene
   explicit MainMenu(ASGE::Renderer* renderer, const Vector2& n_window_size);
   SceneID update(float delta_time,
                  const std::deque<bool>& keys_held,
-                 const std::deque<bool>& keys_released,
+                 const std::deque<bool>& keys_pressed,
                  const ASGE::ClickEvent& click_event) override;
   void render(ASGE::Renderer* renderer, Vector2 window_size) override;
 

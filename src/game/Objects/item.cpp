@@ -4,7 +4,7 @@
 
 #include "item.h"
 
-item::item(ASGE::Renderer* renderer, int tile_size)
+item::item(ASGE::Renderer* renderer, int)
 {
   addSpriteComponent(renderer);
   setEnabled(true);

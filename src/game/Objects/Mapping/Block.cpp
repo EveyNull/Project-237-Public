@@ -10,7 +10,6 @@
 #include "Block.h"
 
 #include <cmath>
-#include <list>
 #include <random>
 std::string getBlockTypeDir(const BlockType& block_type)
 {
@@ -108,36 +107,44 @@ Block::Block(ASGE::Renderer* renderer,
         }
         for (int j = 0; j < size.second; j++)
         {
-          int tile_type = row.front();
-          Vector2 tile_pos =
-            Vector2(map_coords.first * size.first * tile_size,
-                    map_coords.second * size.second * tile_size);
-          tile_pos.setX(tile_pos.getX() + j * tile_size);
-          tile_pos.setY(tile_pos.getY() + i * tile_size);
-          tiles.emplace(std::pair<int, int>(j, i),
-                        Tile(renderer, tile_type != 1, tile_size, tile_pos));
-          if (tile_type == 2)
-          {
-            if (spawn_item)
-            {
-              ASGE::DebugPrinter{} << "item at " << map_coords.first << ","
-                                   << map_coords.second << std::endl;
-              tiles.at(std::pair<int, int>(j, i)).addItem(spawn_item);
-              item* new_item = tiles.at(std::pair<int, int>(j, i)).getItem();
-              new_item->setPos(tile_pos);
-            }
-          }
+          createRow(renderer, row, map_coords, tile_size, i, j, spawn_item);
           row.pop_front();
         }
         tile_types.pop_front();
       }
     }
     blockTemplate.close();
+    return;
   }
-  else
+  ASGE::DebugPrinter{} << "Failed to open file: " << fileName << std::endl;
+  throw - 1;
+}
+
+void Block::createRow(ASGE::Renderer* renderer,
+                      std::list<int> row,
+                      const std::pair<int, int>& map_coords,
+                      int tile_size,
+                      int i,
+                      int j,
+                      item* spawn_item)
+{
+  int tile_type = row.front();
+  Vector2 tile_pos = Vector2(map_coords.first * size.first * tile_size,
+                             map_coords.second * size.second * tile_size);
+  tile_pos.setX(tile_pos.getX() + j * tile_size);
+  tile_pos.setY(tile_pos.getY() + i * tile_size);
+  tiles.emplace(std::pair<int, int>(j, i),
+                Tile(renderer, tile_type != 1, tile_size, tile_pos));
+  if (tile_type == 2)
   {
-    ASGE::DebugPrinter{} << "Failed to open file: " << fileName << std::endl;
-    throw - 1;
+    if (spawn_item)
+    {
+      ASGE::DebugPrinter{} << "item at " << map_coords.first << ","
+                           << map_coords.second << std::endl;
+      tiles.at(std::pair<int, int>(j, i)).addItem(spawn_item);
+      item* new_item = tiles.at(std::pair<int, int>(j, i)).getItem();
+      new_item->setPos(tile_pos);
+    }
   }
 }
 

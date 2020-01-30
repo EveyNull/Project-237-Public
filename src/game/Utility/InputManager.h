@@ -5,6 +5,7 @@
 #ifndef PROJECT_INPUTMANAGER_H
 #define PROJECT_INPUTMANAGER_H
 
+#include <algorithm>
 #include <deque>
 
 #include <Engine/OGLGame.h>
@@ -13,14 +14,14 @@ class InputManager
 {
  public:
   InputManager() = default;
-  static std::pair<bool, int> getMovement(const ASGE::KeyEvent* key);
-  static std::pair<bool, int> getAction(const ASGE::KeyEvent* key);
+  std::pair<bool, int> getMovement(const ASGE::KeyEvent* key);
+  std::pair<bool, int> getAction(const ASGE::KeyEvent* key);
 
-  static bool keyHeld(const ASGE::KeyEvent* key);
-  static bool keyReleased(const ASGE::KeyEvent* key);
+  bool keyHeld(const ASGE::KeyEvent* key);
+  bool keyPressed(const ASGE::KeyEvent* key);
 
-  static int movement(const ASGE::KeyEvent* key);
-  static int action(const ASGE::KeyEvent* key);
+  int movement(const ASGE::KeyEvent* key);
+  int action(const ASGE::KeyEvent* key);
 
   void
   setKeyPressed(std::pair<bool, int> movement, std::pair<bool, int> action);
@@ -31,7 +32,15 @@ class InputManager
 
  private:
   std::deque<bool> buffer_input_held = std::deque<bool>(4);
-  std::deque<bool> buffer_input_release = std::deque<bool>(12);
+  std::deque<bool> buffer_input_pressed = std::deque<bool>(12);
+
+  int keys[13] = { ASGE::KEYS::KEY_E,    ASGE::KEYS::KEY_1,
+                   ASGE::KEYS::KEY_2,    ASGE::KEYS::KEY_3,
+                   ASGE::KEYS::KEY_4,    ASGE::KEYS::KEY_5,
+                   ASGE::KEYS::KEY_6,    ASGE::KEYS::KEY_7,
+                   ASGE::KEYS::KEY_8,    ASGE::KEYS::KEY_9,
+                   ASGE::KEYS::KEY_P,    ASGE::KEYS::KEY_ESCAPE,
+                   ASGE::KEYS::KEY_ENTER };
 };
 
 #endif // PROJECT_INPUTMANAGER_H

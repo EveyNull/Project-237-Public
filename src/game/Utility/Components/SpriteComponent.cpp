@@ -33,6 +33,7 @@ ASGE::Sprite* SpriteComponent::getSprite()
 
 void SpriteComponent::setVisible(bool vis)
 {
+  // getSprite()->opacity(vis ? 100 : 0);
   visible = vis;
 }
 

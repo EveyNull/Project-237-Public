@@ -6,15 +6,8 @@
 
 bool rect::isInside(float x_, float y_) const
 {
-  if (x_ >= this->x && x_ <= this->x + this->length)
-  {
-    if (y_ >= this->y && y_ <= this->y + this->height)
-    {
-      return true;
-    }
-  }
-
-  return false;
+  return (x_ >= this->x && x_ <= this->x + this->length) &&
+         (y_ >= this->y && y_ <= this->y + this->height);
 }
 
 bool rect::isInside(const rect& rhs) const

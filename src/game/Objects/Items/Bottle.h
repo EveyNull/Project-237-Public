@@ -5,6 +5,7 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_BOTTLE_H
 #define THE_SHINING_GAME_PROJECT_237_BOTTLE_H
 
+#include "../Utility/ItemIDs.h"
 #include "item.h"
 
 class Bottle : public Item

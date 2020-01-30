@@ -10,7 +10,7 @@ Torch::Torch(ASGE::Renderer* renderer, int tile_size) :
   getSpriteComponent()->getSprite()->loadTexture(Frame1);
   spriteComponent->getSprite()->height(tile_size / 2);
   spriteComponent->getSprite()->width(tile_size / 2);
-  item_id = 4;
+  item_id = TORCH;
 }
 
 void Torch::update(int tile_size, int frame, float delta_time)

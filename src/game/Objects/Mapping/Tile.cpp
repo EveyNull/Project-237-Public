@@ -4,7 +4,9 @@
 
 #include <cmath>
 
+#include "../Barrier.h"
 #include "Tile.h"
+
 Tile::Tile(ASGE::Renderer* renderer,
            bool isWalkable,
            float tile_size,
@@ -27,6 +29,11 @@ Tile::Tile(ASGE::Renderer* renderer,
 
 bool Tile::getIsWalkable()
 {
+  Barrier* test = dynamic_cast<Barrier*>(present_item);
+  if (test != nullptr && test->getEnabled())
+  {
+    return false;
+  }
   return walkable;
 }
 
@@ -43,6 +50,7 @@ Item* Tile::getItem()
 void Tile::addItem(Item* n_item)
 {
   present_item = n_item;
+  present_item->setPos(position);
 }
 
 void Tile::removeItem()

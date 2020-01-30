@@ -17,7 +17,11 @@ class LoreMenu : public Scene
  public:
   explicit LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer);
   ~LoreMenu() = default;
-
+  SceneID update(float delta_time,
+                 const std::deque<bool>& keys_held,
+                 const std::deque<bool>& keys_released,
+                 const ASGE::ClickEvent& click_event,
+                 ASGE::Renderer*);
   SceneID update(float delta_time,
                  const std::deque<bool>& keys_held,
                  const std::deque<bool>& keys_released,

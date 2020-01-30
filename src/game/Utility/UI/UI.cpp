@@ -79,21 +79,12 @@ void UI::render(ASGE::Renderer* renderer)
   {
     renderer->renderSprite(*slots[i].getSpriteComponent()->getSprite());
     std::string amount = std::to_string(itemArray[i][1]);
-    renderer->renderText(amount, 400 + (i * 60), 80, 1, ASGE::COLOURS::BLACK);
+    renderer->renderText(amount, 400 + (i * 60), 80, 1, ASGE::COLOURS::YELLOW);
   }
 
   if (selecter.getSpriteComponent()->getVisible())
   {
     renderer->renderSprite(*selecter.getSpriteComponent()->getSprite());
-  }
-
-  if (fill_bar.getSpriteComponent()->getVisible())
-  {
-    renderer->renderSprite(*fill_bar.getSpriteComponent()->getSprite());
-  }
-  if (filler.getSpriteComponent()->getVisible())
-  {
-    renderer->renderSprite(*filler.getSpriteComponent()->getSprite());
   }
 }
 
@@ -169,23 +160,4 @@ void UI::update(int slot, int itemID, int number)
 void UI::changeSlot(int new_slot)
 {
   selecter.getSpriteComponent()->getSprite()->xPos(400 + (new_slot * 60));
-}
-
-void UI::fillBar(float xpos, float ypos, float timer)
-{
-  fill_bar.getSpriteComponent()->getSprite()->xPos(xpos);
-  fill_bar.getSpriteComponent()->getSprite()->yPos(ypos);
-  fill_bar.getSpriteComponent()->setVisible(true);
-  filler.getSpriteComponent()->getSprite()->xPos(xpos);
-  filler.getSpriteComponent()->getSprite()->yPos(ypos);
-  filler.getSpriteComponent()->setVisible(true);
-
-  filler.getSpriteComponent()->getSprite()->width((timer / 5) * 100);
-  // ASGE::DebugPrinter{} << "x_pos: " << timer << std::endl;
-}
-
-void UI::stopFill()
-{
-  fill_bar.getSpriteComponent()->setVisible(false);
-  filler.getSpriteComponent()->setVisible(false);
 }

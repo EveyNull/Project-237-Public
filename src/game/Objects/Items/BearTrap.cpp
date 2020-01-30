@@ -7,10 +7,10 @@
 BearTrap::BearTrap(ASGE::Renderer* renderer, int tile_size) :
   Item(renderer, tile_size)
 {
-  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  getSpriteComponent()->getSprite()->loadTexture(Frame2);
   spriteComponent->getSprite()->height(tile_size);
   spriteComponent->getSprite()->width(tile_size);
-  item_id = 0;
+  item_id = BEARTRAP;
 }
 
 void BearTrap::update(int tileSize, int frame, float delta_time)

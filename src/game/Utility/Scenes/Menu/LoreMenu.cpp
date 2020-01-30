@@ -26,6 +26,14 @@ LoreMenu::LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer) :
 
   unlocked_lore = DataManager::getAllUnlockedLore();
 }
+SceneID LoreMenu::update(float delta_time,
+                         const std::deque<bool>& keys_held,
+                         const std::deque<bool>& keys_released,
+                         const ASGE::ClickEvent& click_event,
+                         ASGE::Renderer*)
+{
+  update(delta_time, keys_held, keys_released, click_event);
+}
 
 SceneID LoreMenu::update(float delta_time,
                          const std::deque<bool>& keys_held,

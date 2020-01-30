@@ -23,6 +23,7 @@
 #include "Bottle.h"
 #include "Torch.h"
 #include "item.h"
+#include "projectile.h"
 
 #include "Enemy.h"
 #include <Engine/FileIO.h>
@@ -51,7 +52,8 @@ class Level : public Scene
   SceneID update(float delta_time,
                  const std::deque<bool>& input_held,
                  const std::deque<bool>& input_release,
-                 const ASGE::ClickEvent& click_event) override;
+                 const ASGE::ClickEvent& click_event,
+                 ASGE::Renderer* renderer) override;
   Tile* getTileFromCoords(const std::pair<int, int>& target_pos);
 
   std::pair<int, int> getTileCoordsFromPos(GameObject* object);
@@ -84,6 +86,7 @@ class Level : public Scene
   std::map<std::pair<int, int>, Block> map;
   int tile_size = 100;
   bool game_over = false;
+  bool game_won = false;
 
   GameObject* render_center = nullptr;
 
@@ -96,7 +99,7 @@ class Level : public Scene
   std::list<Item*> items;
 
   int spawn_beartraps = 10, spawn_bottles = 5, spawn_barriers = 5,
-      spawn_torches = 5;
+      spawn_torches = 50;
 
   // std::vector<BearTrap> beartraps;
   // std::vector<Torch> torches;
@@ -106,6 +109,8 @@ class Level : public Scene
   // Torch* torches[20];
   // Barrier* barriers[20];
   // Bottle* bottles[20];
+  // Projectile* thrown_bottle = nullptr;
+  std::vector<Projectile> thrown_bottles;
   std::vector<GameObject> goop;
   float goop_timer = 0;
   SoLoud::Soloud soloud;

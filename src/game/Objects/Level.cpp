@@ -55,7 +55,7 @@ Level::Level(ASGE::Renderer* renderer, MenuOption difficulty)
 
   enemy->addSpriteComponent(renderer, "/data/1px.png", tile_size * 0.75);
   enemy->getSpriteComponent()->getSprite()->colour(ASGE::COLOURS::RED);
-  enemy->setPos(Vector2(330.f, 330.f));
+  enemy->setPos(Vector2(530.f, 530.f));
   ai_manager = new AIManager(map, enemy, tile_size, difficulty);
 
   player = new Player(renderer, tile_size);
@@ -106,7 +106,8 @@ Level::updateFootprintDirection(const std::pair<int, int>& player_coords)
 SceneID Level::update(float delta_time,
                       const std::deque<bool>& input_held,
                       const std::deque<bool>& input_release,
-                      const ASGE::ClickEvent& click_event)
+                      const ASGE::ClickEvent& click_event,
+                      ASGE::Renderer* renderer)
 {
   if (!paused)
   {
@@ -132,6 +133,14 @@ SceneID Level::update(float delta_time,
       }
     }
 
+    for (Item* item : items)
+    {
+      if (item->getEnabled() && item->getItemID() == BARRIER)
+      {
+        item->updateTimer(delta_time, tile_size);
+      }
+    }
+
     if (input_release[0])
     {
       int item_id = 0;
@@ -140,31 +149,58 @@ SceneID Level::update(float delta_time,
       {
         item_id = current_tile->getItem()->getItemID();
         current_tile->removeItem();
-        player->pressUse(item_id);
+        // player->pressUse(item_id);
       }
-      player->pressUse(item_id);
-    }
-    isEnemyOnItem();
-    ai_manager->UpdateKnownPlayerPos(player->getPos());
-    ai_manager->DecideNextMove(game_over);
-
-    ai_manager->update(delta_time);
-
-    if (ai_manager->getUntargetable())
-    {
-      goop_timer += (delta_time / 1000);
-
-      if (goop_timer >= 0.25)
+      int item_returned = player->pressUse(item_id);
+      if (item_returned == BEARTRAP)
       {
-        // makeGoop(renderer);
-        goop_timer = 0;
+        current_tile->addItem(new BearTrap(renderer, tile_size));
+        current_tile->getItem()->setEnabled(true);
+        current_tile->getItem()->update(tile_size, 1, delta_time);
+      }
+      if (item_returned == BOTTLE)
+      {
+        current_tile->addItem(new Bottle(renderer, tile_size));
+        // Projectile* thrown = new Projectile(renderer);
+      }
+      if (item_returned == BARRIER)
+      {
+        current_tile->addItem(new Barrier(renderer, tile_size));
+        current_tile->getItem()->setEnabled(true);
+        current_tile->getItem()->resetTimer();
+        current_tile->getItem()->update(tile_size, 1, delta_time);
+        items.emplace_back(current_tile->getItem());
       }
     }
-
-    if (getTileCoordsFromPos(player) == getTileCoordsFromPos(enemy))
+    if (enemy)
     {
-      game_over = true;
-      render_center = enemy;
+      isEnemyOnItem();
+      ai_manager->UpdateKnownPlayerPos(player->getPos());
+      ai_manager->DecideNextMove(game_over);
+
+      ai_manager->update(delta_time);
+
+      if (ai_manager->getUntargetable())
+      {
+        goop_timer += (delta_time / 1000);
+
+        if (goop_timer >= 0.25)
+        {
+          makeGoop(renderer);
+          goop_timer = 0;
+        }
+      }
+
+      if (ai_manager->getState() == AIState::DEAD)
+      {
+        game_won = true;
+      }
+
+      if (getTileCoordsFromPos(player) == getTileCoordsFromPos(enemy))
+      {
+        game_over = false;
+        render_center = player;
+      }
     }
   }
 
@@ -271,19 +307,31 @@ void Level::render(ASGE::Renderer* renderer, Vector2 window_size)
                          window_size.getY() / 2 - 100.f,
                          ASGE::COLOURS::RED);
   }
-  else
+  else if (!game_won)
   {
     renderAtOffset(renderer, enemy, true, window_size);
-    player->renderUI(renderer);
+    // player->renderUI(renderer);
   }
   player->getSpriteComponent()->getSprite()->height() / 2;
   renderer->renderSprite(*player->getSpriteComponent()->getSprite());
 
-  overlaymask->width(window_size.getX());
-  overlaymask->height(window_size.getY());
+  if (player->getTorchOn())
+  {
+    overlaymask->width(window_size.getX() *
+                       (1 + (0.6 * (1 - (player->getTorchTime() / 10)))));
+    overlaymask->height(window_size.getY() *
+                        (1 + (0.6 * (1 - (player->getTorchTime() / 10)))));
+  }
+  else
+  {
+    overlaymask->width(window_size.getX());
+    overlaymask->height(window_size.getY());
+  }
+
   overlaymask->xPos(window_size.getX() / 2 - overlaymask->width() / 2);
   overlaymask->yPos(window_size.getY() / 2 - overlaymask->height() / 2);
   renderer->renderSprite(*overlaymask);
+  player->renderUI(renderer);
 
   if (paused)
   {
@@ -520,7 +568,7 @@ void Level::isEnemyOnItem()
   if (current_tile->getItem())
   {
     int item_id = current_tile->getItem()->getItemID();
-    if (item_id == BEARTRAP - 1) // Why does it return the wrong ID?
+    if (item_id == BEARTRAP)
     {
       Item* asdf = current_tile->getItem();
       if (current_tile->getItem()->getEnabled())

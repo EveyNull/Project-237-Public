@@ -30,7 +30,7 @@ SceneID LoreMenu::update(float delta_time,
                          const std::deque<bool>& keys_released,
                          const ASGE::ClickEvent& click_event)
 {
-  if (keys_released[5] || lore_selected == EXIT_LORE)
+  if (keys_released[11] || lore_selected == EXIT_LORE)
   {
     return SceneID::MAIN_MENU;
   }

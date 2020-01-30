@@ -55,7 +55,7 @@ class MainMenu : public Scene
     { 240, 50 }, { 240, 50 }, { 240, 50 }, { 240, 50 }, { 240, 50 },
   };
 
-  float top_menu_text_ypos = 150.f;
+  float top_menu_text_ypos = 250.f;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_MAINMENU_H

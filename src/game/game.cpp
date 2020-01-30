@@ -49,6 +49,8 @@ bool MyASGEGame::init()
   }
 
   renderer->setClearColour(ASGE::COLOURS::BLACK);
+  renderer->setWindowedMode(ASGE::Renderer::WindowMode::BORDERLESS);
+  renderer->setWindowTitle("Jack is coming...");
 
   toggleFPS();
 
@@ -85,8 +87,8 @@ void MyASGEGame::setupResolution()
   // https://www.gamasutra.com/blogs/KenanBolukbasi/20171002/306822/
   // Scaling_and_MultiResolution_in_2D_Games.php
 
-  game_width = 1280;
-  game_height = 720;
+  game_width = 1920;
+  game_height = 1080;
 }
 
 /**
@@ -135,16 +137,19 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
 
   if (sceneManager)
   {
-    inputs->getCursorPos(mouse_xPos, mouse_yPos);
-    sceneManager->update(game_time.delta.count(),
-                         input->readBufferIntoKeys(),
-                         { mouse_xPos, mouse_yPos },
-                         renderer.get());
-  }
-  if (sceneManager->getGameState() == GameState::EXITING)
-  {
-    signalExit();
-    return;
+    if (sceneManager->getGameState() == GameState::EXITING)
+    {
+      signalExit();
+      return;
+    }
+    else
+    {
+      inputs->getCursorPos(mouse_xPos, mouse_yPos);
+      sceneManager->update(game_time.delta.count(),
+                           input->readBufferIntoKeys(),
+                           { mouse_xPos, mouse_yPos },
+                           renderer.get());
+    }
   }
   input->resetAll();
 }
@@ -160,7 +165,7 @@ void MyASGEGame::render(const ASGE::GameTime&)
 {
   renderer->setFont(0);
 
-  if (sceneManager)
+  if (sceneManager && sceneManager->getGameState() != GameState::EXITING)
   {
     sceneManager->render(renderer.get(), Vector2(game_width, game_height));
   }

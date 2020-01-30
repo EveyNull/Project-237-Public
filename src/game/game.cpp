@@ -140,6 +140,7 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
   if (sceneManager->getGameState() == GameState::EXITING)
   {
     signalExit();
+    return;
   }
   input->resetAll();
 }

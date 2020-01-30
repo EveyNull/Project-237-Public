@@ -14,6 +14,7 @@ class SpriteComponent
  public:
   SpriteComponent() = default;
   explicit SpriteComponent(ASGE::Renderer* renderer);
+  SpriteComponent(ASGE::Renderer* renderer, const std::string& sprite_file);
   SpriteComponent(ASGE::Renderer* renderer,
                   const std::string& sprite_file,
                   float& tile_size);

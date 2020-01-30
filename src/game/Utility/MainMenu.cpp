@@ -4,10 +4,26 @@
 
 #include "MainMenu.h"
 #include "SceneID.h"
+#include <Engine/DebugPrinter.h>
 
-MainMenu::MainMenu(const Vector2& n_window_size) : window_size(n_window_size)
+MainMenu::MainMenu(ASGE::Renderer* renderer, const Vector2& n_window_size) :
+  window_size(n_window_size)
 {
   scene_id = SceneID::MAIN_MENU;
+
+  menu_buttons = std::vector<GameObject>(5);
+  for (int i = 0; i < menu_buttons.size(); i++)
+  {
+    menu_buttons[i].addSpriteComponent(renderer, menu_button_textures[i]);
+    menu_buttons[i].getSpriteComponent()->getSprite()->width(
+      texture_sizes[i].first);
+    menu_buttons[i].getSpriteComponent()->getSprite()->height(
+      texture_sizes[i].second);
+    menu_buttons[i].getSpriteComponent()->getSprite()->xPos(window_size.getX() /
+                                                            2);
+    menu_buttons[i].getSpriteComponent()->getSprite()->yPos(top_menu_text_ypos +
+                                                            i * 100);
+  }
 }
 
 SceneID MainMenu::update(float delta_time,
@@ -15,35 +31,24 @@ SceneID MainMenu::update(float delta_time,
                          const std::deque<bool>& keys_released,
                          const ASGE::ClickEvent& click_event)
 {
-  if (keys_released[5])
-  {
-    return SceneID::CLOSE_GAME;
-  }
-  // test to get to lore menu
-  if (keys_released[0])
-  {
-    return SceneID::LORE_MENU;
-  }
+  // There's a VERY WEIRD BUG in ASGE that doesn't let me put this in the header
+  // for some reason
+  SceneID sceneIDs[5] = { SceneID::LEVEL_EASY,
+                          SceneID::LEVEL_MEDIUM,
+                          SceneID::LEVEL_HARD,
+                          SceneID::LORE_MENU,
+                          SceneID::CLOSE_GAME };
 
   if (click_event.action == ASGE::E_MOUSE_CLICK)
   {
-    MenuOption option_selected =
-      checkClickedMenuOption(click_event.xpos, click_event.ypos);
-    if (option_selected == MenuOption::EASY)
+    int i = 0;
+    for (i; i < menu_buttons.size(); i++)
     {
-      return SceneID::LEVEL_EASY;
-    }
-    else if (option_selected == MenuOption::MEDIUM)
-    {
-      return SceneID::LEVEL_MEDIUM;
-    }
-    else if (option_selected == MenuOption::HARD)
-    {
-      return SceneID::LEVEL_HARD;
-    }
-    else if (option_selected == MenuOption::LORE)
-    {
-      return SceneID::LORE_MENU;
+      if (menu_buttons[i].getSpriteComponent()->getBoundingBox().isInside(
+            click_event.xpos, click_event.ypos))
+      {
+        return sceneIDs[i];
+      }
     }
   }
   return scene_id;
@@ -51,6 +56,11 @@ SceneID MainMenu::update(float delta_time,
 
 void MainMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
 {
+  for (GameObject gameObject : menu_buttons)
+  {
+    renderer->renderSprite(*gameObject.getSpriteComponent()->getSprite());
+  }
+  /*
   renderer->renderText(
     "EASY", window_size.getX() / 2, top_menu_text_ypos + 25.f);
   renderer->renderText(
@@ -59,31 +69,5 @@ void MainMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
     "HARD", window_size.getX() / 2, top_menu_text_ypos + 25.f + 100.f);
   renderer->renderText(
     "LORE", window_size.getX() / 2, top_menu_text_ypos + 25.f + 150.f);
-}
-
-MenuOption MainMenu::checkClickedMenuOption(float xPos, float yPos)
-{
-  if (xPos > window_size.getX() / 2 && xPos < window_size.getX() / 2 + 100.f)
-  {
-    if (yPos > top_menu_text_ypos && yPos < top_menu_text_ypos + 49.f)
-    {
-      return MenuOption ::EASY;
-    }
-    else if (yPos > top_menu_text_ypos + 50 &&
-             yPos < top_menu_text_ypos + 50 + 49.f)
-    {
-      return MenuOption ::MEDIUM;
-    }
-    else if (yPos > top_menu_text_ypos + 100 &&
-             yPos < top_menu_text_ypos + 100 + 49.f)
-    {
-      return MenuOption ::HARD;
-    }
-    else if (yPos > top_menu_text_ypos + 150 &&
-             yPos < top_menu_text_ypos + 150 + 49.f)
-    {
-      return MenuOption ::LORE;
-    }
-  }
-  return MenuOption ::NO_DIFFICULTY;
+    */
 }

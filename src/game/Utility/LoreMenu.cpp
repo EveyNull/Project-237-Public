@@ -10,6 +10,19 @@ LoreMenu::LoreMenu(const Vector2& n_window_size, ASGE::Renderer* renderer) :
 {
   scene_id = SceneID::LORE_MENU;
   loadLore(renderer, window_size);
+
+  lore_buttons = std::vector<GameObject>(6);
+  for (int i = 0; i < lore_buttons.size(); i++)
+  {
+    lore_buttons[i].addSpriteComponent(renderer);
+
+    lore_buttons[i].getSpriteComponent()->getSprite()->xPos(window_size.getX() /
+                                                            10);
+    lore_buttons[i].getSpriteComponent()->getSprite()->yPos(top_text_Ypos +
+                                                            50 * i);
+    lore_buttons[i].getSpriteComponent()->getSprite()->width(100.f);
+    lore_buttons[i].getSpriteComponent()->getSprite()->height(25.f);
+  }
 }
 
 SceneID LoreMenu::update(float delta_time,
@@ -47,60 +60,23 @@ void LoreMenu::render(ASGE::Renderer* renderer, Vector2 window_size)
     {
       renderer->renderSprite(*lore[i]->getSpriteComponent()->getSprite());
     }
+
+    renderer->renderText(
+      "LORE " + std::to_string(i + 1),
+      lore_buttons[i].getSpriteComponent()->getSprite()->xPos(),
+      lore_buttons[i].getSpriteComponent()->getSprite()->yPos() + 25.f,
+      ASGE::COLOURS::RED);
   }
-  renderer->renderText("LORE 1",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 2",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f + 50.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 3",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f + 100.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 4",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f + 150.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("LORE 5",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f + 200.f,
-                       ASGE::COLOURS::RED);
-  renderer->renderText("MAIN MENU",
-                       window_size.getX() / 10,
-                       top_text_Ypos + 25.f + 250.f,
-                       ASGE::COLOURS::RED);
 }
 
 LoreOption LoreMenu::checkClickedLore(float xPos, float yPos)
 {
-  if (xPos > window_size.getX() / 10 && xPos < window_size.getX() / 10 + 100.f)
+  for (int i = 0; i < 6; i++)
   {
-    if (yPos > top_text_Ypos && yPos < top_text_Ypos + 49.f)
+    if (lore_buttons[i].getSpriteComponent()->getBoundingBox().isInside(xPos,
+                                                                        yPos))
     {
-      return LoreOption ::LORE1;
-    }
-    else if (yPos > top_text_Ypos + 50.f && yPos < top_text_Ypos + 50 + 49.f)
-    {
-      return LoreOption ::LORE2;
-    }
-    else if (yPos > top_text_Ypos + 100.f && yPos < top_text_Ypos + 100 + 49.f)
-    {
-      return LoreOption ::LORE3;
-    }
-    else if (yPos > top_text_Ypos + 150.f && yPos < top_text_Ypos + 150 + 49.f)
-    {
-      return LoreOption ::LORE4;
-    }
-    else if (yPos > top_text_Ypos + 200.f && yPos < top_text_Ypos + 200 + 49.f)
-    {
-      return LoreOption ::LORE5;
-    }
-    else if (yPos > top_text_Ypos + 250.f && yPos < top_text_Ypos + 250 + 49.f)
-    {
-      return LoreOption ::EXIT_LORE;
+      return LoreOption(i + 1);
     }
   }
   return LoreOption ::NO_LORE;

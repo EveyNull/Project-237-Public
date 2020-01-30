@@ -10,6 +10,13 @@ SpriteComponent::SpriteComponent(ASGE::Renderer* renderer)
 }
 
 SpriteComponent::SpriteComponent(ASGE::Renderer* renderer,
+                                 const std::string& sprite_file)
+{
+  sprite = renderer->createRawSprite();
+  sprite->loadTexture(sprite_file);
+}
+
+SpriteComponent::SpriteComponent(ASGE::Renderer* renderer,
                                  const std::string& sprite_file,
                                  float& tile_size)
 {

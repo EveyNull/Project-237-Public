@@ -12,6 +12,15 @@ bool GameObject::addSpriteComponent(ASGE::Renderer* renderer)
   }
 }
 bool GameObject::addSpriteComponent(ASGE::Renderer* renderer,
+                                    const std::string& sprite_file)
+{
+  if (!spriteComponent)
+  {
+    spriteComponent = new SpriteComponent(renderer, sprite_file);
+  }
+}
+
+bool GameObject::addSpriteComponent(ASGE::Renderer* renderer,
                                     const std::string& sprite_file,
                                     float sprite_size)
 {

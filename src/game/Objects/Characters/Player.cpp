@@ -30,7 +30,7 @@ int Player::pressUse(int itemID)
       return useItem();
     }
   }
-  else
+  else if (itemID != LORE_ITEM)
   {
     // check if any in inventory. if yes try to put in same slot. if cant put in
     // slot, check if any other stacks. if cant in any, check current slot.
@@ -51,6 +51,10 @@ int Player::pressUse(int itemID)
       ui->update(asdf, itemID, inventory->getAmountInSlot(asdf));
       return 0;
     }
+  }
+  else if (itemID == LORE_ITEM)
+  {
+    return 0;
   }
   return -1;
 }

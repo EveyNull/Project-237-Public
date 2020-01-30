@@ -41,7 +41,7 @@ class LoreMenu : public Scene
   float top_text_Ypos = 100.f;
 
   std::vector<GameObject> lore_buttons;
-  GameObject* lore[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+  GameObject* lore_list[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
   Vector2 window_size;
   LoreOption lore_selected = NO_LORE;
 };

@@ -33,7 +33,7 @@ class Block
                  int tile_size,
                  int i,
                  int j,
-                 item* spawn_item);
+                 Item* spawn_item);
 
   int getRows();
   int getCols();

@@ -19,6 +19,11 @@ class Scene
                          const std::deque<bool>& keys_held,
                          const std::deque<bool>& keys_released,
                          const ASGE::ClickEvent& click_event);
+  virtual SceneID update(float delta_time,
+                         const std::deque<bool>& keys_held,
+                         const std::deque<bool>& keys_released,
+                         const ASGE::ClickEvent& click_event,
+                         ASGE::Renderer*);
   ~Scene() = default;
   virtual void render(ASGE::Renderer* renderer, Vector2 window_size);
 

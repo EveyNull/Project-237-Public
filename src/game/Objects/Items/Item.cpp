@@ -2,42 +2,49 @@
 // Created by k2-wotherspoon on 13/01/2020.
 //
 
-#include "item.h"
+#include "Item.h"
 
-item::item(ASGE::Renderer* renderer, int)
+Item::Item(ASGE::Renderer* renderer, int)
 {
   addSpriteComponent(renderer);
-  setEnabled(true);
   getSpriteComponent()->setVisible(true);
   item_id = -1;
 }
 
-void item::setEnabled(bool Enabled)
+void Item::update(int tile_size, int frame, float delta_time) {}
+void Item::updateTimer(float delta_time, int tile_size) {}
+
+void Item::resetTimer()
+{
+  timer = 0;
+}
+
+void Item::setEnabled(bool Enabled)
 {
   enabled = Enabled;
 }
 
-bool item::getEnabled()
+bool Item::getEnabled()
 {
   return enabled;
 }
 
-void item::setInInventory(bool Inv)
+void Item::setInInventory(bool Inv)
 {
   inInventory = Inv;
 }
 
-bool item::getInInventory()
+bool Item::getInInventory()
 {
   return inInventory;
 }
 
-void item::setState(int State)
+void Item::setState(int State)
 {
   state = State;
 }
 
-int item::getState()
+int Item::getState()
 {
   return state;
 }
@@ -53,17 +60,17 @@ bool item::getVisible()
 }
  */
 
-int item::getItemID()
+int Item::getItemID()
 {
   return item_id;
 }
 
-void item::setFrame(int frame)
+void Item::setFrame(int frame)
 {
   frameNumber = frame;
 }
 
-int item::getFrame()
+int Item::getFrame()
 {
   return frameNumber;
 }

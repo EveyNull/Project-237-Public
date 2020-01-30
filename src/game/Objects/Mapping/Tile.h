@@ -9,7 +9,7 @@
 
 #include "../../Utility/Direction.h"
 #include "../GameObject.h"
-#include "../Items/item.h"
+#include "../Items/Item.h"
 
 class Tile : public GameObject
 {

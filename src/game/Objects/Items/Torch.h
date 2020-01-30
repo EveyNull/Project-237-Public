@@ -5,8 +5,9 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_TORCH_H
 #define THE_SHINING_GAME_PROJECT_237_TORCH_H
 
+#include "../../Utility/UI/ItemIDs.h"
 #include "../GameObject.h"
-#include "item.h"
+#include "Item.h"
 
 class Torch : public Item
 {

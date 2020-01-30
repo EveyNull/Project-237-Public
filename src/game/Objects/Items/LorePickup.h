@@ -6,9 +6,9 @@
 #define THE_SHINING_GAME_PROJECT_237_LOREPICKUP_H
 
 #include "../../Utility/UI/ItemIDs.h"
-#include "item.h"
+#include "Item.h"
 
-class LorePickup : public item
+class LorePickup : public Item
 {
  public:
   LorePickup(ASGE::Renderer* renderer, int tile_size, int n_lore_index);

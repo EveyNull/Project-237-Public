@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-#include "../Barrier.h"
+#include "../Items/Barrier.h"
 #include "Tile.h"
 
 Tile::Tile(ASGE::Renderer* renderer,

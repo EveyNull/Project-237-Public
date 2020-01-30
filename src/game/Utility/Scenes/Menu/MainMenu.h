@@ -19,11 +19,17 @@ class MainMenu : public Scene
   explicit MainMenu(ASGE::Renderer* renderer, const Vector2& n_window_size);
   SceneID update(float delta_time,
                  const std::deque<bool>& keys_held,
-                 const std::deque<bool>& keys_pressed,
+                 const std::deque<bool>& keys_released,
+                 const ASGE::ClickEvent& click_event,
+                 ASGE::Renderer*);
+  SceneID update(float delta_time,
+                 const std::deque<bool>& keys_held,
+                 const std::deque<bool>& keys_released,
                  const ASGE::ClickEvent& click_event) override;
-  void render(ASGE::Renderer* renderer, Vector2 window_size) override;
 
   MenuOption checkClickedMenuOption(float xPos, float yPos);
+
+  void render(ASGE::Renderer* renderer, Vector2 window_size) override;
 
  private:
   Vector2 window_size;

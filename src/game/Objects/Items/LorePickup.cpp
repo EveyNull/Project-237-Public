@@ -7,7 +7,7 @@
 LorePickup::LorePickup(ASGE::Renderer* renderer,
                        int tile_size,
                        int n_lore_index) :
-  item(renderer, tile_size)
+  Item(renderer, tile_size)
 {
   getSpriteComponent()->getSprite()->loadTexture("/data/item_images/"
                                                  "topgamer.png");

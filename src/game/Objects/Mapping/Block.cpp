@@ -126,7 +126,7 @@ void Block::createRow(ASGE::Renderer* renderer,
                       int tile_size,
                       int i,
                       int j,
-                      item* spawn_item)
+                      Item* spawn_item)
 {
   int tile_type = row.front();
   Vector2 tile_pos = Vector2(map_coords.first * size.first * tile_size,
@@ -142,7 +142,7 @@ void Block::createRow(ASGE::Renderer* renderer,
       ASGE::DebugPrinter{} << "item at " << map_coords.first << ","
                            << map_coords.second << std::endl;
       tiles.at(std::pair<int, int>(j, i)).addItem(spawn_item);
-      item* new_item = tiles.at(std::pair<int, int>(j, i)).getItem();
+      Item* new_item = tiles.at(std::pair<int, int>(j, i)).getItem();
       new_item->setPos(tile_pos);
     }
   }

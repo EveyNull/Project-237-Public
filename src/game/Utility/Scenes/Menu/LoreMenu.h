@@ -37,6 +37,8 @@ class LoreMenu : public Scene
   void loadLore(ASGE::Renderer* renderer, const Vector2& window_size);
   void renderLore();
 
+  void checkMouseOverOption(Vector2 mouse_pos);
+
  private:
   bool lore_opened = false;
   bool locked = true;
@@ -61,10 +63,15 @@ class LoreMenu : public Scene
     "/data/menu_icons/Lore5Off.png", "/data/menu_icons/MainMenuOff.png"
   };
 
-  std::string lore_button_textures_On[6] = {
+  std::string lore_button_textures_on[6] = {
     "/data/menu_icons/Lore1On.png", "/data/menu_icons/Lore2On.png",
     "/data/menu_icons/Lore2On.png", "/data/menu_icons/Lore4On.png",
     "/data/menu_icons/Lore4On.png", "/data/menu_icons/MainMenuOn.png"
+  };
+
+  std::pair<int, int> texture_sizes[6] = {
+    { 240, 50 }, { 240, 50 }, { 240, 50 },
+    { 240, 50 }, { 240, 50 }, { 240, 50 },
   };
 };
 

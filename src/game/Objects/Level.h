@@ -42,7 +42,7 @@ class Level : public Scene
   Level(ASGE::Renderer* renderer, MenuOption difficulty);
   bool setUpBlocks(ASGE::Renderer* renderer);
 
-  item* pickItemForPlacing(ASGE::Renderer* renderer);
+  Item* pickItemForPlacing(ASGE::Renderer* renderer);
   bool setUpSounds();
   void loadWav(const std::string& path, SoLoud::Wav& sound);
 

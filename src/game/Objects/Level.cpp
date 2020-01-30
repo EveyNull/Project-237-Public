@@ -516,11 +516,10 @@ void Level::loadWav(const std::string& path, SoLoud::Wav& sound)
 
 void Level::isEnemyOnItem()
 {
-  int item_id = 0;
   Tile* current_tile = getTileFromCoords(getTileCoordsFromPos(enemy));
   if (current_tile->getItem())
   {
-    item_id = current_tile->getItem()->getItemID();
+    int item_id = current_tile->getItem()->getItemID();
     if (item_id == BEARTRAP - 1) // Why does it return the wrong ID?
     {
       Item* asdf = current_tile->getItem();

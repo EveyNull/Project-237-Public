@@ -5,12 +5,8 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_PROJECTILE_H
 #define THE_SHINING_GAME_PROJECT_237_PROJECTILE_H
 
-<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Projectile.h
+#include "../../Utility/Direction.h"
 #include "../GameObject.h"
-=======
-#include "../Utility/Direction.h"
-#include "GameObject.h"
->>>>>>> Bottles exist :^):src/game/Objects/Projectile.h
 
 class Projectile : public GameObject
 {

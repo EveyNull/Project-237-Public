@@ -23,7 +23,7 @@ class UI
   void stopFill();
 
  private:
-  int total_slots = 9;
+  int total_slots = 4;
   float fill_amount = 0;
 
   float UI_size = 50;
@@ -33,7 +33,7 @@ class UI
   int itemArray[9][2];
 
   GameObject selecter;
-  GameObject slots[9];
+  GameObject slots[4];
 
   GameObject fill_bar;
   GameObject filler;

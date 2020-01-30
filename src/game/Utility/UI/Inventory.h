@@ -44,12 +44,12 @@ class Inventory
   int getAmountInSlot(int slot);
 
  private:
-  int itemArray[9][2];
+  int itemArray[4][2];
 
   // row is slot number
   // column: 0 = item ID, 1 = number of items
 
-  int number_of_slots = 9;
+  int number_of_slots = 4;
   int number_of_columns = 2;
 };
 

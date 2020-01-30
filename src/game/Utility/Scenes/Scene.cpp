@@ -9,16 +9,18 @@ void Scene::render(ASGE::Renderer* renderer, Vector2 window_size) {}
 SceneID Scene::update(float delta_time,
                       const std::deque<bool>& keys_held,
                       const std::deque<bool>& keys_released,
-                      const ASGE::ClickEvent& click_event)
+                      const ASGE::ClickEvent& click_event,
+                      Vector2 mouse_pos)
 {
-  update(delta_time, keys_held, keys_released, click_event, nullptr);
+  update(delta_time, keys_held, keys_released, click_event, mouse_pos, nullptr);
 }
 
 SceneID Scene::update(float delta_time,
                       const std::deque<bool>& keys_held,
                       const std::deque<bool>& keys_released,
                       const ASGE::ClickEvent& click_event,
-                      ASGE::Renderer*)
+                      Vector2 mouse_pos,
+                      ASGE::Renderer* renderer)
 {
   return scene_id;
 }

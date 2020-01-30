@@ -33,6 +33,11 @@ class MyASGEGame : public ASGE::OGLGame
   int mouse_callback_id = -1; /**< Mouse Input Callback ID. */
   bool in_menu = true;
 
+  double mouse_xPos = 0;
+  double mouse_yPos = 0;
+
+  Vector2 mouse_pos = { 0.0f, 0.0f };
+
   std::unique_ptr<SceneManager> sceneManager = nullptr;
   InputManager* input = nullptr;
 };

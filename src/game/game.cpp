@@ -135,7 +135,10 @@ void MyASGEGame::update(const ASGE::GameTime& game_time)
 
   if (sceneManager)
   {
-    sceneManager->update(game_time.delta.count(), input->readBufferIntoKeys());
+    inputs->getCursorPos(mouse_xPos, mouse_yPos);
+    sceneManager->update(game_time.delta.count(),
+                         input->readBufferIntoKeys(),
+                         { mouse_xPos, mouse_yPos });
   }
   if (sceneManager->getGameState() == GameState::EXITING)
   {

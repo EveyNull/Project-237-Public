@@ -7,10 +7,33 @@
 Barrier::Barrier(ASGE::Renderer* renderer, int tile_size) :
   Item(renderer, tile_size)
 {
-  getSpriteComponent()->getSprite()->loadTexture(Frame1);
+  getSpriteComponent()->getSprite()->loadTexture(Frame2);
   spriteComponent->getSprite()->height(tile_size);
   spriteComponent->getSprite()->width(tile_size);
-  item_id = 3;
+  item_id = BARRIER;
 }
 
-void Barrier::update(int tile_size, int frame, float delta_time) {}
+void Barrier::updateTimer(float delta_time, int tile_size)
+{
+  if (enabled)
+  {
+    timer += (delta_time / 1000);
+    if (timer > 10)
+    {
+      enabled = false;
+      getSpriteComponent()->getSprite()->loadTexture(Frame2);
+      spriteComponent->getSprite()->height(tile_size);
+      spriteComponent->getSprite()->width(tile_size);
+    }
+  }
+}
+
+void Barrier::update(int tile_size, int frame, float delta_time)
+{
+  if (frame == 1)
+  {
+    getSpriteComponent()->getSprite()->loadTexture(Frame1);
+    spriteComponent->getSprite()->height(tile_size);
+    spriteComponent->getSprite()->width(tile_size);
+  }
+}

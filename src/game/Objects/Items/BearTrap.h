@@ -5,9 +5,15 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_BEARTRAP_H
 #define THE_SHINING_GAME_PROJECT_237_BEARTRAP_H
 
+<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/BearTrap.h
 #include "../../Utility/UI/ItemIDs.h"
 #include "../GameObject.h"
 #include "Item.h"
+=======
+#include "../Utility/ItemIDs.h"
+#include "GameObject.h"
+#include "item.h"
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Objects/BearTrap.h
 
 class BearTrap : public Item
 {

@@ -5,9 +5,15 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_TORCH_H
 #define THE_SHINING_GAME_PROJECT_237_TORCH_H
 
+<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Torch.h
 #include "../../Utility/UI/ItemIDs.h"
 #include "../GameObject.h"
 #include "Item.h"
+=======
+#include "../Utility/ItemIDs.h"
+#include "GameObject.h"
+#include "item.h"
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Objects/Torch.h
 
 class Torch : public Item
 {

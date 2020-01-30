@@ -4,7 +4,11 @@
 
 #include <cmath>
 
+<<<<<<< refs/remotes/origin/development
 #include "../Items/Barrier.h"
+=======
+#include "../Barrier.h"
+>>>>>>> Items - bottles work, UI fix, minor AI fix
 #include "Tile.h"
 
 Tile::Tile(ASGE::Renderer* renderer,

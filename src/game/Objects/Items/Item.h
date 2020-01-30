@@ -11,17 +11,23 @@ class Item : public GameObject
 {
  public:
 <<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Item.h
+<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Item.h
+=======
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Objects/item.h
   Item() = default;
   Item(ASGE::Renderer* renderer, int tile_size);
 
   virtual void update(int tile_size, int frame, float delta_time);
   virtual void updateTimer(float delta_time, int tile_size);
   void resetTimer();
+<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Item.h
 =======
   Item(ASGE::Renderer* renderer, int tile_size);
 
   virtual void update(int tile_size, int frame, float delta_time);
 >>>>>>> a:src/game/Objects/item.h
+=======
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Objects/item.h
 
   void setState(int State);
   int getState();
@@ -45,7 +51,7 @@ class Item : public GameObject
 
   bool inInventory = false;
 
-  bool enabled = true;
+  bool enabled = false;
 
   bool visible = false;
 

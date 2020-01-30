@@ -5,8 +5,13 @@
 #ifndef THE_SHINING_GAME_PROJECT_237_BOTTLE_H
 #define THE_SHINING_GAME_PROJECT_237_BOTTLE_H
 
+<<<<<<< refs/remotes/origin/development:src/game/Objects/Items/Bottle.h
 #include "../../Utility/UI/ItemIDs.h"
 #include "Item.h"
+=======
+#include "../Utility/ItemIDs.h"
+#include "item.h"
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Objects/Bottle.h
 
 class Bottle : public Item
 {

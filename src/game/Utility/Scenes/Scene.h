@@ -24,7 +24,10 @@ class Scene
                          const std::deque<bool>& keys_released,
                          const ASGE::ClickEvent& click_event,
                          ASGE::Renderer*);
+<<<<<<< refs/remotes/origin/development:src/game/Utility/Scenes/Scene.h
   ~Scene() = default;
+=======
+>>>>>>> Items - bottles work, UI fix, minor AI fix:src/game/Utility/Scene.h
   virtual void render(ASGE::Renderer* renderer, Vector2 window_size);
 
   SceneID getSceneID();

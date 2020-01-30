@@ -7,16 +7,22 @@
 Item::Item(ASGE::Renderer* renderer, int tile_size)
 {
   addSpriteComponent(renderer);
-  setEnabled(true);
+  setEnabled(false);
   getSpriteComponent()->setVisible(true);
   item_id = -1;
 }
 
 void Item::update(int tile_size, int frame, float delta_time) {}
+void Item::updateTimer(float delta_time, int tile_size) {}
 
 void Item::setEnabled(bool Enabled)
 {
   enabled = Enabled;
+}
+
+void Item::resetTimer()
+{
+  timer = 0;
 }
 
 bool Item::getEnabled()

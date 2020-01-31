@@ -65,8 +65,8 @@ class LoreMenu : public Scene
 
   std::string lore_button_textures_on[6] = {
     "/data/menu_icons/Lore1On.png", "/data/menu_icons/Lore2On.png",
-    "/data/menu_icons/Lore2On.png", "/data/menu_icons/Lore4On.png",
-    "/data/menu_icons/Lore4On.png", "/data/menu_icons/MainMenuOn.png"
+    "/data/menu_icons/Lore3On.png", "/data/menu_icons/Lore4On.png",
+    "/data/menu_icons/Lore5On.png", "/data/menu_icons/MainMenuOn.png"
   };
 
   std::pair<int, int> texture_sizes[6] = {

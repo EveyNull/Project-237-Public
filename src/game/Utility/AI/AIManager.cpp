@@ -583,6 +583,25 @@ int AIManager::chooseBetween(
   {
     number_of_exits++;
   }
+  if (number_of_exits == 1)
+  {
+    if (upable)
+    {
+      return UP;
+    }
+    else if (downable)
+    {
+      return DOWN;
+    }
+    else if (rightable)
+    {
+      return RIGHT;
+    }
+    else
+    {
+      return LEFT;
+    }
+  }
 
   if (number_of_exits == 2)
   {

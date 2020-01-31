@@ -138,7 +138,7 @@ void Player::update(const std::deque<bool>& input_release, float delta_time)
     }
   }
 
-  for (int i = 1; i < 10; i++)
+  for (int i = 1; i < 5; i++)
   {
     if (input_release[i])
     {

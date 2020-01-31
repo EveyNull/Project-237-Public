@@ -41,7 +41,6 @@ class LoreMenu : public Scene
 
  private:
   bool lore_opened = false;
-  bool locked = true;
 
   float top_text_Ypos = 100.f;
 

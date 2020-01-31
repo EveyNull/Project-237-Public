@@ -32,15 +32,11 @@ class InputManager
 
  private:
   std::deque<bool> buffer_input_held = std::deque<bool>(4);
-  std::deque<bool> buffer_input_pressed = std::deque<bool>(12);
+  std::deque<bool> buffer_input_pressed = std::deque<bool>(7);
 
-  int keys[13] = { ASGE::KEYS::KEY_E,    ASGE::KEYS::KEY_1,
-                   ASGE::KEYS::KEY_2,    ASGE::KEYS::KEY_3,
-                   ASGE::KEYS::KEY_4,    ASGE::KEYS::KEY_5,
-                   ASGE::KEYS::KEY_6,    ASGE::KEYS::KEY_7,
-                   ASGE::KEYS::KEY_8,    ASGE::KEYS::KEY_9,
-                   ASGE::KEYS::KEY_P,    ASGE::KEYS::KEY_ESCAPE,
-                   ASGE::KEYS::KEY_ENTER };
+  int keys[7] = { ASGE::KEYS::KEY_E,     ASGE::KEYS::KEY_1, ASGE::KEYS::KEY_2,
+                  ASGE::KEYS::KEY_3,     ASGE::KEYS::KEY_4, ASGE::KEYS::KEY_P,
+                  ASGE::KEYS::KEY_ESCAPE };
 };
 
 #endif // PROJECT_INPUTMANAGER_H

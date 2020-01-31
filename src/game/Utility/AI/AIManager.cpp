@@ -371,7 +371,7 @@ Vector2 AIManager::pathFindToTarget(const std::pair<int, int>& target_tile)
   std::vector<PathTile> closed_list;
   int tiles_tried = 0;
 
-  while (tiles_tried < 500)
+  while (tiles_tried < 2000)
   {
     // Add tile we're looking at to the closed list and then generate its
     // children, adding them to the open list

@@ -21,7 +21,7 @@ class Torch : public Item
   std::string Frame2 = "/data/item_images/torchOn2.png";
   std::string Frame3 = "/data/item_images/torchOn3.png";
 
-  float timer = 0;
+  float torch_timer = 0;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_TORCH_H

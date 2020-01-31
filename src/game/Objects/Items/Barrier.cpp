@@ -17,8 +17,8 @@ void Barrier::updateTimer(float delta_time, int tile_size)
 {
   if (enabled)
   {
-    timer += (delta_time / 1000);
-    if (timer > 10)
+    barrier_timer += (delta_time / 1000);
+    if (barrier_timer > 10)
     {
       enabled = false;
       getSpriteComponent()->getSprite()->loadTexture(Frame2);

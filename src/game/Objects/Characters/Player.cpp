@@ -52,7 +52,7 @@ int Player::pressUse(int itemID)
       return 0;
     }
   }
-  else if (itemID == LORE_ITEM)
+  else
   {
     return 0;
   }

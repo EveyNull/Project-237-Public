@@ -22,7 +22,7 @@ class Barrier : public Item
 
   float tileSize = 0;
 
-  float timer = 0;
+  float barrier_timer = 0;
 };
 
 #endif // THE_SHINING_GAME_PROJECT_237_BARRIER_H

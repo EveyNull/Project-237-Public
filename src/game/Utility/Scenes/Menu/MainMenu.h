@@ -37,7 +37,7 @@ class MainMenu : public Scene
 
  private:
   Vector2 window_size;
-  std::vector<GameObject> menu_buttons;
+  std::vector<GameObject> menu_buttons = std::vector<GameObject>(6);
 
   GameObject background;
   GameObject instructions;

@@ -123,31 +123,6 @@ void UI::update(int slot, int itemID, int number)
           torch.getSpriteComponent()->setVisible(true);
           break;
         }
-        case EMPTY:
-        {
-          if (torch.getSpriteComponent()->getSprite()->xPos() ==
-              (840 + (i * 60)))
-          {
-            torch.getSpriteComponent()->setVisible(false);
-          }
-          else if (barrier.getSpriteComponent()->getSprite()->xPos() ==
-                   (840 + (i * 60)))
-          {
-            barrier.getSpriteComponent()->setVisible(false);
-          }
-          else if (bottle.getSpriteComponent()->getSprite()->xPos() ==
-                   (840 + (i * 60)))
-          {
-            bottle.getSpriteComponent()->setVisible(false);
-          }
-          else if (bear_trap.getSpriteComponent()->getSprite()->xPos() ==
-                   (840 + (i * 60)))
-          {
-            bear_trap.getSpriteComponent()->setVisible(false);
-          }
-
-          break;
-        }
         default:
           break;
       }

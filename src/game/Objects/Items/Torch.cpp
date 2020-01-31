@@ -15,29 +15,29 @@ Torch::Torch(ASGE::Renderer* renderer, int tile_size) :
 
 void Torch::update(int tile_size, int frame, float delta_time)
 {
-  timer += (delta_time / 1000);
+  torch_timer += (delta_time / 1000);
 
-  if (timer <= 0.5 || ((1 < timer) && (timer <= 1.5)))
+  if (torch_timer <= 0.5 || ((1 < torch_timer) && (torch_timer <= 1.5)))
   {
     setFrame(1);
     changeFrame(1);
   }
 
-  if ((0.5 < timer) && (timer <= 1))
+  if ((0.5 < torch_timer) && (torch_timer <= 1))
   {
     setFrame(2);
     changeFrame(2);
   }
 
-  if ((1.5 < timer) && (timer <= 2))
+  if ((1.5 < torch_timer) && (torch_timer <= 2))
   {
     setFrame(3);
     changeFrame(3);
   }
 
-  if (timer > 2)
+  if (torch_timer > 2)
   {
-    timer = 0;
+    torch_timer = 0;
   }
 
   getSpriteComponent()->getSprite()->height(tile_size);

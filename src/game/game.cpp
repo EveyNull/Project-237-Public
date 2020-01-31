@@ -52,7 +52,7 @@ bool MyASGEGame::init()
   renderer->setWindowedMode(ASGE::Renderer::WindowMode::BORDERLESS);
   renderer->setWindowTitle("Jack is coming...");
 
-  toggleFPS();
+  // toggleFPS();
 
   // input handling functions
   inputs->use_threads = false;

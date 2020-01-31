@@ -10,7 +10,7 @@ LorePickup::LorePickup(ASGE::Renderer* renderer,
   Item(renderer, tile_size)
 {
   getSpriteComponent()->getSprite()->loadTexture("/data/item_images/"
-                                                 "topgamer.png");
+                                                 "LorePage.png");
   spriteComponent->getSprite()->height(tile_size);
   spriteComponent->getSprite()->width(tile_size);
   item_id = ItemIDs::LORE_ITEM;
